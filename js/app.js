@@ -1,3 +1,4 @@
+
 /*----- constants -----*/
 const pieces = [5, 4, 3, 3, 2];
 const numOfArrays = 9;
@@ -84,7 +85,6 @@ function init() {
     compMisses = 0;  
     turn = 1;
     winner = 0;
-    setCompBoard();
     //render();
 }
 
@@ -158,8 +158,11 @@ function attemptPlaceShip(piece){
     //console.log(avail);
     // here we go
     if (avail === true) {
+        //console.log(`piece:${piece} spot is available! setting piece`);
         setPiece(piece, nums);
+        //console.log(compBoard);
     } else if (avail === false) {
+        //console.log(`piece:${piece} nums:${nums} not available, re-trying`);
         attemptPlaceShip(piece);
     } 
 }
@@ -170,7 +173,19 @@ function setCompBoard(){
     });
 }
 
-
+// function setPlayerBoard(){
+//     pieces.forEach(function(piece){
+//         // get input A-K from player
+//         // get input 1-9 from player
+//         // get direction from player
+//         let avail = checkSpace(piece, nums);
+//         if (avail === true) {
+//             setPiece(piece, nums);
+//         } else if (avail === false) {
+//             alert(`looks like there is already a ship there`)
+//         }
+//     })
+// }
 
 
 
