@@ -2,6 +2,8 @@
 /*----- constants -----*/
 const pieces = [5, 4, 3, 3, 2];
 const numOfArrays = 9;
+const xCoordinates = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
+const yCoordinates = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 /*----- app's state (variables) -----*/
 let playerBoard = [];
@@ -173,19 +175,130 @@ function setCompBoard(){
     });
 }
 
-// function setPlayerBoard(){
-//     pieces.forEach(function(piece){
-//         // get input A-K from player
-//         // get input 1-9 from player
-//         // get direction from player
-//         let avail = checkSpace(piece, nums);
-//         if (avail === true) {
-//             setPiece(piece, nums);
-//         } else if (avail === false) {
-//             alert(`looks like there is already a ship there`)
-//         }
-//     })
-// }
+function setPlayerBoard(){
+    //pieces.forEach(function(piece){
+        // get input A-K from player
+    let a = document.getElementById("setpieceletter").value;
+        // get input 1-9 from player
+    let b = document.getElementById("setpiecenumber").value;
+        // get direction from player
+    let c = document.getElementById("setdirection").value;
+    let nums = [a, b, c];
+    console.log(nums);
+        // let avail = checkPlayerSpace(piece, nums);
+        // if (avail === true) {
+        //     setPlayerPiece(piece, nums);
+        // } else if (avail === false) {
+        //     alert(`looks like there is already a ship there`)
+        // }
+    //})
+}
+
+function checkPlayerSpace(piece, nums){
+    //console.log(piece, nums);
+    let a = nums[0]; // which array on playerBoard
+    let b = nums[1]; // which index in playerBoard[a] array
+    let direction = nums[2];
+    console.log(piece, a, b);
+    //console.log(typeof a, typeof b);
+    //let starterSquare = playerBoard[a][b];
+    let potentialPlacement = [];
+    if (direction === 1 && (playerBoard[a].length - b) >= piece) {
+        for (let i = 0; i < piece; i++) {
+            potentialPlacement.push(playerBoard[a][b + i]);
+        }
+    } else if (direction === 1 && (playerBoard[a].length - b) < piece) {
+        for (let i = 0; i < piece; i++) {
+            potentialPlacement.push(playerBoard[a][b - i]);
+        } 
+    } else if (direction === 2 && (numOfArrays - a) >= piece) {
+        for (let i = 0; i < piece; i++) {
+            potentialPlacement.push(playerBoard[a + i][b]);
+        } 
+    } else if (direction === 2 && (numOfArrays - a) < piece) {
+        for (let i = 0; i < piece; i++) {
+            potentialPlacement.push(playerBoard[a - i][b]);
+        } 
+    } else {
+            console.log('error');
+        }
+    return potentialPlacement.every(square => square === null);
+}
+
+function setPlayerPiece(piece, nums){
+    let a = nums[0]; // which array on playerBoard
+    let b = nums[1]; // which index in playerBoard[a] array
+    let direction = nums[2];
+    // change nulls to 1
+    if (direction === 1 && (playerBoard[a].length - b) >= piece) {
+        for (let i = 0; i < piece; i++) {
+            playerBoard[a][b + i] = 1;
+        }
+    } else if (direction === 1 && (playerBoard[a].length - b) < piece) {
+        for (let i = 0; i < piece; i++) {
+            playerBoard[a][b - i] = 1;
+        } 
+    } else if (direction === 2 && (numOfArrays - a) >= piece) {
+        for (let i = 0; i < piece; i++) {
+            playerBoard[a + i][b] = 1;
+        } 
+    } else if (direction === 2 && (numOfArrays - a) < piece) {
+        for (let i = 0; i < piece; i++) {
+            playerBoard[a - i][b] = 1;
+        } 
+    }
+}
+
+$('#trythis').on('click', 'button', function(evt) {
+    let $a;
+    let $b; 
+    let $c; 
+    let nums;
+    let piece;
+
+    $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
+    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val());
+    $c = parseInt($(this).closest('div').find('input[class="direction"]').val());
+    
+    piece = (parseInt($(this).closest('div').attr('class')));
+    
+    // console.log(typeof $('#number').val());
+   // console.log($(evt.currentTarget).closest('input').val());
+   // console.log(piece, $a, $b, $c);
+    // console.log(typeof $a, typeof $b, typeof $c);
+    
+    let valid = validateInput($a, $b, $c);
+    if (valid === true){
+        nums = [$a, $b, $c];
+    } else if (valid === false){
+        alert('Please submit a valid input');
+    }
+    
+    
+    let avail = checkPlayerSpace(piece, nums);
+    
+    if (avail === true) {
+        setPlayerPiece(piece, nums);
+        console.log(playerBoard);
+    } else if (avail === false) {
+        alert(`Hmmm... it looks like there's a ship there already!`)
+    }
+})
+
+function validateInput($a, $b, $c){
+    if ($a >= 0 && $a <= 10 && 
+        $b >= 0 && $b <= 8 && 
+        $c >= 1 && $c <= 2 && 
+        Number.isInteger($a) === true && 
+        Number.isInteger($b) === true && 
+        Number.isInteger($c) === true) {
+            return true;
+        } else {
+            return false;
+        }
+}
+
+                   
 
 
 
@@ -196,5 +309,7 @@ init();
 // setPiece(5, [0, 0, 2]);
 // console.log(generateRand());
 // attemptPlaceShip(5);
-setCompBoard();
-console.log(compBoard);
+// setCompBoard();
+// console.log(compBoard);
+// setPlayerBoard();
+
