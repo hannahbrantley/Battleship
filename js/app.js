@@ -87,6 +87,9 @@ function init() {
     compMisses = 0;  
     turn = 1;
     winner = 0;
+    
+    $("#trythis > div:not(:first)").hide();
+
     //render();
 }
 
@@ -255,6 +258,7 @@ $('#trythis').on('click', 'button', function(evt) {
     let $c; 
     let nums;
     let piece;
+    let shipPlaced = false;
 
     $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
     $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val());
@@ -272,6 +276,7 @@ $('#trythis').on('click', 'button', function(evt) {
         nums = [$a, $b, $c];
     } else if (valid === false){
         alert('Please submit a valid input');
+        $(this).closest('div').find('input').attr("val", "");
     }
     
     
@@ -279,9 +284,18 @@ $('#trythis').on('click', 'button', function(evt) {
     
     if (avail === true) {
         setPlayerPiece(piece, nums);
-        console.log(playerBoard);
+        // console.log(playerBoard);
+        shipPlaced = true;
     } else if (avail === false) {
-        alert(`Hmmm... it looks like there's a ship there already!`)
+        alert(`Hmmm... it looks like there's a ship there already!`);
+        $(this).closest('div').find('input').attr("val", "");
+    }
+
+    console.log(typeof shipPlaced);
+
+    if (shipPlaced === true) {
+        $(this).closest('div').hide();
+        $(this).closest('div').next().show();
     }
 })
 
