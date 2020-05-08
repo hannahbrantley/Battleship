@@ -1,0 +1,36 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    color: red;
+  }
+
+  main {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(11, 5vmin);
+    grid-template-rows: repeat(9, 5vmin);
+    height: 100%;
+    
+  }
+  
+  .board div {
+    border: 1px solid grey;
+  }
+/* 
+  #playerBoard {
+      justify-content: flex-start;
+      flex: 1 1 auto;
+  }
+
+  #playerAttempts {
+      justify-content:
+      flex: 1 1 auto;
+  } */
