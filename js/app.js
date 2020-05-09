@@ -344,8 +344,9 @@ function takeShot($a, $b){
         playerShots += 1;
         playerHits += 1;
         playerAttempts[$a][$b] = 2;
-        console.log(playerShots, playerHits);
-        console.log(playerAttempts);
+        // console.log(playerShots, playerHits);
+        // console.log(playerAttempts);
+        checkWinner(compBoard);
     } else if (val === -1 || val === 2) {
        console.log(`You've already taken that shot`);
     } else if (val === null) {
@@ -359,6 +360,26 @@ function takeShot($a, $b){
         // console.log(playerAttempts);
     }
 }
+
+function checkWinner(board){
+    let newArray = [];
+    board.forEach(function(array){
+        array.forEach(function(space){
+            if (space === 2){
+                newArray.push(space);
+            }
+        })
+    })
+    console.log(newArray.length);
+    if (newArray.length === 17){
+        alert('winner!');
+    }
+}
+
+// function compShot(){
+//     let a = Math.floor(Math.random() * 9); // array number
+//     let b = Math.floor(Math.random() * 11); // index number
+// }
                    
 
 
@@ -370,6 +391,7 @@ init();
 // setPiece(5, [0, 0, 2]);
 // console.log(generateRand());
 // attemptPlaceShip(5);
-setCompBoard();
-console.log(compBoard);
+// setCompBoard();
+// console.log(compBoard);
+// checkWinner(compBoard);
 // setPlayerBoard();
