@@ -295,6 +295,7 @@ $('#trythis').on('click', 'button', function(evt) {
     console.log(typeof shipPlaced);
 
     if (shipPlaced === true) {
+        renderPlayerBoard();
         $(this).closest('div').hide();
         $(this).closest('div').next().show();
     }
@@ -376,22 +377,32 @@ function checkWinner(board){
     }
 }
 
-function renderBoards(board) {
-    $("#A1 > div").css('background-color', 'red');
+function renderPlayerBoard() {
+    // $("#playerBoard > #E1 > div").css('background-color', 'red');
+    // $("#E1").css('background-color', 'gray');
     let rowId = -1;
-    board.forEach(function(row){
+    playerBoard.forEach(function(row){
         let cellId = -1;
         rowId+= 1;
         row.forEach(function(cell){
             cellId+= 1;
-            console.log(xCoordinates[cellId],yCoordinates[rowId]);
+            // console.log(xCoordinates[cellId],yCoordinates[rowId]);
         if (cell === 1){
-            const thisCell = document.getElementById(`${xCoordinates[cellId]}${yCoordinates[rowId]}`)
-            thisCell.style.backgroundColor = "gray";
-        }
+            $(`#${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
+            // const thisCell = document.getElementById(`${xCoordinates[cellId]}${yCoordinates[rowId]}`)
+            // thisCell.style.backgroundColor = "gray";
+        } if (cell === 2){
+            $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
+            $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
+        } if (cell === -1){
+            $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
+        } 
+    
     })
   })
 }
+
+
 
 // function compShot(){
 //     let a = Math.floor(Math.random() * 9); // array number
@@ -408,7 +419,7 @@ init();
 // console.log(generateRand());
 // attemptPlaceShip(5);
 setCompBoard();
-renderBoards(compBoard);
+// renderPlayerBoard();
 // console.log(compBoard);
 // checkWinner(compBoard);
 // setPlayerBoard();
