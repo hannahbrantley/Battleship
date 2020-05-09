@@ -362,18 +362,35 @@ function takeShot($a, $b){
 }
 
 function checkWinner(board){
-    let newArray = [];
-    board.forEach(function(array){
-        array.forEach(function(space){
+    let hitArray = [];
+    board.forEach(function(row){
+        row.forEach(function(space){
             if (space === 2){
-                newArray.push(space);
+                hitArray.push(space);
             }
         })
     })
-    console.log(newArray.length);
-    if (newArray.length === 17){
-        alert('winner!');
+    console.log(hitArray.length);
+    if (hitArray.length === 17){
+        alert('game over!');
     }
+}
+
+function renderBoards(board) {
+    $("#A1 > div").css('background-color', 'red');
+    let rowId = -1;
+    board.forEach(function(row){
+        let cellId = -1;
+        rowId+= 1;
+        row.forEach(function(cell){
+            cellId+= 1;
+            console.log(xCoordinates[cellId],yCoordinates[rowId]);
+        if (cell === 1){
+            const thisCell = document.getElementById(`${xCoordinates[cellId]}${yCoordinates[rowId]}`)
+            thisCell.style.backgroundColor = "gray";
+        }
+    })
+  })
 }
 
 // function compShot(){
@@ -385,13 +402,13 @@ function checkWinner(board){
 
 
 init();
-//compSetup();
 //console.log(checkSpace(5, [6, 0, 2]));
 //console.log(compBoard[0][1]);
 // setPiece(5, [0, 0, 2]);
 // console.log(generateRand());
 // attemptPlaceShip(5);
-// setCompBoard();
+setCompBoard();
+renderBoards(compBoard);
 // console.log(compBoard);
 // checkWinner(compBoard);
 // setPlayerBoard();
