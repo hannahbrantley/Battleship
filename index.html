@@ -9,7 +9,7 @@
     <title>Battleship</title>
 </head>
 <body>
-    <h1> Battleship Game</h1>
+    <h1 id="main-title">Welcome! Set your board</h1>
 
     <main>
 
@@ -48,12 +48,14 @@
         </div>
 
         <div class="2">
-            <p>2 piece</p>
+            <p>2 piece</p> 
             <input class="letter" placeholder="Enter A-K">
             <input class="number" placeholder="Enter 1-9"> 
             <input class="direction" placeholder="Enter 1 or 2">
-            <button class="setpiece">Place ship!</button>
+            <button class="setpiece" id="last">Place ship!</button>
         </div>
+
+        <div> <p id="guess">Opponent's Guess</p> </div>
         
     </section>
 

@@ -1,4 +1,9 @@
 /*----- constants -----*/
+const playerLookup = {
+    '1': 'Player 1',
+    '-1': 'Opponent',
+    'null': 'transparent' 
+  };
 const pieces = [5, 4, 3, 3, 2];
 const numOfArrays = 9;
 const xCoordinates = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
@@ -14,19 +19,21 @@ let playerShots;
 let playerHits;
 let playerMisses;
 
+let compShots;
 let compHits; 
 let compMisses;
 
 let turn;
 let winner;
 
-let colIdx; 
-let rowIdx;
-let direction;
+let allPiecesSet;
+
+
 
 /*----- cached element references -----*/
 
-
+let msgEl = document.getElementById('main-title');
+let guessEl = document.getElementById('guess');
 
 /*----- event listeners -----*/
 
@@ -84,12 +91,16 @@ function init() {
     playerShots = 0;
     playerHits = 0;
     playerMisses = 0;
+    compShots = 0;
     compHits = 0; 
     compMisses = 0;  
     turn = 1;
     winner = 0;
+    allPiecesSet = false;
+    renderPlayerBoard();
     
     $("#trythis > div:not(:first)").hide();
+    $("#shot").prop('disabled', true);
 
     //render();
 }
@@ -188,7 +199,7 @@ function setPlayerBoard(){
         // get direction from player
     let c = document.getElementById("setdirection").value;
     let nums = [a, b, c];
-    console.log(nums);
+    // console.log(nums);
         // let avail = checkPlayerSpace(piece, nums);
         // if (avail === true) {
         //     setPlayerPiece(piece, nums);
@@ -203,7 +214,7 @@ function checkPlayerSpace(piece, nums){
     let a = nums[0]; // which array on playerBoard
     let b = nums[1]; // which index in playerBoard[a] array
     let direction = nums[2];
-    console.log(piece, a, b);
+    // console.log(piece, a, b);
     //console.log(typeof a, typeof b);
     //let starterSquare = playerBoard[a][b];
     let potentialPlacement = [];
@@ -253,6 +264,14 @@ function setPlayerPiece(piece, nums){
     }
 }
 
+$('#last').click(function(evt){
+    console.log(evt);
+    $("#shot").prop('disabled', false);
+    allPiecesSet = true;
+    render();
+    console.log(allPiecesSet);
+})
+
 $('#trythis').on('click', 'button', function(evt) {
     let $a;
     let $b; 
@@ -292,7 +311,7 @@ $('#trythis').on('click', 'button', function(evt) {
         $(this).closest('div').find('input').attr("val", "");
     }
 
-    console.log(typeof shipPlaced);
+   // console.log(typeof shipPlaced);
 
     if (shipPlaced === true) {
         renderPlayerBoard();
@@ -334,6 +353,8 @@ $('#shot').click(function(evt) {
         alert('Please submit a valid input');
         $(this).closest('div').find('input').attr("val", "");
     }
+    turn *= -1;
+    render();
 })
 
 function takeShot($a, $b){
@@ -424,10 +445,61 @@ function renderPlayerAttempts() {
 
 
 
-// function compShot(){
-//     let a = Math.floor(Math.random() * 9); // array number
-//     let b = Math.floor(Math.random() * 11); // index number
-// }
+
+
+function compShot(){ 
+    let $a = Math.floor(Math.random() * 9); // array number
+    let $b = Math.floor(Math.random() * 11); // index number // letter
+    // console.log($a, $b);
+    let val = playerBoard[$a][$b];
+    guessEl.textContent = `Opponent's Shot: ${xCoordinates[$b]}${yCoordinates[$a]}`
+
+    setTimeout(function(){
+    if (val === 1) {
+        console.log('hit')
+        playerBoard[$a][$b] = 2;
+        // console.log(playerBoard);
+        compShots += 1;
+        compHits += 1;
+        compAttempts[$a][$b] = 2;
+        // console.log(playerShots, playerHits);
+        // console.log(playerAttempts);
+        checkWinner(playerBoard);
+        renderPlayerBoard();
+        turn *= -1;
+        render();
+    } else if (val === -1 || val === 2) {
+      // compShot(); 
+    } else if (val === null) {
+        console.log('miss');
+        playerBoard[$a][$b] = -1;
+        // console.log(playerBoard);
+        compShots += 1;
+        compMisses += 1;
+        compAttempts[$a][$b] = -1;
+        // console.log(playerShots, playerMisses);
+        // console.log(playerAttempts);
+        renderPlayerBoard();
+        turn *= -1;
+        render();
+    }
+    // console.log(compAttempts);
+    // console.log(playerBoard);
+    }, 2000);
+}
+
+function render() {
+    if (allPiecesSet === true){
+    msgEl.textContent = `${playerLookup[turn]}'s Shot`;
+    }
+    if (turn === -1) {
+        $("#guess").show();
+        setTimeout(compShot, 2000); 
+    }
+    if (turn === 1) {
+        $("#guess").hide();
+    }
+}
                    
 
 
@@ -438,8 +510,9 @@ init();
 // setPiece(5, [0, 0, 2]);
 // console.log(generateRand());
 // attemptPlaceShip(5);
-setCompBoard();
+// compShot();
 // renderPlayerBoard();
 // console.log(compBoard);
 // checkWinner(compBoard);
 // setPlayerBoard();
+console.log(allPiecesSet);
