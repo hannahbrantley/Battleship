@@ -360,6 +360,7 @@ function takeShot($a, $b){
         // console.log(playerShots, playerMisses);
         // console.log(playerAttempts);
     }
+    renderPlayerAttempts();
 }
 
 function checkWinner(board){
@@ -398,6 +399,25 @@ function renderPlayerBoard() {
             $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
         } 
     
+    })
+  })
+}
+
+function renderPlayerAttempts() {
+    // $("#playerBoard > #E1 > div").css('background-color', 'red');
+    // $("#E1").css('background-color', 'gray');
+    let rowId = -1;
+    playerAttempts.forEach(function(row){
+        let cellId = -1;
+        rowId+= 1;
+        row.forEach(function(cell){
+            cellId+= 1;
+            // console.log(xCoordinates[cellId],yCoordinates[rowId]);
+        if (cell === 2){
+            $(`#playerAttempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
+        } if (cell === -1){
+            $(`#playerAttempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
+        } 
     })
   })
 }
