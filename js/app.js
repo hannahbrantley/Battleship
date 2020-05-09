@@ -1,4 +1,3 @@
-
 /*----- constants -----*/
 const pieces = [5, 4, 3, 3, 2];
 const numOfArrays = 9;
@@ -34,6 +33,8 @@ let direction;
 
 
 /*----- functions -----*/
+
+
 
 function init() {
     playerBoard = [
@@ -261,7 +262,7 @@ $('#trythis').on('click', 'button', function(evt) {
     let shipPlaced = false;
 
     $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
-    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val());
+    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
     $c = parseInt($(this).closest('div').find('input[class="direction"]').val());
     
     piece = (parseInt($(this).closest('div').attr('class')));
@@ -300,8 +301,8 @@ $('#trythis').on('click', 'button', function(evt) {
 })
 
 function validateInput($a, $b, $c){
-    if ($a >= 0 && $a <= 10 && 
-        $b >= 0 && $b <= 8 && 
+    if ($a >= 0 && $a <= 8 && 
+        $b >= 0 && $b <= 10 && 
         $c >= 1 && $c <= 2 && 
         Number.isInteger($a) === true && 
         Number.isInteger($b) === true && 
@@ -312,6 +313,52 @@ function validateInput($a, $b, $c){
         }
 }
 
+
+$('#shot').click(function(evt) {
+   // console.log(evt);
+    let $a;
+    let $b; 
+
+    $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
+    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
+
+   // console.log($a, $b);
+   // console.log(typeof $a, typeof $b);
+
+    let valid = validateInput($a, $b, 1);
+   // console.log(valid);
+    if (valid === true){
+        takeShot($a, $b);
+    } else if (valid === false){
+        alert('Please submit a valid input');
+        $(this).closest('div').find('input').attr("val", "");
+    }
+})
+
+function takeShot($a, $b){
+    let val = compBoard[$a][$b];
+    if (val === 1) {
+        console.log('hit')
+        compBoard[$a][$b] = 2;
+        // console.log(compBoard);
+        playerShots += 1;
+        playerHits += 1;
+        playerAttempts[$a][$b] = 2;
+        console.log(playerShots, playerHits);
+        console.log(playerAttempts);
+    } else if (val === -1 || val === 2) {
+       console.log(`You've already taken that shot`);
+    } else if (val === null) {
+        console.log('miss');
+        compBoard[$a][$b] = -1;
+        // console.log(compBoard);
+        playerShots += 1;
+        playerMisses += 1;
+        playerAttempts[$a][$b] = -1;
+        // console.log(playerShots, playerMisses);
+        // console.log(playerAttempts);
+    }
+}
                    
 
 
@@ -323,7 +370,6 @@ init();
 // setPiece(5, [0, 0, 2]);
 // console.log(generateRand());
 // attemptPlaceShip(5);
-// setCompBoard();
-// console.log(compBoard);
+setCompBoard();
+console.log(compBoard);
 // setPlayerBoard();
-
