@@ -34,6 +34,7 @@ let allPiecesSet;
 
 let msgEl = document.getElementById('main-title');
 let guessEl = document.getElementById('guess');
+let playerGuessEl = document.getElementById('message');
 
 /*----- event listeners -----*/
 
@@ -103,6 +104,7 @@ function init() {
     $("#shot").prop('disabled', true);
 
     //render();
+    
 }
 
 
@@ -268,11 +270,23 @@ $('#last').click(function(evt){
     console.log(evt);
     $("#shot").prop('disabled', false);
     allPiecesSet = true;
-    render();
+    // render();
+    // console.log(allPiecesSet);
+})
+
+$('#randomize').click(function(evt){
+    $("#trythis > div:not(:last)").hide();
+    $("#guess").show();
+    console.log(evt);
+    $("#shot").prop('disabled', false);
+    allPiecesSet = true;
+    // render();
     console.log(allPiecesSet);
+    setRandomPlayerBoard();
 })
 
 $('#trythis').on('click', 'button', function(evt) {
+    $('#randomize').hide();
     let $a;
     let $b; 
     let $c; 
@@ -335,7 +349,6 @@ function validateInput($a, $b, $c){
 
 
 $('#shot').click(function(evt) {
-   // console.log(evt);
     let $a;
     let $b; 
 
@@ -349,18 +362,18 @@ $('#shot').click(function(evt) {
    // console.log(valid);
     if (valid === true){
         takeShot($a, $b);
+        turn *= -1;
     } else if (valid === false){
         alert('Please submit a valid input');
         $(this).closest('div').find('input').attr("val", "");
     }
-    turn *= -1;
     render();
 })
 
 function takeShot($a, $b){
     let val = compBoard[$a][$b];
     if (val === 1) {
-        console.log('hit')
+        playerGuessEl.innerHTML = "<i>hit!</i>";
         compBoard[$a][$b] = 2;
         // console.log(compBoard);
         playerShots += 1;
@@ -368,11 +381,12 @@ function takeShot($a, $b){
         playerAttempts[$a][$b] = 2;
         // console.log(playerShots, playerHits);
         // console.log(playerAttempts);
-        checkWinner(compBoard);
+        // checkWinner(compBoard);
+        // turn *= -1;
     } else if (val === -1 || val === 2) {
-       console.log(`You've already taken that shot`);
+        playerGuessEl.innerHTML = "<i>Youve already taken that shot</i>";
     } else if (val === null) {
-        console.log('miss');
+        playerGuessEl.innerHTML = "<i>miss</i>";
         compBoard[$a][$b] = -1;
         // console.log(compBoard);
         playerShots += 1;
@@ -380,8 +394,8 @@ function takeShot($a, $b){
         playerAttempts[$a][$b] = -1;
         // console.log(playerShots, playerMisses);
         // console.log(playerAttempts);
+        // turn *= -1;
     }
-    renderPlayerAttempts();
 }
 
 function checkWinner(board){
@@ -448,15 +462,17 @@ function renderPlayerAttempts() {
 
 
 function compShot(){ 
+    if (turn === -1) {
     let $a = Math.floor(Math.random() * 9); // array number
     let $b = Math.floor(Math.random() * 11); // index number // letter
     // console.log($a, $b);
     let val = playerBoard[$a][$b];
     guessEl.textContent = `Opponent's Shot: ${xCoordinates[$b]}${yCoordinates[$a]}`
 
-    setTimeout(function(){
+
     if (val === 1) {
-        console.log('hit')
+        guessEl.innerHTML = '<i>hit</i>';
+        //console.log('hit')
         playerBoard[$a][$b] = 2;
         // console.log(playerBoard);
         compShots += 1;
@@ -464,14 +480,13 @@ function compShot(){
         compAttempts[$a][$b] = 2;
         // console.log(playerShots, playerHits);
         // console.log(playerAttempts);
-        checkWinner(playerBoard);
-        renderPlayerBoard();
+        // checkWinner(playerBoard);
         turn *= -1;
         render();
-    } else if (val === -1 || val === 2) {
-      // compShot(); 
+
     } else if (val === null) {
-        console.log('miss');
+        guessEl.innerHTML = '<i>miss</i>';
+        //console.log('miss');
         playerBoard[$a][$b] = -1;
         // console.log(playerBoard);
         compShots += 1;
@@ -479,28 +494,126 @@ function compShot(){
         compAttempts[$a][$b] = -1;
         // console.log(playerShots, playerMisses);
         // console.log(playerAttempts);
-        renderPlayerBoard();
+
         turn *= -1;
         render();
-    }
+    } else if (val === -1 || val === 2) {
+        playerBoard;
+        alert(`val = ${val}`); 
+        // compShot(); 
     // console.log(compAttempts);
     // console.log(playerBoard);
-    }, 2000);
+    }
+}
 }
 
 function render() {
+    console.log(turn);
+    renderPlayerAttempts();
+    renderPlayerBoard();
+
     if (allPiecesSet === true){
     msgEl.textContent = `${playerLookup[turn]}'s Shot`;
-    }
+    }    
     if (turn === -1) {
         $("#guess").show();
-        setTimeout(compShot, 2000); 
+        $("#message").hide();
+        compShot();
     }
-    if (turn === 1) {
+    else if (turn === 1) {
         $("#guess").hide();
+        $("#message").show();
+        playerGuessEl.innerHTML = 'Bombs away';
+
     }
 }
-                   
+
+
+function checkPlayerSpace(piece, nums){
+
+    let a = nums[0]; 
+    let b = nums[1]; 
+    let direction = nums[2];
+
+    let potentialPlacement = [];
+    if (direction === 1 && (playerBoard[a].length - b) >= piece) {
+        for (let i = 0; i < piece; i++) {
+            potentialPlacement.push(playerBoard[a][b + i]);
+        }
+    } else if (direction === 1 && (playerBoard[a].length - b) < piece) {
+        for (let i = 0; i < piece; i++) {
+            potentialPlacement.push(playerBoard[a][b - i]);
+        } 
+    } else if (direction === 2 && (numOfArrays - a) >= piece) {
+        for (let i = 0; i < piece; i++) {
+            potentialPlacement.push(playerBoard[a + i][b]);
+        } 
+    } else if (direction === 2 && (numOfArrays - a) < piece) {
+        for (let i = 0; i < piece; i++) {
+            potentialPlacement.push(playerBoard[a - i][b]);
+        } 
+    } else {
+            console.log('error');
+        }
+    return potentialPlacement.every(square => square === null);
+}
+
+function setRandomPiece(piece, nums){
+    let a = nums[0]; // which array on compBoard
+    let b = nums[1]; // which index in compBoard[a] array
+    let direction = nums[2];
+    // change nulls to 1
+    if (direction === 1 && (playerBoard[a].length - b) >= piece) {
+        for (let i = 0; i < piece; i++) {
+            playerBoard[a][b + i] = 1;
+        }
+    } else if (direction === 1 && (playerBoard[a].length - b) < piece) {
+        for (let i = 0; i < piece; i++) {
+            playerBoard[a][b - i] = 1;
+        } 
+    } else if (direction === 2 && (numOfArrays - a) >= piece) {
+        for (let i = 0; i < piece; i++) {
+            playerBoard[a + i][b] = 1;
+        } 
+    } else if (direction === 2 && (numOfArrays - a) < piece) {
+        for (let i = 0; i < piece; i++) {
+            playerBoard[a - i][b] = 1;
+        } 
+    }
+}
+
+function attemptRandomPlaceShip(piece){
+    let nums = generateRand(); // returns array
+    let avail = checkPlayerSpace(piece, nums); // returns boolean
+    //console.log(nums);
+    //console.log(avail);
+    // here we go
+    if (avail === true) {
+        //console.log(`piece:${piece} spot is available! setting piece`);
+        setRandomPiece(piece, nums);
+        //console.log(compBoard);
+    } else if (avail === false) {
+        //console.log(`piece:${piece} nums:${nums} not available, re-trying`);
+        attemptRandomPlaceShip(piece);
+    } 
+}
+
+function setRandomPlayerBoard(){
+    pieces.forEach(function(piece) {
+        attemptRandomPlaceShip(piece);
+    });
+    renderPlayerBoard();
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -515,4 +628,3 @@ init();
 // console.log(compBoard);
 // checkWinner(compBoard);
 // setPlayerBoard();
-console.log(allPiecesSet);
