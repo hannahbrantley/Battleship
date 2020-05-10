@@ -283,6 +283,7 @@ $('#randomize').click(function(evt){
     // render();
     console.log(allPiecesSet);
     setRandomPlayerBoard();
+    $('#randomize').hide();
 })
 
 $('#trythis').on('click', 'button', function(evt) {
