@@ -582,6 +582,15 @@ function render() {
     renderPlayerAttempts();
     renderPlayerBoard();
 
+    $('#opponent-shots').text(`Opponent's Shots: ${compShots}`);
+    $('#opponent-hits').text(`Opponent's Hits: ${compHits}`);
+    $('#opponent-misses').text(`Opponent's Misses: ${compMisses}`);
+
+    $('#player-shots').text(`Player's Shots: ${playerShots}`);
+    $('#player-hits').text(`Player's Hits: ${playerHits}`);
+    $('#player-misses').text(`Player's Misses: ${playerMisses}`);
+
+
     if (allPiecesSet === true){
     msgEl.textContent = `${playerLookup[turn]}'s Shot`;
     }    
