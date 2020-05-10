@@ -5,6 +5,7 @@ const playerLookup = {
     'null': 'transparent' 
   };
 const pieces = [5, 4, 3, 3, 2];
+const compPieces = [2, 3, [2 + 1], 4, 5];
 const numOfArrays = 9;
 const xCoordinates = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
 const yCoordinates = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -27,7 +28,11 @@ let turn;
 let winner;
 
 let allPiecesSet;
-
+let hitFive = [];
+let hitFour = [];
+let hitFirstThree = [];
+let hitSecondThree = [];
+let hitTwo = [];
 
 
 /*----- cached element references -----*/
@@ -153,19 +158,19 @@ function setPiece(piece, nums){
     // change nulls to 1
     if (direction === 1 && (compBoard[a].length - b) >= piece) {
         for (let i = 0; i < piece; i++) {
-            compBoard[a][b + i] = 1;
+            compBoard[a][b + i] = piece + compPieces.indexOf(piece);
         }
     } else if (direction === 1 && (compBoard[a].length - b) < piece) {
         for (let i = 0; i < piece; i++) {
-            compBoard[a][b - i] = 1;
+            compBoard[a][b - i] = piece + compPieces.indexOf(piece);
         } 
     } else if (direction === 2 && (numOfArrays - a) >= piece) {
         for (let i = 0; i < piece; i++) {
-            compBoard[a + i][b] = 1;
+            compBoard[a + i][b] = piece + compPieces.indexOf(piece);
         } 
     } else if (direction === 2 && (numOfArrays - a) < piece) {
         for (let i = 0; i < piece; i++) {
-            compBoard[a - i][b] = 1;
+            compBoard[a - i][b] = piece + compPieces.indexOf(piece);
         } 
     }
 }
@@ -187,7 +192,7 @@ function attemptPlaceShip(piece){
 }
 
 function setCompBoard(){
-    pieces.forEach(function(piece) {
+    compPieces.forEach(function(piece) {
         attemptPlaceShip(piece);
     });
 }
@@ -373,9 +378,11 @@ $('#shot').click(function(evt) {
 
 function takeShot($a, $b){
     let val = compBoard[$a][$b];
-    if (val === 1) {
+    if (val === 9) {
         playerGuessEl.innerHTML = "<i>hit!</i>";
-        compBoard[$a][$b] = 2;
+        compBoard[$a][$b] += 1;
+        hitFive.push(val);
+        checkPlayerWinner(val);
         // console.log(compBoard);
         playerShots += 1;
         playerHits += 1;
@@ -384,8 +391,38 @@ function takeShot($a, $b){
         // console.log(playerAttempts);
         // checkWinner(compBoard);
         // turn *= -1;
-    } else if (val === -1 || val === 2) {
-        playerGuessEl.innerHTML = "<i>Youve already taken that shot</i>";
+    } else if (val === 7) {
+        playerGuessEl.innerHTML = "<i>hit!</i>";
+        compBoard[$a][$b] += 1;
+        hitFour.push(val);
+        checkPlayerWinner(val);
+        playerShots += 1;
+        playerHits += 1;
+        playerAttempts[$a][$b] = 2;
+    } else if (val === 4) {
+        playerGuessEl.innerHTML = "<i>hit!</i>";
+        compBoard[$a][$b] += 1;
+        hitFirstThree.push(val);
+        checkPlayerWinner(val);
+        playerShots += 1;
+        playerHits += 1;
+        playerAttempts[$a][$b] = 2;
+    } else if (val === "32") {
+        playerGuessEl.innerHTML = "<i>hit!</i>";
+        compBoard[$a][$b] += 1;
+        hitSecondThree.push(val);
+        checkPlayerWinner(val);
+        playerShots += 1;
+        playerHits += 1;
+        playerAttempts[$a][$b] = 2;
+    } else if (val === 2) {
+        playerGuessEl.innerHTML = "<i>hit!</i>";
+        compBoard[$a][$b] += 1;
+        hitTwo.push(val);
+        checkPlayerWinner(val);
+        playerShots += 1;
+        playerHits += 1;
+        playerAttempts[$a][$b] = 2;
     } else if (val === null) {
         playerGuessEl.innerHTML = "<i>miss</i>";
         compBoard[$a][$b] = -1;
@@ -396,6 +433,39 @@ function takeShot($a, $b){
         // console.log(playerShots, playerMisses);
         // console.log(playerAttempts);
         // turn *= -1;
+    } else {
+        turn *= -1
+        alert('already guessed there');
+        playerGuessEl.innerHTML = "<i>Youve already taken that shot</i>";
+    }
+}
+
+function checkPlayerWinner(val){
+    if (hitFive.length === 5 && hitFour.length === 4 && hitFirstThree.length === 3 && hitSecondThree.length === 3 && hitTwo.length === 2){
+        alert('YOU WIN!! You sunk all battleships!');
+    }
+    else if (val === 9){
+        if (hitFive.length >= 5){
+            alert(`You sunk your opponent's battleship!`)
+        }
+    } else if (val === 7){
+        if (hitFour.length >= 4){
+            alert(`You sunk your opponent's battleship!`)
+        }
+    } else if (val === 4){
+        if (hitFirstThree.length >= 3){
+            alert(`You sunk your opponent's battleship!`)
+        }
+    } else if (val === "32"){
+        if (hitSecondThree.length >= 3){
+            alert(`You sunk your opponent's battleship!`)
+        }
+    } else if (val === 2){
+        if (hitTwo.length >= 2){
+            alert(`You sunk your opponent's battleship!`)
+        }
+    } else {
+        console.log('no sunk ship yet')
     }
 }
 
@@ -499,9 +569,8 @@ function compShot(){
         turn *= -1;
         render();
     } else if (val === -1 || val === 2) {
-        playerBoard;
-        alert(`val = ${val}`); 
-        // compShot(); 
+        compShot(); 
+        console.log('recursion');
     // console.log(compAttempts);
     // console.log(playerBoard);
     }
@@ -626,6 +695,7 @@ init();
 // attemptPlaceShip(5);
 // compShot();
 // renderPlayerBoard();
-// console.log(compBoard);
+setCompBoard();
+console.log(compBoard);
 // checkWinner(compBoard);
 // setPlayerBoard();
