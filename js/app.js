@@ -189,11 +189,12 @@ function attemptPlaceShip(board, piece){
     } 
 }
 
-function setCompBoard(board){
+function setBoard(board){
     compPieces.forEach(function(piece) {
         attemptPlaceShip(board, piece);
     });
 }
+
 
 function setPlayerBoard(){
     //pieces.forEach(function(piece){
@@ -228,7 +229,8 @@ $('#randomize').click(function(evt){
     allPiecesSet = true;
     // render();
     //console.log(allPiecesSet);
-    setRandomPlayerBoard();
+    setBoard(playerBoard);
+    renderPlayerBoard();
     $('#randomize').hide();
 })
 
@@ -435,11 +437,11 @@ function renderPlayerBoard() {
         row.forEach(function(cell){
             cellId+= 1;
             // console.log(xCoordinates[cellId],yCoordinates[rowId]);
-        if (cell === 1){
+        if (cell >= 1){
             $(`#${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
             // const thisCell = document.getElementById(`${xCoordinates[cellId]}${yCoordinates[rowId]}`)
             // thisCell.style.backgroundColor = "gray";
-        } if (cell === 2){
+        } if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
             $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
             $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
         } if (cell === -1){
@@ -549,52 +551,7 @@ function render() {
 }
 
 
-function setRandomPiece(piece, nums){
-    let a = nums[0]; // which array on compBoard
-    let b = nums[1]; // which index in compBoard[a] array
-    let direction = nums[2];
-    // change nulls to 1
-    if (direction === 1 && (playerBoard[a].length - b) >= piece) {
-        for (let i = 0; i < piece; i++) {
-            playerBoard[a][b + i] = 1;
-        }
-    } else if (direction === 1 && (playerBoard[a].length - b) < piece) {
-        for (let i = 0; i < piece; i++) {
-            playerBoard[a][b - i] = 1;
-        } 
-    } else if (direction === 2 && (numOfArrays - a) >= piece) {
-        for (let i = 0; i < piece; i++) {
-            playerBoard[a + i][b] = 1;
-        } 
-    } else if (direction === 2 && (numOfArrays - a) < piece) {
-        for (let i = 0; i < piece; i++) {
-            playerBoard[a - i][b] = 1;
-        } 
-    }
-}
 
-function attemptRandomPlaceShip(piece){
-    let nums = generateRand(); // returns array
-    let avail = checkSpace(playerBoard, piece, nums); // returns boolean
-    //console.log(nums);
-    //console.log(avail);
-    // here we go
-    if (avail === true) {
-        //console.log(`piece:${piece} spot is available! setting piece`);
-        setRandomPiece(piece, nums);
-        //console.log(compBoard);
-    } else if (avail === false) {
-        //console.log(`piece:${piece} nums:${nums} not available, re-trying`);
-        attemptRandomPlaceShip(piece);
-    } 
-}
-
-function setRandomPlayerBoard(){
-    pieces.forEach(function(piece) {
-        attemptRandomPlaceShip(piece);
-    });
-    renderPlayerBoard();
-}
 
 
 
@@ -616,7 +573,7 @@ init();
 // attemptPlaceShip(5);
 // compShot();
 // renderPlayerBoard();
-setCompBoard(compBoard);
+setBoard(compBoard);
 //console.log(compBoard);
 // checkWinner(compBoard);
 // setPlayerBoard();
