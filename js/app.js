@@ -11,18 +11,18 @@ const xCoordinates = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
 const yCoordinates = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 /*----- app's state (variables) -----*/
-let playerBoard = [];
-let playerAttempts = [];
-let compBoard = [];
-let compAttempts = [];
 
-let playerShots; 
-let playerHits;
-let playerMisses;
 
-let compShots;
-let compHits; 
-let compMisses;
+
+let player = {
+    playerBoard: [],
+    playerAttempts: []
+};
+
+let opponent = {
+    compBoard: [],
+    compAttempts: []
+};
 
 let turn;
 let winner;
@@ -42,6 +42,82 @@ let guessEl = document.getElementById('guess');
 let playerGuessEl = document.getElementById('message');
 
 /*----- event listeners -----*/
+$('#last').click(function(evt){
+    $("#shot").prop('disabled', false);
+    allPiecesSet = true;
+})
+
+$('#randomize').click(function(evt){
+    $("#set-board > div:not(:last)").hide();
+    $("#shot").prop('disabled', false);
+    allPiecesSet = true;
+    autoSetBoard(player.playerBoard);
+    renderPlayerBoard();
+    $('#randomize').hide();
+})
+
+$('#set-board').on('click', 'button', function(evt) {
+    $('#randomize').hide();
+    let $a;
+    let $b; 
+    let $c; 
+    let nums;
+    let piece;
+    let shipPlaced = false;
+
+    $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
+    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
+    $c = parseInt($(this).closest('div').find('input[class="direction"]').val());
+    
+    piece = (parseInt($(this).closest('div').attr('class')));
+    
+    let valid = validateInput($a, $b, $c);
+    if (valid === true){
+        nums = [$a, $b, $c];
+    } else if (valid === false){
+        alert('Please submit a valid input');
+        $(this).closest('div').find('input').attr("val", "");
+    }
+    
+    let avail = checkSpace(player.playerBoard, piece, nums);
+    
+    if (avail === true) {
+        setPiece(player.playerBoard, piece, nums);
+
+        shipPlaced = true;
+    } else if (avail === false) {
+        alert(`Hmmm... it looks like there's a ship there already!`);
+        $(this).closest('div').find('input').attr("val", "");
+    }
+
+    if (shipPlaced === true) {
+        renderPlayerBoard();
+        $(this).closest('div').hide();
+        $(this).closest('div').next().show();
+    }
+})
+
+
+$('#shot').click(function(evt) {
+    let $a;
+    let $b; 
+
+    $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
+    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
+
+   // console.log($a, $b);
+   // console.log(typeof $a, typeof $b);
+
+    let valid = validateInput($a, $b, 1);
+    if (valid === true){
+        takeShot($a, $b, player.playerAttempts, opponent.compBoard);
+        turn *= -1;
+    } else if (valid === false){
+        alert('Please submit a valid input');
+        $(this).closest('div').find('input').attr("val", "");
+    }
+    render();
+})
 
 
 
@@ -50,63 +126,83 @@ let playerGuessEl = document.getElementById('message');
 
 
 function init() {
-    playerBoard = [
-        [null, null, null, null, null, null, null, null, null, null, null], 
-        [null, null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null, null]
-      ];
-    playerAttempts = [
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null]
-      ];
-    compBoard = [
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null]
-      ];
-    compAttempts = [
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null],
-          [null, null, null, null, null, null, null, null, null, null, null]
-      ];
-    playerShots = 0;
-    playerHits = 0;
-    playerMisses = 0;
-    compShots = 0;
-    compHits = 0; 
-    compMisses = 0;  
+    // playerScore.playerBoard = [
+    //     [null, null, null, null, null, null, null, null, null, null, null], 
+    //     [null, null, null, null, null, null, null, null, null, null, null],
+    //     [null, null, null, null, null, null, null, null, null, null, null],
+    //     [null, null, null, null, null, null, null, null, null, null, null],
+    //     [null, null, null, null, null, null, null, null, null, null, null],
+    //     [null, null, null, null, null, null, null, null, null, null, null],
+    //     [null, null, null, null, null, null, null, null, null, null, null],
+    //     [null, null, null, null, null, null, null, null, null, null, null],
+    //     [null, null, null, null, null, null, null, null, null, null, null]
+      //];
+    
+    
+
+      player = {
+        shots: 0,
+        hits: 0,
+        misses: 0, 
+        playerBoard: [
+            [null, null, null, null, null, null, null, null, null, null, null], 
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null]
+        ], 
+        playerAttempts: [
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null]
+        ]
+    };
+    opponent = {
+        shots: 0,
+        hits: 0,
+        misses: 0,
+        compBoard: [
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null]
+        ],
+        compAttempts: [
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null, null]
+        ]
+    };
     turn = 1;
     winner = 0;
     allPiecesSet = false;
     renderPlayerBoard();
     
-    $("#trythis > div:not(:first)").hide();
+    $("#set-board > div:not(:first)").hide();
     $("#shot").prop('disabled', true);
+
+    autoSetBoard(opponent.compBoard);
 
     //render();
     
@@ -121,11 +217,9 @@ function generateRand(){
 }
 
 function checkSpace(board, piece, nums){
-
     let a = nums[0]; 
     let b = nums[1]; 
     let direction = nums[2];
-
     let potentialPlacement = [];
     if (direction === 1 && (board[a].length - b) >= piece) {
         for (let i = 0; i < piece; i++) {
@@ -153,7 +247,6 @@ function setPiece(board, piece, nums){
     let a = nums[0]; 
     let b = nums[1];
     let direction = nums[2];
- 
     if (direction === 1 && (board[a].length - b) >= piece) {
         for (let i = 0; i < piece; i++) {
             board[a][b + i] = piece + compPieces.indexOf(piece);
@@ -174,115 +267,19 @@ function setPiece(board, piece, nums){
 }
 
 function attemptPlaceShip(board, piece){
-    let nums = generateRand(); // returns array
-    let avail = checkSpace(board, piece, nums); // returns boolean
-    //console.log(nums);
-    //console.log(avail);
-    // here we go
+    let nums = generateRand(); 
+    let avail = checkSpace(board, piece, nums); 
     if (avail === true) {
-        //console.log(`piece:${piece} spot is available! setting piece`);
         setPiece(board, piece, nums);
-        //console.log(compBoard);
     } else if (avail === false) {
-        //console.log(`piece:${piece} nums:${nums} not available, re-trying`);
         attemptPlaceShip(board, piece);
     } 
 }
-
-function setBoard(board){
+function autoSetBoard(board){
     compPieces.forEach(function(piece) {
         attemptPlaceShip(board, piece);
     });
 }
-
-
-function setPlayerBoard(){
-    //pieces.forEach(function(piece){
-        // get input A-K from player
-    let a = document.getElementById("setpieceletter").value;
-        // get input 1-9 from player
-    let b = document.getElementById("setpiecenumber").value;
-        // get direction from player
-    let c = document.getElementById("setdirection").value;
-    let nums = [a, b, c];
-    // console.log(nums);
-        // if (avail === true) {
-        // } else if (avail === false) {
-        //     alert(`looks like there is already a ship there`)
-        // }
-    //})
-}
-
-$('#last').click(function(evt){
-    //console.log(evt);
-    $("#shot").prop('disabled', false);
-    allPiecesSet = true;
-    // render();
-    // console.log(allPiecesSet);
-})
-
-$('#randomize').click(function(evt){
-    $("#trythis > div:not(:last)").hide();
-    $("#guess").show();
-    //console.log(evt);
-    $("#shot").prop('disabled', false);
-    allPiecesSet = true;
-    // render();
-    //console.log(allPiecesSet);
-    setBoard(playerBoard);
-    renderPlayerBoard();
-    $('#randomize').hide();
-})
-
-$('#trythis').on('click', 'button', function(evt) {
-    $('#randomize').hide();
-    let $a;
-    let $b; 
-    let $c; 
-    let nums;
-    let piece;
-    let shipPlaced = false;
-
-    $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
-    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
-    $c = parseInt($(this).closest('div').find('input[class="direction"]').val());
-    
-    piece = (parseInt($(this).closest('div').attr('class')));
-    
-    // console.log(typeof $('#number').val());
-   // console.log($(evt.currentTarget).closest('input').val());
-   // console.log(piece, $a, $b, $c);
-    // console.log(typeof $a, typeof $b, typeof $c);
-    
-    let valid = validateInput($a, $b, $c);
-    if (valid === true){
-        nums = [$a, $b, $c];
-    } else if (valid === false){
-        alert('Please submit a valid input');
-        $(this).closest('div').find('input').attr("val", "");
-    }
-    
-    
-    let avail = checkSpace(playerBoard, piece, nums);
-    
-    if (avail === true) {
-        setPiece(playerBoard, piece, nums);
-        // console.log(playerBoard);
-        shipPlaced = true;
-    } else if (avail === false) {
-        alert(`Hmmm... it looks like there's a ship there already!`);
-        $(this).closest('div').find('input').attr("val", "");
-    }
-
-   // console.log(typeof shipPlaced);
-
-    if (shipPlaced === true) {
-        renderPlayerBoard();
-        $(this).closest('div').hide();
-        $(this).closest('div').next().show();
-    }
-})
-
 function validateInput($a, $b, $c){
     if ($a >= 0 && $a <= 8 && 
         $b >= 0 && $b <= 10 && 
@@ -296,90 +293,64 @@ function validateInput($a, $b, $c){
         }
 }
 
-
-$('#shot').click(function(evt) {
-    let $a;
-    let $b; 
-
-    $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
-    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
-
-   // console.log($a, $b);
-   // console.log(typeof $a, typeof $b);
-
-    let valid = validateInput($a, $b, 1);
-   // console.log(valid);
-    if (valid === true){
-        takeShot($a, $b);
-        turn *= -1;
-    } else if (valid === false){
-        alert('Please submit a valid input');
-        $(this).closest('div').find('input').attr("val", "");
-    }
-    render();
-})
-
-function takeShot($a, $b){
-    let val = compBoard[$a][$b];
+function takeShot($a, $b, attemptBoard, targetBoard){
+    let val = targetBoard[$a][$b];
     if (val === 9) {
-        playerGuessEl.innerHTML = "<i>hit!</i>";
-        compBoard[$a][$b] += 1;
+        targetBoard[$a][$b] += 1;
         hitFive.push(val);
-        checkPlayerWinner(val);
-        // console.log(compBoard);
-        playerShots += 1;
-        playerHits += 1;
-        playerAttempts[$a][$b] = 2;
-        // console.log(playerShots, playerHits);
-        // console.log(playerAttempts);
-        // checkWinner(compBoard);
-        // turn *= -1;
+        checkPlayerWinner(val); 
+
+        player.shots += 1;
+        player.hits += 1;
+        attemptBoard[$a][$b] = targetBoard[$a][$b];
+
     } else if (val === 7) {
-        playerGuessEl.innerHTML = "<i>hit!</i>";
-        compBoard[$a][$b] += 1;
+
+        targetBoard[$a][$b] += 1;
         hitFour.push(val);
         checkPlayerWinner(val);
-        playerShots += 1;
-        playerHits += 1;
-        playerAttempts[$a][$b] = 2;
+
+        player.shots += 1;
+        player.hits += 1;
+        attemptBoard[$a][$b] = targetBoard[$a][$b];
+
     } else if (val === 4) {
-        playerGuessEl.innerHTML = "<i>hit!</i>";
-        compBoard[$a][$b] += 1;
+   
+        targetBoard[$a][$b] += 1;
         hitFirstThree.push(val);
         checkPlayerWinner(val);
-        playerShots += 1;
-        playerHits += 1;
-        playerAttempts[$a][$b] = 2;
+        player.shots += 1;
+        player.hits += 1;
+        attemptBoard[$a][$b] = targetBoard[$a][$b];
+
     } else if (val === "32") {
-        playerGuessEl.innerHTML = "<i>hit!</i>";
-        compBoard[$a][$b] += 1;
+     
+        targetBoard[$a][$b] += 1;
         hitSecondThree.push(val);
         checkPlayerWinner(val);
-        playerShots += 1;
-        playerHits += 1;
-        playerAttempts[$a][$b] = 2;
+        player.shots += 1;
+        player.hits += 1;
+        attemptBoard[$a][$b] = targetBoard[$a][$b];
+
     } else if (val === 2) {
-        playerGuessEl.innerHTML = "<i>hit!</i>";
-        compBoard[$a][$b] += 1;
+
+        targetBoard[$a][$b] += 1;
         hitTwo.push(val);
         checkPlayerWinner(val);
-        playerShots += 1;
-        playerHits += 1;
-        playerAttempts[$a][$b] = 2;
+        player.shots += 1;
+        player.hits += 1;
+        attemptBoard[$a][$b] = targetBoard[$a][$b];
+
     } else if (val === null) {
-        playerGuessEl.innerHTML = "<i>miss</i>";
-        compBoard[$a][$b] = -1;
-        // console.log(compBoard);
-        playerShots += 1;
-        playerMisses += 1;
-        playerAttempts[$a][$b] = -1;
-        // console.log(playerShots, playerMisses);
-        // console.log(playerAttempts);
-        // turn *= -1;
+
+        targetBoard[$a][$b] = -1;
+        player.shots += 1;
+        player.misses += 1;
+        attemptBoard[$a][$b] = -1;
+
     } else {
         turn *= -1
         alert('already guessed there');
-        playerGuessEl.innerHTML = "<i>Youve already taken that shot</i>";
     }
 }
 
@@ -431,7 +402,7 @@ function renderPlayerBoard() {
     // $("#playerBoard > #E1 > div").css('background-color', 'red');
     // $("#E1").css('background-color', 'gray');
     let rowId = -1;
-    playerBoard.forEach(function(row){
+    player.playerBoard.forEach(function(row){
         let cellId = -1;
         rowId+= 1;
         row.forEach(function(cell){
@@ -456,13 +427,13 @@ function renderPlayerAttempts() {
     // $("#playerBoard > #E1 > div").css('background-color', 'red');
     // $("#E1").css('background-color', 'gray');
     let rowId = -1;
-    playerAttempts.forEach(function(row){
+    player.playerAttempts.forEach(function(row){
         let cellId = -1;
         rowId+= 1;
         row.forEach(function(cell){
             cellId+= 1;
             // console.log(xCoordinates[cellId],yCoordinates[rowId]);
-        if (cell === 2){
+        if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
             $(`#playerAttempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
         } if (cell === -1){
             $(`#playerAttempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
@@ -477,22 +448,19 @@ function renderPlayerAttempts() {
 
 function compShot(){ 
     if (turn === -1) {
-    let $a = Math.floor(Math.random() * 9); // array number
-    let $b = Math.floor(Math.random() * 11); // index number // letter
-    // console.log($a, $b);
-    let val = playerBoard[$a][$b];
-    guessEl.textContent = `Opponent's Shot: ${xCoordinates[$b]}${yCoordinates[$a]}`
+    let $a = Math.floor(Math.random() * 9); 
+    let $b = Math.floor(Math.random() * 11);
+  
+    let val = player.playerBoard[$a][$b];
 
 
     if (val === 1) {
-        guessEl.innerHTML = '<i>hit</i>';
-        //console.log('hit')
-        playerBoard[$a][$b] = 2;
+        player.playerBoard[$a][$b] = 2;
         // console.log(playerBoard);
-        compShots += 1;
-        compHits += 1;
-        compAttempts[$a][$b] = 2;
-        // console.log(playerShots, playerHits);
+        opponent.shots += 1;
+        opponent.hits += 1;
+        opponent.compAttempts[$a][$b] = 2;
+       
         // console.log(playerAttempts);
         // checkWinner(playerBoard);
         turn *= -1;
@@ -501,12 +469,12 @@ function compShot(){
     } else if (val === null) {
         guessEl.innerHTML = '<i>miss</i>';
         //console.log('miss');
-        playerBoard[$a][$b] = -1;
+        player.playerBoard[$a][$b] = -1;
         // console.log(playerBoard);
-        compShots += 1;
-        compMisses += 1;
-        compAttempts[$a][$b] = -1;
-        // console.log(playerShots, playerMisses);
+        opponent.shots += 1;
+        opponent.misses += 1;
+        opponent.compAttempts[$a][$b] = -1;
+     
         // console.log(playerAttempts);
 
         turn *= -1;
@@ -525,13 +493,13 @@ function render() {
     renderPlayerAttempts();
     renderPlayerBoard();
 
-    $('#opponent-shots').text(`Opponent's Shots: ${compShots}`);
-    $('#opponent-hits').text(`Opponent's Hits: ${compHits}`);
-    $('#opponent-misses').text(`Opponent's Misses: ${compMisses}`);
+    $('#opponent-shots').text(`Opponent's Shots: ${opponent.shots}`);
+    $('#opponent-hits').text(`Opponent's Hits: ${opponent.hits}`);
+    $('#opponent-misses').text(`Opponent's Misses: ${opponent.misses}`);
 
-    $('#player-shots').text(`Player's Shots: ${playerShots}`);
-    $('#player-hits').text(`Player's Hits: ${playerHits}`);
-    $('#player-misses').text(`Player's Misses: ${playerMisses}`);
+    $('#player-shots').text(`Player's Shots: ${player.shots}`);
+    $('#player-hits').text(`Player's Hits: ${player.hits}`);
+    $('#player-misses').text(`Player's Misses: ${player.misses}`);
 
 
     if (allPiecesSet === true){
@@ -573,7 +541,5 @@ init();
 // attemptPlaceShip(5);
 // compShot();
 // renderPlayerBoard();
-setBoard(compBoard);
 //console.log(compBoard);
 // checkWinner(compBoard);
-// setPlayerBoard();
