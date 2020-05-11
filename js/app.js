@@ -6,7 +6,7 @@ const playerLookup = {
   };
 const pieces = [5, 4, 3, 3, 2];
 const compPieces = [2, 3, [2 + 1], 4, 5];
-const numOfArrays = 9;
+const numOfRows = 9;
 const xCoordinates = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
 const yCoordinates = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
@@ -16,23 +16,28 @@ const yCoordinates = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 let player = {
     playerBoard: [],
-    playerAttempts: []
+    playerAttempts: [],
+    hitFive: [],
+    hitFour: [],
+    hitFirstThree: [],
+    hitSecondThree: [],
+    hitTwo: []
 };
 
 let opponent = {
     compBoard: [],
-    compAttempts: []
+    compAttempts: [],
+    hitFive: [],
+    hitFour: [],
+    hitFirstThree: [],
+    hitSecondThree: [],
+    hitTwo: []
 };
 
 let turn;
 let winner;
 
 let allPiecesSet;
-let hitFive = [];
-let hitFour = [];
-let hitFirstThree = [];
-let hitSecondThree = [];
-let hitTwo = [];
 
 
 /*----- cached element references -----*/
@@ -58,59 +63,47 @@ $('#randomize').click(function(evt){
 
 $('#set-board').on('click', 'button', function(evt) {
     $('#randomize').hide();
-    let $a;
-    let $b; 
-    let $c; 
-    let nums;
-    let piece;
     let shipPlaced = false;
 
-    $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
-    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
-    $c = parseInt($(this).closest('div').find('input[class="direction"]').val());
+    let $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
+    let $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
+    let $c = parseInt($(this).closest('div').find('input[class="direction"]').val());
     
-    piece = (parseInt($(this).closest('div').attr('class')));
+    let piece = (parseInt($(this).closest('div').attr('class')));
     
     let valid = validateInput($a, $b, $c);
     if (valid === true){
-        nums = [$a, $b, $c];
-    } else if (valid === false){
-        alert('Please submit a valid input');
-        $(this).closest('div').find('input').attr("val", "");
-    }
-    
-    let avail = checkSpace(player.playerBoard, piece, nums);
-    
-    if (avail === true) {
-        setPiece(player.playerBoard, piece, nums);
-
-        shipPlaced = true;
-    } else if (avail === false) {
+        let nums = [$a, $b, $c];
+        let avail = checkSpace(player.playerBoard, piece, nums);
+        
+        if (avail === true) {
+            setPiece(player.playerBoard, piece, nums);
+            shipPlaced = true;
+        } else if (avail === false) {
         alert(`Hmmm... it looks like there's a ship there already!`);
         $(this).closest('div').find('input').attr("val", "");
-    }
+        }
 
-    if (shipPlaced === true) {
+        if (shipPlaced === true) {
         renderPlayerBoard();
         $(this).closest('div').hide();
         $(this).closest('div').next().show();
+        }
+    } else if (valid === false){
+        alert('Please submit a valid input');
+        $(this).closest('div').find('input').attr("val", "");
     }
 })
 
 
 $('#shot').click(function(evt) {
-    let $a;
-    let $b; 
 
-    $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
-    $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
-
-   // console.log($a, $b);
-   // console.log(typeof $a, typeof $b);
+    let $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
+    let $b = xCoordinates.indexOf($(this).closest('div').find('input[class="letter"]').val().toUpperCase());
 
     let valid = validateInput($a, $b, 1);
     if (valid === true){
-        takeShot($a, $b, player.playerAttempts, opponent.compBoard);
+        takeShot($a, $b, player.playerAttempts, opponent.compBoard, player);
         turn *= -1;
     } else if (valid === false){
         alert('Please submit a valid input');
@@ -126,21 +119,8 @@ $('#shot').click(function(evt) {
 
 
 function init() {
-    // playerScore.playerBoard = [
-    //     [null, null, null, null, null, null, null, null, null, null, null], 
-    //     [null, null, null, null, null, null, null, null, null, null, null],
-    //     [null, null, null, null, null, null, null, null, null, null, null],
-    //     [null, null, null, null, null, null, null, null, null, null, null],
-    //     [null, null, null, null, null, null, null, null, null, null, null],
-    //     [null, null, null, null, null, null, null, null, null, null, null],
-    //     [null, null, null, null, null, null, null, null, null, null, null],
-    //     [null, null, null, null, null, null, null, null, null, null, null],
-    //     [null, null, null, null, null, null, null, null, null, null, null]
-      //];
-    
-    
-
-      player = {
+    player = {
+        name: 'Player1',
         shots: 0,
         hits: 0,
         misses: 0, 
@@ -165,9 +145,15 @@ function init() {
             [null, null, null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null, null, null]
-        ]
+        ],
+        hitFive: [],
+        hitFour: [],
+        hitFirstThree: [],
+        hitSecondThree: [],
+        hitTwo: []
     };
     opponent = {
+        name: 'COMPuter',
         shots: 0,
         hits: 0,
         misses: 0,
@@ -192,7 +178,12 @@ function init() {
             [null, null, null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null, null, null]
-        ]
+        ],
+        hitFive: [],
+        hitFour: [],
+        hitFirstThree: [],
+        hitSecondThree: [],
+        hitTwo: []
     };
     turn = 1;
     winner = 0;
@@ -202,10 +193,7 @@ function init() {
     $("#set-board > div:not(:first)").hide();
     $("#shot").prop('disabled', true);
 
-    autoSetBoard(opponent.compBoard);
-
-    //render();
-    
+    autoSetBoard(opponent.compBoard); 
 }
 
 
@@ -229,11 +217,11 @@ function checkSpace(board, piece, nums){
         for (let i = 0; i < piece; i++) {
             potentialPlacement.push(board[a][b - i]);
         } 
-    } else if (direction === 2 && (numOfArrays - a) >= piece) {
+    } else if (direction === 2 && (numOfRows - a) >= piece) {
         for (let i = 0; i < piece; i++) {
             potentialPlacement.push(board[a + i][b]);
         } 
-    } else if (direction === 2 && (numOfArrays - a) < piece) {
+    } else if (direction === 2 && (numOfRows - a) < piece) {
         for (let i = 0; i < piece; i++) {
             potentialPlacement.push(board[a - i][b]);
         } 
@@ -255,11 +243,11 @@ function setPiece(board, piece, nums){
         for (let i = 0; i < piece; i++) {
             board[a][b - i] = piece + compPieces.indexOf(piece);
         } 
-    } else if (direction === 2 && (numOfArrays - a) >= piece) {
+    } else if (direction === 2 && (numOfRows - a) >= piece) {
         for (let i = 0; i < piece; i++) {
             board[a + i][b] = piece + compPieces.indexOf(piece);
         } 
-    } else if (direction === 2 && (numOfArrays - a) < piece) {
+    } else if (direction === 2 && (numOfRows - a) < piece) {
         for (let i = 0; i < piece; i++) {
             board[a - i][b] = piece + compPieces.indexOf(piece);
         } 
@@ -293,90 +281,95 @@ function validateInput($a, $b, $c){
         }
 }
 
-function takeShot($a, $b, attemptBoard, targetBoard){
+function takeShot($a, $b, attemptBoard, targetBoard, person){
     let val = targetBoard[$a][$b];
     if (val === 9) {
         targetBoard[$a][$b] += 1;
-        hitFive.push(val);
-        checkPlayerWinner(val); 
+        person.hitFive.push(val);
+        checkTheWinner(val, person); 
 
-        player.shots += 1;
-        player.hits += 1;
+        person.shots += 1;
+        person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
 
     } else if (val === 7) {
 
         targetBoard[$a][$b] += 1;
-        hitFour.push(val);
-        checkPlayerWinner(val);
+        person.hitFour.push(val);
+        checkTheWinner(val, person);
 
-        player.shots += 1;
-        player.hits += 1;
+        person.shots += 1;
+        person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
 
     } else if (val === 4) {
    
         targetBoard[$a][$b] += 1;
-        hitFirstThree.push(val);
-        checkPlayerWinner(val);
-        player.shots += 1;
-        player.hits += 1;
+        person.hitFirstThree.push(val);
+        checkTheWinner(val, person);
+
+        person.shots += 1;
+        person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
 
     } else if (val === "32") {
      
         targetBoard[$a][$b] += 1;
-        hitSecondThree.push(val);
-        checkPlayerWinner(val);
-        player.shots += 1;
-        player.hits += 1;
+        person.hitSecondThree.push(val);
+        checkTheWinner(val, person);
+
+        person.shots += 1;
+        person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
 
     } else if (val === 2) {
 
         targetBoard[$a][$b] += 1;
-        hitTwo.push(val);
-        checkPlayerWinner(val);
-        player.shots += 1;
-        player.hits += 1;
+        person.hitTwo.push(val);
+        checkTheWinner(val, person);
+
+        person.shots += 1;
+        person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
 
     } else if (val === null) {
 
         targetBoard[$a][$b] = -1;
-        player.shots += 1;
-        player.misses += 1;
+        person.shots += 1;
+        person.misses += 1;
         attemptBoard[$a][$b] = -1;
 
     } else {
-        turn *= -1
-        alert('already guessed there');
+        if (turn === 1) {
+        alert('already guessed there'), 
+        turn *= -1; 
+    } else if (turn === -1) {compShot()};
     }
 }
 
-function checkPlayerWinner(val){
-    if (hitFive.length === 5 && hitFour.length === 4 && hitFirstThree.length === 3 && hitSecondThree.length === 3 && hitTwo.length === 2){
-        alert('YOU WIN!! You sunk all battleships!');
+function checkTheWinner(val, person){
+    if (person.hitFive.length === 5 && person.hitFour.length === 4 && person.hitFirstThree.length === 3 && person.hitSecondThree.length === 3 && person.hitTwo.length === 2){
+        alert(`${person.name} wins!! ${person.name} sunk all battleships!`);
     }
     else if (val === 9){
-        if (hitFive.length >= 5){
-            alert(`You sunk your opponent's battleship!`)
+        if (person.hitFive.length >= 5){
+            alert(`${person.name} sunk a battleship`)
         }
     } else if (val === 7){
-        if (hitFour.length >= 4){
-            alert(`You sunk your opponent's battleship!`)
+        if (person.hitFour.length >= 4){
+            alert(`${person.name} sunk a battleship`)
         }
     } else if (val === 4){
-        if (hitFirstThree.length >= 3){
-            alert(`You sunk your opponent's battleship!`)
+        if (person.hitFirstThree.length >= 3){
+            alert(`${person.name} sunk a battleship`)
         }
     } else if (val === "32"){
-        if (hitSecondThree.length >= 3){
-            alert(`You sunk your opponent's battleship!`)
+        if (person.hitSecondThree.length >= 3){
+            alert(`${person.name} sunk a battleship`)
         }
     } else if (val === 2){
-        if (hitTwo.length >= 2){
-            alert(`You sunk your opponent's battleship!`)
+        if (person.hitTwo.length >= 2){
+            alert(`${person.name} sunk a battleship`)
         }
     } else {
         //console.log('no sunk ship yet')
@@ -447,46 +440,12 @@ function renderPlayerAttempts() {
 
 
 function compShot(){ 
-    if (turn === -1) {
     let $a = Math.floor(Math.random() * 9); 
     let $b = Math.floor(Math.random() * 11);
-  
-    let val = player.playerBoard[$a][$b];
-
-
-    if (val === 1) {
-        player.playerBoard[$a][$b] = 2;
-        // console.log(playerBoard);
-        opponent.shots += 1;
-        opponent.hits += 1;
-        opponent.compAttempts[$a][$b] = 2;
-       
-        // console.log(playerAttempts);
-        // checkWinner(playerBoard);
-        turn *= -1;
-        render();
-
-    } else if (val === null) {
-        guessEl.innerHTML = '<i>miss</i>';
-        //console.log('miss');
-        player.playerBoard[$a][$b] = -1;
-        // console.log(playerBoard);
-        opponent.shots += 1;
-        opponent.misses += 1;
-        opponent.compAttempts[$a][$b] = -1;
-     
-        // console.log(playerAttempts);
-
-        turn *= -1;
-        render();
-    } else if (val === -1 || val === 2) {
-        compShot(); 
-        console.log('recursion');
-    // console.log(compAttempts);
-    // console.log(playerBoard);
-    }
-}
-}
+    takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
+    turn *= -1;
+    render(); 
+};
 
 function render() {
     //console.log(turn);
@@ -514,7 +473,6 @@ function render() {
         $("#guess").hide();
         $("#message").show();
         playerGuessEl.innerHTML = 'Bombs away';
-
     }
 }
 
@@ -534,12 +492,4 @@ function render() {
 
 
 init();
-//console.log(checkSpace(5, [6, 0, 2]));
-//console.log(compBoard[0][1]);
-// setPiece(5, [0, 0, 2]);
-// console.log(generateRand());
-// attemptPlaceShip(5);
-// compShot();
-// renderPlayerBoard();
-//console.log(compBoard);
-// checkWinner(compBoard);
+console.log(opponent.compBoard);
