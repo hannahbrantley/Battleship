@@ -120,30 +120,28 @@ function generateRand(){
     return [a, b, c];
 }
 
-function checkSpace(piece, nums){
-    //console.log(piece, nums);
-    let a = nums[0]; // which array on compBoard
-    let b = nums[1]; // which index in compBoard[a] array
+function checkSpace(board, piece, nums){
+
+    let a = nums[0]; 
+    let b = nums[1]; 
     let direction = nums[2];
-    //console.log(a, b);
-    //console.log(typeof a, typeof b);
-    //let starterSquare = compBoard[a][b];
+
     let potentialPlacement = [];
-    if (direction === 1 && (compBoard[a].length - b) >= piece) {
+    if (direction === 1 && (board[a].length - b) >= piece) {
         for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(compBoard[a][b + i]);
+            potentialPlacement.push(board[a][b + i]);
         }
-    } else if (direction === 1 && (compBoard[a].length - b) < piece) {
+    } else if (direction === 1 && (board[a].length - b) < piece) {
         for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(compBoard[a][b - i]);
+            potentialPlacement.push(board[a][b - i]);
         } 
     } else if (direction === 2 && (numOfArrays - a) >= piece) {
         for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(compBoard[a + i][b]);
+            potentialPlacement.push(board[a + i][b]);
         } 
     } else if (direction === 2 && (numOfArrays - a) < piece) {
         for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(compBoard[a - i][b]);
+            potentialPlacement.push(board[a - i][b]);
         } 
     } else {
             console.log('error');
@@ -175,9 +173,9 @@ function setPiece(piece, nums){
     }
 }
 
-function attemptPlaceShip(piece){
+function attemptPlaceShip(board, piece){
     let nums = generateRand(); // returns array
-    let avail = checkSpace(piece, nums); // returns boolean
+    let avail = checkSpace(board, piece, nums); // returns boolean
     //console.log(nums);
     //console.log(avail);
     // here we go
@@ -187,13 +185,13 @@ function attemptPlaceShip(piece){
         //console.log(compBoard);
     } else if (avail === false) {
         //console.log(`piece:${piece} nums:${nums} not available, re-trying`);
-        attemptPlaceShip(piece);
+        attemptPlaceShip(board, piece);
     } 
 }
 
-function setCompBoard(){
+function setCompBoard(board){
     compPieces.forEach(function(piece) {
-        attemptPlaceShip(piece);
+        attemptPlaceShip(board, piece);
     });
 }
 
@@ -207,7 +205,6 @@ function setPlayerBoard(){
     let c = document.getElementById("setdirection").value;
     let nums = [a, b, c];
     // console.log(nums);
-        // let avail = checkPlayerSpace(piece, nums);
         // if (avail === true) {
         //     setPlayerPiece(piece, nums);
         // } else if (avail === false) {
@@ -216,36 +213,6 @@ function setPlayerBoard(){
     //})
 }
 
-function checkPlayerSpace(piece, nums){
-    //console.log(piece, nums);
-    let a = nums[0]; // which array on playerBoard
-    let b = nums[1]; // which index in playerBoard[a] array
-    let direction = nums[2];
-    // console.log(piece, a, b);
-    //console.log(typeof a, typeof b);
-    //let starterSquare = playerBoard[a][b];
-    let potentialPlacement = [];
-    if (direction === 1 && (playerBoard[a].length - b) >= piece) {
-        for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(playerBoard[a][b + i]);
-        }
-    } else if (direction === 1 && (playerBoard[a].length - b) < piece) {
-        for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(playerBoard[a][b - i]);
-        } 
-    } else if (direction === 2 && (numOfArrays - a) >= piece) {
-        for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(playerBoard[a + i][b]);
-        } 
-    } else if (direction === 2 && (numOfArrays - a) < piece) {
-        for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(playerBoard[a - i][b]);
-        } 
-    } else {
-            console.log('error');
-        }
-    return potentialPlacement.every(square => square === null);
-}
 
 function setPlayerPiece(piece, nums){
     let a = nums[0]; // which array on playerBoard
@@ -272,7 +239,7 @@ function setPlayerPiece(piece, nums){
 }
 
 $('#last').click(function(evt){
-    console.log(evt);
+    //console.log(evt);
     $("#shot").prop('disabled', false);
     allPiecesSet = true;
     // render();
@@ -282,11 +249,11 @@ $('#last').click(function(evt){
 $('#randomize').click(function(evt){
     $("#trythis > div:not(:last)").hide();
     $("#guess").show();
-    console.log(evt);
+    //console.log(evt);
     $("#shot").prop('disabled', false);
     allPiecesSet = true;
     // render();
-    console.log(allPiecesSet);
+    //console.log(allPiecesSet);
     setRandomPlayerBoard();
     $('#randomize').hide();
 })
@@ -320,7 +287,7 @@ $('#trythis').on('click', 'button', function(evt) {
     }
     
     
-    let avail = checkPlayerSpace(piece, nums);
+    let avail = checkSpace(playerBoard, piece, nums);
     
     if (avail === true) {
         setPlayerPiece(piece, nums);
@@ -465,7 +432,7 @@ function checkPlayerWinner(val){
             alert(`You sunk your opponent's battleship!`)
         }
     } else {
-        console.log('no sunk ship yet')
+        //console.log('no sunk ship yet')
     }
 }
 
@@ -478,7 +445,7 @@ function checkWinner(board){
             }
         })
     })
-    console.log(hitArray.length);
+    //console.log(hitArray.length);
     if (hitArray.length === 17){
         alert('game over!');
     }
@@ -578,7 +545,7 @@ function compShot(){
 }
 
 function render() {
-    console.log(turn);
+    //console.log(turn);
     renderPlayerAttempts();
     renderPlayerBoard();
 
@@ -608,35 +575,6 @@ function render() {
 }
 
 
-function checkPlayerSpace(piece, nums){
-
-    let a = nums[0]; 
-    let b = nums[1]; 
-    let direction = nums[2];
-
-    let potentialPlacement = [];
-    if (direction === 1 && (playerBoard[a].length - b) >= piece) {
-        for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(playerBoard[a][b + i]);
-        }
-    } else if (direction === 1 && (playerBoard[a].length - b) < piece) {
-        for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(playerBoard[a][b - i]);
-        } 
-    } else if (direction === 2 && (numOfArrays - a) >= piece) {
-        for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(playerBoard[a + i][b]);
-        } 
-    } else if (direction === 2 && (numOfArrays - a) < piece) {
-        for (let i = 0; i < piece; i++) {
-            potentialPlacement.push(playerBoard[a - i][b]);
-        } 
-    } else {
-            console.log('error');
-        }
-    return potentialPlacement.every(square => square === null);
-}
-
 function setRandomPiece(piece, nums){
     let a = nums[0]; // which array on compBoard
     let b = nums[1]; // which index in compBoard[a] array
@@ -663,7 +601,7 @@ function setRandomPiece(piece, nums){
 
 function attemptRandomPlaceShip(piece){
     let nums = generateRand(); // returns array
-    let avail = checkPlayerSpace(piece, nums); // returns boolean
+    let avail = checkSpace(playerBoard, piece, nums); // returns boolean
     //console.log(nums);
     //console.log(avail);
     // here we go
@@ -704,7 +642,7 @@ init();
 // attemptPlaceShip(5);
 // compShot();
 // renderPlayerBoard();
-setCompBoard();
-console.log(compBoard);
+setCompBoard(compBoard);
+//console.log(compBoard);
 // checkWinner(compBoard);
 // setPlayerBoard();
