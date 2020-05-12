@@ -522,7 +522,8 @@ function getTarget() {
     while (opponent.hits > 0 && i < 8) {
       i++
       let x = opponent.compAttempts[i].findIndex(isHit);
-      if (x >= 0) {
+
+      if (x >= 0 && !targetArray.includes([i, x])) {
         targetArray.unshift([i, x]); // changed from .pop()
         }
         //opponent.compAttempts[i][x] = -2; // this is so that the next time we optimize, we don't add the surrounding to the guess array again
