@@ -343,7 +343,10 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         if (turn === 1) {
         alert('already guessed there'), 
         turn *= -1; 
-    } else if (turn === -1) {compShot()};
+    } else if (turn === -1) {
+        compShot();
+        turn *= -1; 
+      }
     }
 }
 
@@ -376,21 +379,6 @@ function checkTheWinner(val, person){
         //console.log('no sunk ship yet')
     } 
 }
-
-// function checkWinner(board){
-//     let hitArray = [];
-//     board.forEach(function(row){
-//         row.forEach(function(space){
-//             if (space === 2){
-//                 hitArray.push(space);
-//             }
-//         })
-//     })
-//     //console.log(hitArray.length);
-//     if (hitArray.length === 17){
-//         alert('game over!');
-//     }
-// }
 
 function renderPlayerBoard() {
     // $("#playerBoard > #E1 > div").css('background-color', 'red');
@@ -442,16 +430,17 @@ function compShot(){
     if (opponent.hits >= 1 && guessArray.length > 0){
         $a = guessArray[0][0];
         $b = guessArray[0][1];
-        guessArray.shift();
         takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
+        guessArray.shift();
         turn *= -1;
+        render();
     } else {
         $a = Math.floor(Math.random() * 9); 
         $b = Math.floor(Math.random() * 11);
         takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
         turn *= -1;
+        render(); 
     }
-    render(); 
 };
 
 
@@ -562,21 +551,23 @@ function render() {
 
     if (allPiecesSet === true){
     msgEl.textContent = `${playerLookup[turn]}'s Shot`;
-    }    
+    }   
+
     if (turn === -1) {
         $("#guess").show();
         $("#message").hide();
-        if (opponent.hits > 0){
+
+        if (opponent.hits > 0 // && opponent.hits - sunk ships > 0 ) { //need to figure out how to get this to stop going after we sunk a ship;
         cleanUp(opponent, opponent.compAttempts);
-        getGuessArray(getTarget(opponent.compAttempts)[0]);
-        }
+        getGuessArray(getTarget()[0]);
+        };
+
         compShot();
     }
     else if (turn === 1) {
         $("#guess").hide();
         $("#message").show();
-        playerGuessEl.innerHTML = 'Bombs away';
-    }
+    } 
 }
 
 
