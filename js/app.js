@@ -364,22 +364,27 @@ function checkTheWinner(val, person){
     else if (val === 9){
         if (person.hitFive.length >= 5){
             alert(`${person.name} sunk a battleship`);
+            if (turn === -1){guessArray = [];}
         }
     } else if (val === 7){
         if (person.hitFour.length >= 4){
             alert(`${person.name} sunk a battleship`);
+            if (turn === -1){guessArray = [];}
         }
     } else if (val === 4){
         if (person.hitFirstThree.length >= 3){
             alert(`${person.name} sunk a battleship`);
+            if (turn === -1){guessArray = [];}
         }
     } else if (val === "32"){
         if (person.hitSecondThree.length >= 3){
             alert(`${person.name} sunk a battleship`);
+            if (turn === -1){guessArray = [];}
         }
     } else if (val === 2){
         if (person.hitTwo.length >= 2){
             alert(`${person.name} sunk a battleship`);
+            if (turn === -1){guessArray = [];}
         }
     } else {
         //console.log('no sunk ship yet')
@@ -433,7 +438,7 @@ function renderPlayerAttempts() {
 
 function compShot(){
 
-    if (opponent.hits >= 1 && opponent.hits - opponent.sunkShipPegs.length > 0){ //need to figure out how to get this to stop going after we sunk a ship; 
+    if (opponent.hits >= 1 && opponent.hits - opponent.sunkShipPegs.length > 0 && guessArray.length > 0){ //need to figure out how to get this to stop going after we sunk a ship; 
         console.log(`Before smart shot: ${guessArray}`);
         $a = guessArray[0][0];
         $b = guessArray[0][1];
@@ -543,7 +548,7 @@ function getTarget() {
 
 function optimizeCompAI() {
     cleanUp(opponent, opponent.compAttempts);
-    if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0 ) { //need to figure out how to get this to stop going after we sunk a ship;
+    if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0) { //need to figure out how to get this to stop going after we sunk a ship;
     getGuessArray(getTarget()[0]); // this adds the exact same array of already guessed stuff before each shot -
     }
    // if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0 ) { 
