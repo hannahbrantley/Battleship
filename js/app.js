@@ -534,12 +534,22 @@ function getTarget() {
 
   function getGuessArray(targetArray){
 
-    targetArray.forEach(function(pair){
+    if (targetArray.length > 1 && targetArray[0][0] === targetArray[1][0]) {
+        console.log('its a row!');
+        targetArray.forEach(function(pair){
+            let $a = pair[0];
+            let $b = pair[1];
+            guessArray.unshift([$a, ($b + 1)], [$a, ($b - 1)], [($a + 1), $b], [($a - 1), $b]); // row 
+          })
+    } else {
+        console.log('standard');
+      targetArray.forEach(function(pair){
       let $a = pair[0];
       let $b = pair[1];
-      guessArray.unshift([($a + 1), $b], [($a - 1), $b], [$a, ($b + 1)], [$a, ($b - 1)]);
+      guessArray.unshift([($a + 1), $b], [($a - 1), $b], [$a, ($b + 1)], [$a, ($b - 1)]); // standard
     })
 
+    }
 
     guessArray.forEach(function(set, i){
         let valid = validateInput(set[0], set[1], 1);
