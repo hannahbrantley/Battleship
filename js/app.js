@@ -439,7 +439,7 @@ function renderPlayerAttempts() {
 function compShot(){
 
     if (opponent.hits >= 1 && opponent.hits - opponent.sunkShipPegs.length > 0 && guessArray.length > 0){ //need to figure out how to get this to stop going after we sunk a ship; 
-        console.log(`Before smart shot: ${guessArray}`);
+        console.log(`Before smart shot guess array: ${guessArray}`);
         $a = guessArray[0][0];
         $b = guessArray[0][1];
         guessArray.shift(); // guess array is "optimizing" and then shifting so it slices off the wrong one;
@@ -518,24 +518,28 @@ function cleanUp(person, board) {
 function getTarget() {
     const isHit = (element) => parseInt(element) > 1;
     let targetArray = [];
-    let i = 0;
-    while (opponent.hits > 0 && i < 8) {
-      i++
-      let x = opponent.compAttempts[i].findIndex(isHit);
-
-      if (x >= 0 && !targetArray.includes([i, x])) {
-        targetArray.unshift([i, x]); // changed from .pop()
-        }
-        //opponent.compAttempts[i][x] = -2; // this is so that the next time we optimize, we don't add the surrounding to the guess array again
-    }
     
-    return (targetArray);
-  }
+    opponent.compAttempts.forEach(function(row, idx){ 
+        for(i = 0; i < row.length; i++) {
+            if (row[i] > 0) {
+              console.log([idx, i]);
+              targetArray.push([idx, i]);
+            }
+        }
+      })
+        console.log(`target array: ${targetArray}`)
+        return (targetArray);
+    }
 
-  function getGuessArray(...targetArray){
-      let $a = targetArray[0][0];
-      let $b = targetArray[0][1];
+
+  function getGuessArray(targetArray){
+
+    targetArray.forEach(function(pair){
+      let $a = pair[0];
+      let $b = pair[1];
       guessArray.unshift([($a + 1), $b], [($a - 1), $b], [$a, ($b + 1)], [$a, ($b - 1)]);
+    })
+
 
     guessArray.forEach(function(set, i){
         let valid = validateInput(set[0], set[1], 1);
@@ -550,7 +554,7 @@ function getTarget() {
 function optimizeCompAI() {
     cleanUp(opponent, opponent.compAttempts);
     if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0) { //need to figure out how to get this to stop going after we sunk a ship;
-    getGuessArray(getTarget()[0]); // this adds the exact same array of already guessed stuff before each shot -
+    getGuessArray(getTarget()); // this adds the exact same array of already guessed stuff before each shot -
     }
    // if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0 ) { 
       //   getGuessArray(getTarget()[0]); // this adds the exact same array of already guessed stuff before each shot - 
