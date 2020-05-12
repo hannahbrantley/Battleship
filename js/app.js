@@ -539,10 +539,17 @@ function getTarget() {
         targetArray.forEach(function(pair){
             let $a = pair[0];
             let $b = pair[1];
-            guessArray.unshift([$a, ($b + 1)], [$a, ($b - 1)], [($a + 1), $b], [($a - 1), $b]); // row 
+            guessArray.unshift([$a, ($b + 1)], [$a, ($b - 1)]); // row 
+          })
+    } else if (targetArray.length > 1 && targetArray[0][1] === targetArray[1][1]) {
+        console.log('its a column!');
+        targetArray.forEach(function(pair){
+            let $a = pair[0];
+            let $b = pair[1];
+            guessArray.unshift([($a + 1), $b], [($a - 1), $b]); // column 
           })
     } else {
-        console.log('standard');
+        console.log('we dont know');
       targetArray.forEach(function(pair){
       let $a = pair[0];
       let $b = pair[1];
