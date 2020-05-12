@@ -31,7 +31,8 @@ let opponent = {
     hitFour: [],
     hitFirstThree: [],
     hitSecondThree: [],
-    hitTwo: []
+    hitTwo: [],
+    sunkShipPegs: [],
 };
 
 let turn;
@@ -183,7 +184,8 @@ function init() {
         hitFour: [],
         hitFirstThree: [],
         hitSecondThree: [],
-        hitTwo: []
+        hitTwo: [],
+        sunkShipPegs: []
     };
     turn = 1;
     winner = 0;
@@ -291,6 +293,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === -1) {optimizeCompAI()};
 
     } else if (val === 7) {
 
@@ -301,6 +304,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === -1) {optimizeCompAI()};
 
     } else if (val === 4) {
    
@@ -311,6 +315,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === -1) {optimizeCompAI()};
 
     } else if (val === "32") {
      
@@ -321,6 +326,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === -1) {optimizeCompAI()};
 
     } else if (val === 2) {
 
@@ -331,6 +337,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === -1) {optimizeCompAI()};
 
     } else if (val === null) {
 
@@ -356,24 +363,23 @@ function checkTheWinner(val, person){
     }
     else if (val === 9){
         if (person.hitFive.length >= 5){
-            alert(`${person.name} sunk a battleship`)
-
+            alert(`${person.name} sunk a battleship`);
         }
     } else if (val === 7){
         if (person.hitFour.length >= 4){
-            alert(`${person.name} sunk a battleship`)
+            alert(`${person.name} sunk a battleship`);
         }
     } else if (val === 4){
         if (person.hitFirstThree.length >= 3){
-            alert(`${person.name} sunk a battleship`)
+            alert(`${person.name} sunk a battleship`);
         }
     } else if (val === "32"){
         if (person.hitSecondThree.length >= 3){
-            alert(`${person.name} sunk a battleship`)
+            alert(`${person.name} sunk a battleship`);
         }
     } else if (val === 2){
         if (person.hitTwo.length >= 2){
-            alert(`${person.name} sunk a battleship`)
+            alert(`${person.name} sunk a battleship`);
         }
     } else {
         //console.log('no sunk ship yet')
@@ -427,17 +433,20 @@ function renderPlayerAttempts() {
 
 function compShot(){
 
-    if (opponent.hits >= 1 && guessArray.length > 0){
+    if (opponent.hits >= 1 && opponent.hits - opponent.sunkShipPegs.length > 0){ //need to figure out how to get this to stop going after we sunk a ship; 
+        console.log(`Before smart shot: ${guessArray}`);
         $a = guessArray[0][0];
         $b = guessArray[0][1];
+        guessArray.shift(); // guess array is "optimizing" and then shifting so it slices off the wrong one;
         takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
-        guessArray.shift();
+        console.log(`After smart shot: ${guessArray}`);
         turn *= -1;
         render();
     } else {
         $a = Math.floor(Math.random() * 9); 
         $b = Math.floor(Math.random() * 11);
         takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
+        //console.log(`After random: ${guessArray}`);
         turn *= -1;
         render(); 
     }
@@ -450,6 +459,7 @@ function cleanUp(person, board) {
             row.forEach(function(cell, i) {
                 if (cell === 10) {
                     row[i] = 'X';
+                    opponent.sunkShipPegs.push(row[i]);
                 }
             })
         })
@@ -460,6 +470,7 @@ function cleanUp(person, board) {
             row.forEach(function(cell, i) {
                 if (cell === 8) {
                     row[i] = 'X';
+                    opponent.sunkShipPegs.push(row[i]);
                 }
             })
         })
@@ -470,6 +481,7 @@ function cleanUp(person, board) {
             row.forEach(function(cell, i) {
                 if (cell === 5) {
                     row[i] = 'X';
+                    opponent.sunkShipPegs.push(row[i]);
                 }
             })
         })
@@ -480,6 +492,7 @@ function cleanUp(person, board) {
             row.forEach(function(cell, i) {
                 if (cell === "321") {
                     row[i] = 'X';
+                    opponent.sunkShipPegs.push(row[i]);
                 }
             })
         })
@@ -490,6 +503,7 @@ function cleanUp(person, board) {
             row.forEach(function(cell, i) {
                 if (cell === 3) {
                     row[i] = 'X';
+                    opponent.sunkShipPegs.push(row[i]);
                 }
             })
         })
@@ -497,28 +511,25 @@ function cleanUp(person, board) {
 }
 
 function getTarget() {
-    const isHit = (element) => element > 1;
+    const isHit = (element) => parseInt(element) > 1;
     let targetArray = [];
     let i = 0;
     while (opponent.hits > 0 && i < 8) {
       i++
       let x = opponent.compAttempts[i].findIndex(isHit);
       if (x >= 0) {
-        targetArray.push([i, x]);
+        targetArray.unshift([i, x]); // changed from .pop()
         }
+        //opponent.compAttempts[i][x] = -2; // this is so that the next time we optimize, we don't add the surrounding to the guess array again
     }
+    
     return (targetArray);
   }
 
   function getGuessArray(...targetArray){
       let $a = targetArray[0][0];
       let $b = targetArray[0][1];
-      guessArray = [
-          [($a + 1), $b],
-          [($a - 1), $b],
-          [$a, ($b + 1)],
-          [$a, ($b - 1)],
-        ];
+      guessArray.unshift([($a + 1), $b], [($a - 1), $b], [$a, ($b + 1)], [$a, ($b - 1)]);
 
     guessArray.forEach(function(set, i){
         let valid = validateInput(set[0], set[1], 1);
@@ -530,7 +541,15 @@ function getTarget() {
     }
 
 
-
+function optimizeCompAI() {
+    cleanUp(opponent, opponent.compAttempts);
+    if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0 ) { //need to figure out how to get this to stop going after we sunk a ship;
+    getGuessArray(getTarget()[0]); // this adds the exact same array of already guessed stuff before each shot -
+    }
+   // if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0 ) { 
+      //   getGuessArray(getTarget()[0]); // this adds the exact same array of already guessed stuff before each shot - 
+    //};
+}
 
 
 
@@ -557,14 +576,9 @@ function render() {
         $("#guess").show();
         $("#message").hide();
 
-        if (opponent.hits > 0 // && opponent.hits - sunk ships > 0 ) { //need to figure out how to get this to stop going after we sunk a ship;
-        cleanUp(opponent, opponent.compAttempts);
-        getGuessArray(getTarget()[0]);
-        };
-
         compShot();
-    }
-    else if (turn === 1) {
+
+    } else if (turn === 1) {
         $("#guess").hide();
         $("#message").show();
     } 
