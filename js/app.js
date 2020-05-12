@@ -12,7 +12,7 @@ const yCoordinates = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 /*----- app's state (variables) -----*/
 
-
+let guessArray = [];
 
 let player = {
     playerBoard: [],
@@ -337,7 +337,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         targetBoard[$a][$b] = -1;
         person.shots += 1;
         person.misses += 1;
-        attemptBoard[$a][$b] = -1;
+        attemptBoard[$a][$b] = targetBoard[$a][$b];
 
     } else {
         if (turn === 1) {
@@ -354,6 +354,7 @@ function checkTheWinner(val, person){
     else if (val === 9){
         if (person.hitFive.length >= 5){
             alert(`${person.name} sunk a battleship`)
+
         }
     } else if (val === 7){
         if (person.hitFour.length >= 4){
@@ -373,23 +374,23 @@ function checkTheWinner(val, person){
         }
     } else {
         //console.log('no sunk ship yet')
-    }
+    } 
 }
 
-function checkWinner(board){
-    let hitArray = [];
-    board.forEach(function(row){
-        row.forEach(function(space){
-            if (space === 2){
-                hitArray.push(space);
-            }
-        })
-    })
-    //console.log(hitArray.length);
-    if (hitArray.length === 17){
-        alert('game over!');
-    }
-}
+// function checkWinner(board){
+//     let hitArray = [];
+//     board.forEach(function(row){
+//         row.forEach(function(space){
+//             if (space === 2){
+//                 hitArray.push(space);
+//             }
+//         })
+//     })
+//     //console.log(hitArray.length);
+//     if (hitArray.length === 17){
+//         alert('game over!');
+//     }
+// }
 
 function renderPlayerBoard() {
     // $("#playerBoard > #E1 > div").css('background-color', 'red');
@@ -411,7 +412,7 @@ function renderPlayerBoard() {
         } if (cell === -1){
             $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
         } 
-    
+
     })
   })
 }
@@ -426,6 +427,7 @@ function renderPlayerAttempts() {
         row.forEach(function(cell){
             cellId+= 1;
             // console.log(xCoordinates[cellId],yCoordinates[rowId]);
+        //if (cell === 2){
         if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
             $(`#playerAttempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
         } if (cell === -1){
@@ -435,20 +437,117 @@ function renderPlayerAttempts() {
   })
 }
 
+function compShot(){
 
-
-
-
-function compShot(){ 
-    let $a = Math.floor(Math.random() * 9); 
-    let $b = Math.floor(Math.random() * 11);
-    takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
-    turn *= -1;
+    if (opponent.hits >= 1 && guessArray.length > 0){
+        $a = guessArray[0][0];
+        $b = guessArray[0][1];
+        guessArray.shift();
+        takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
+        turn *= -1;
+    } else {
+        $a = Math.floor(Math.random() * 9); 
+        $b = Math.floor(Math.random() * 11);
+        takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
+        turn *= -1;
+    }
     render(); 
 };
 
+
+function cleanUp(person, board) {
+    if (person.hitFive.length === 5){
+        board.forEach(function(row){
+            row.forEach(function(cell, i) {
+                if (cell === 10) {
+                    row[i] = 'X';
+                }
+            })
+        })
+    }
+
+    if (person.hitFour.length === 4){
+        board.forEach(function(row){
+            row.forEach(function(cell, i) {
+                if (cell === 8) {
+                    row[i] = 'X';
+                }
+            })
+        })
+    }
+
+    if (person.hitFirstThree.length === 3){
+        board.forEach(function(row){
+            row.forEach(function(cell, i) {
+                if (cell === 5) {
+                    row[i] = 'X';
+                }
+            })
+        })
+    }
+
+    if (person.hitSecondThree.length === 3){
+        board.forEach(function(row){
+            row.forEach(function(cell, i) {
+                if (cell === "321") {
+                    row[i] = 'X';
+                }
+            })
+        })
+    }
+
+    if (person.hitTwo.length === 2){
+        board.forEach(function(row){
+            row.forEach(function(cell, i) {
+                if (cell === 3) {
+                    row[i] = 'X';
+                }
+            })
+        })
+    }
+}
+
+function getTarget() {
+    const isHit = (element) => element > 1;
+    let targetArray = [];
+    let i = 0;
+    while (opponent.hits > 0 && i < 8) {
+      i++
+      let x = opponent.compAttempts[i].findIndex(isHit);
+      if (x >= 0) {
+        targetArray.push([i, x]);
+        }
+    }
+    return (targetArray);
+  }
+
+  function getGuessArray(...targetArray){
+      let $a = targetArray[0][0];
+      let $b = targetArray[0][1];
+      guessArray = [
+          [($a + 1), $b],
+          [($a - 1), $b],
+          [$a, ($b + 1)],
+          [$a, ($b - 1)],
+        ];
+
+    guessArray.forEach(function(set, i){
+        let valid = validateInput(set[0], set[1], 1);
+            if (valid === false) {
+                guessArray.splice(i, 1);
+                }
+            })
+        return guessArray;
+    }
+
+
+
+
+
+
+
 function render() {
-    //console.log(turn);
+
     renderPlayerAttempts();
     renderPlayerBoard();
 
@@ -467,6 +566,10 @@ function render() {
     if (turn === -1) {
         $("#guess").show();
         $("#message").hide();
+        if (opponent.hits > 0){
+        cleanUp(opponent, opponent.compAttempts);
+        getGuessArray(getTarget(opponent.compAttempts)[0]);
+        }
         compShot();
     }
     else if (turn === 1) {
