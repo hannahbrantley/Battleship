@@ -62,6 +62,12 @@ $('#randomize').click(function(evt){
     $('#randomize').hide();
 })
 
+$('.direction').keypress(function(event) { 
+    if (event.keyCode === 13) { 
+        $(this).next('button').click();
+     } 
+}); 
+
 $('#set-board').on('click', 'button', function(evt) {
     $('#randomize').hide();
     let shipPlaced = false;
@@ -96,6 +102,13 @@ $('#set-board').on('click', 'button', function(evt) {
     }
 })
 
+$('#shot-input-number').keypress(function(event) { 
+    if (allPiecesSet === true) {
+    if (event.keyCode === 13) { 
+        $("#shot").click(); 
+     } 
+    }
+}); 
 
 $('#shot').click(function(evt) {
 
@@ -108,8 +121,9 @@ $('#shot').click(function(evt) {
         turn *= -1;
     } else if (valid === false){
         alert('Please submit a valid input');
-        $(this).closest('div').find('input').attr("val", "");
     }
+    $('#shot-input-letter').val('');
+    $('#shot-input-number').val('');
     render();
 })
 
