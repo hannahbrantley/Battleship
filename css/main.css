@@ -4,6 +4,7 @@
 
   body {
     color: red;
+    font-family: 'Quantico', sans-serif;
   }
 
   main {
@@ -12,23 +13,43 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 2fr 3fr 1fr 1fr;
     align-items: center;
+    gap: 5px;
   }
 
   /* input {
     width: 40px;
   } */
 
+
+
+  #left-side, #right-side{
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    /* background-color: gray; */
+    gap: 5px;
+  }
+
+  .board-container {
+    border: 10px solid gray;
+    background-image: url("https://i.imgur.com/ecW5DUl.jpg");
+    background-size: contain;
+    width: 70vmin;
+    justify-content: center;
+    align-items: center;
+  }
+
   .board {
     display: grid;
     grid-template-columns: repeat(12, 5vmin);
     grid-template-rows: repeat(10, 5vmin);
     height: 100%;
+    margin: 15px;
   }
   
   .board div {
     border: 1px solid grey;
     display: grid;
-    background-color: rgb(223, 223, 223);
+    /* background-color: transparent; // rgb(223, 223, 223); */
   }
 
   .dot {
@@ -38,23 +59,37 @@
   }
 
   .board > .label {
-    background-color: transparent;
+    color: white;
+    background-color: rgba(156, 154, 154, 0.5);
     border: none;
     justify-content: center;
     align-items: center;
   }
 
-  #set-board, #target-grid {
+  #set-board > div, #target-grid > div, .section2 {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 15px;
+  }
+
+  #set-board {
+    display:grid;
+    grid-template-rows: 3fr 1fr;
   }
 
   #opponent-stats, #player-stats {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     height: 100%;
   }
+
+ input, button {
+   border: 2px solid gray;
+   width: 100px;
+   text-align: center;
+ }
 
 
 /* 

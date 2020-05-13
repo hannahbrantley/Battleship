@@ -51,6 +51,7 @@ let playerGuessEl = document.getElementById('message');
 $('#last').click(function(evt){
     $("#shot").prop('disabled', false);
     allPiecesSet = true;
+    $('#shot-input-letter').focus();
 })
 
 $('#randomize').click(function(evt){
@@ -65,11 +66,12 @@ $('#randomize').click(function(evt){
 
 $('.direction').keypress(function(event) { 
     if (event.keyCode === 13) { 
-        $(this).next('button').click();
+        $(this).siblings('.setpiece').click();
      } 
 }); 
 
-$('#set-board').on('click', 'button', function(evt) {
+$('.setpiece').on('click', function(evt) {
+    console.log('hello');
     $('#randomize').hide();
     let shipPlaced = false;
 
@@ -410,46 +412,37 @@ function checkTheWinner(val, person){
             if (turn === -1){guessArray = [];}
         }
     } else {
-        //console.log('no sunk ship yet')
     } 
 }
 
 function renderPlayerBoard() {
-    // $("#playerBoard > #E1 > div").css('background-color', 'red');
-    // $("#E1").css('background-color', 'gray');
     let rowId = -1;
     player.playerBoard.forEach(function(row){
         let cellId = -1;
         rowId+= 1;
         row.forEach(function(cell){
             cellId+= 1;
-            // console.log(xCoordinates[cellId],yCoordinates[rowId]);
-        if (cell >= 1){
-            $(`#${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
-            // const thisCell = document.getElementById(`${xCoordinates[cellId]}${yCoordinates[rowId]}`)
-            // thisCell.style.backgroundColor = "gray";
-        } if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
+         if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
             $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
             $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
-        } if (cell === -1){
+        } else if (cell >= 1){
+            $(`#${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
+            $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'rgba(0, 0, 0, 0.5)');
+        } else if (cell === -1){
             $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
         } 
-
     })
   })
 }
 
 function renderPlayerAttempts() {
-    // $("#playerBoard > #E1 > div").css('background-color', 'red');
-    // $("#E1").css('background-color', 'gray');
     let rowId = -1;
     player.playerAttempts.forEach(function(row){
         let cellId = -1;
         rowId+= 1;
         row.forEach(function(cell){
             cellId+= 1;
-            // console.log(xCoordinates[cellId],yCoordinates[rowId]);
-        //if (cell === 2){
+
         if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
             $(`#playerAttempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
         } if (cell === -1){
@@ -615,7 +608,6 @@ function render() {
 
 
     if (allPiecesSet === true){
-    msgEl.textContent = `${playerLookup[turn]}'s Shot`;
     }   
 
     if (turn === -1) {

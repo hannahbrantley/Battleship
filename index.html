@@ -4,71 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
     <script defer src="js/app.js"></script>
     <title>Battleship</title>
 </head>
 <body>
-    <h1 id="main-title">Welcome! Set your board</h1>
+    <h1 id="main-title">Battleship</h1>
 
     <main>
-
-    <section id="set-board">
         <h2>Ocean Grid</h2>
-        <div class="5">
-            <p>Carrier</p>
-            <input class="letter" placeholder="Enter A-K">
-            <input class="number" placeholder="Enter 1-9"> 
-            <input class="direction" placeholder="Enter 1 or 2">
-            <button id="1" class="setpiece">Place ship!</button>
-        </div>
-
-        <div class="4">
-            <p>Battleship</p>
-            <input class="letter" placeholder="Enter A-K">
-            <input class="number" placeholder="Enter 1-9"> 
-            <input class="direction" placeholder="Enter 1 or 2">
-            <button id="2" class="setpiece">Place ship!</button>
-        </div>
-
-        <div class="3">
-            <p>Cruiser</p>
-            <input class="letter" placeholder="Enter A-K">
-            <input class="number" placeholder="Enter 1-9"> 
-            <input class="direction" placeholder="Enter 1 or 2">
-            <button class="setpiece">Place ship!</button>
-        </div>
-
-        <div class="3">
-            <p>Submarine</p>
-            <input class="letter" placeholder="Enter A-K">
-            <input class="number" placeholder="Enter 1-9"> 
-            <input class="direction" placeholder="Enter 1 or 2">
-            <button class="setpiece">Place ship!</button>
-        </div>
-
-        <div class="2">
-            <p>Destroyer</p> 
-            <input class="letter" placeholder="Enter A-K">
-            <input class="number" placeholder="Enter 1-9"> 
-            <input class="direction" placeholder="Enter 1 or 2">
-            <button class="setpiece" id="last">Place ship!</button>
-        </div>
-
-        <div> <p id="guess">Opponent's Guess</p> </div>
-        
-    </section>
-
-    <section id="target-grid">
         <h2>Target Grid</h2>
-            <div class="shot">
-              <p id="message">Bombs away</p>
-              <input id="shot-input-letter" class="letter" placeholder="Enter A-K">
-              <input id="shot-input-number" class="number" placeholder="Enter 1-9"> 
-              <button id="shot">Take your shot</button>
-            </div>
-    </section>
 
+    <section id="left-side">
+
+    <section class="board-container">
     <section class="board" id="playerBoard">
 
         <div class="label">1</div>
@@ -200,8 +150,63 @@
         <div class="label">I</div>
         <div class="label">J</div>
         <div class="label">K</div>
+
+    </section>
+    </section>
+
+        <section id="set-board">
+            <div class="5">
+                <p>Carrier</p>
+                <input class="letter" placeholder="Enter A-K">
+                <input class="number" placeholder="Enter 1-9"> 
+                <input class="direction" placeholder="Enter 1 or 2">
+            </br>
+                <button id="1" class="setpiece">Place ship!</button>
+            </div>
     
+            <div class="4">
+                <p>Battleship</p>
+                <input class="letter" placeholder="Enter A-K">
+                <input class="number" placeholder="Enter 1-9"> 
+                <input class="direction" placeholder="Enter 1 or 2">
+                <button id="2" class="setpiece">Place ship!</button>
+            </div>
+    
+            <div class="3">
+                <p>Cruiser</p>
+                <input class="letter" placeholder="Enter A-K">
+                <input class="number" placeholder="Enter 1-9"> 
+                <input class="direction" placeholder="Enter 1 or 2">
+                <button class="setpiece">Place ship!</button>
+            </div>
+    
+            <div class="3">
+                <p>Submarine</p>
+                <input class="letter" placeholder="Enter A-K">
+                <input class="number" placeholder="Enter 1-9"> 
+                <input class="direction" placeholder="Enter 1 or 2">
+                <button class="setpiece">Place ship!</button>
+            </div>
+    
+            <div class="2">
+                <p>Destroyer</p> 
+                <input class="letter" placeholder="Enter A-K">
+                <input class="number" placeholder="Enter 1-9"> 
+                <input class="direction" placeholder="Enter 1 or 2">
+                <button class="setpiece" id="last">Place ship!</button>
+            </div>
+
+            <section class="section2">
+                <button id="randomize">Surprise me!</button>
+            </section>
+    
+        </section>
+            
       </section>
+
+      <section id="right-side">
+
+    <section class="board-container">
 
       <section class="board" id="playerAttempts">
 
@@ -335,12 +340,21 @@
         <div class="label">J</div>
         <div class="label">K</div>
 
+        </section>
+    </section>
+
+        <section id="target-grid">
+            <div class="shot">
+              <p id="message">Bombs away</p>
+              <input id="shot-input-letter" class="letter" placeholder="Enter A-K">
+              <input id="shot-input-number" class="number" placeholder="Enter 1-9"> 
+              <button id="shot">Take your shot</button>
+            </div>
+    </section>
+
     </section>
 
     <section id="opponent-stats">
-        <div>
-        <button id="randomize">Surprise me!</button>
-        </div>
 
         <div id="opponent-shots">
             Opponent Shots:
