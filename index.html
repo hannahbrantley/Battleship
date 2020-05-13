@@ -14,9 +14,9 @@
     <main>
 
     <section id="set-board">
-        <h2>playerBoard</h2>
+        <h2>Ocean Grid</h2>
         <div class="5">
-            <p>5 piece</p>
+            <p>Carrier</p>
             <input class="letter" placeholder="Enter A-K">
             <input class="number" placeholder="Enter 1-9"> 
             <input class="direction" placeholder="Enter 1 or 2">
@@ -24,7 +24,7 @@
         </div>
 
         <div class="4">
-            <p>4 piece</p>
+            <p>Battleship</p>
             <input class="letter" placeholder="Enter A-K">
             <input class="number" placeholder="Enter 1-9"> 
             <input class="direction" placeholder="Enter 1 or 2">
@@ -32,7 +32,7 @@
         </div>
 
         <div class="3">
-            <p>3 piece</p>
+            <p>Cruiser</p>
             <input class="letter" placeholder="Enter A-K">
             <input class="number" placeholder="Enter 1-9"> 
             <input class="direction" placeholder="Enter 1 or 2">
@@ -40,7 +40,7 @@
         </div>
 
         <div class="3">
-            <p>3 piece</p>
+            <p>Submarine</p>
             <input class="letter" placeholder="Enter A-K">
             <input class="number" placeholder="Enter 1-9"> 
             <input class="direction" placeholder="Enter 1 or 2">
@@ -48,7 +48,7 @@
         </div>
 
         <div class="2">
-            <p>2 piece</p> 
+            <p>Destroyer</p> 
             <input class="letter" placeholder="Enter A-K">
             <input class="number" placeholder="Enter 1-9"> 
             <input class="direction" placeholder="Enter 1 or 2">
@@ -59,8 +59,8 @@
         
     </section>
 
-    <section>
-        <h2>playerAttempts</h2>
+    <section id="target-grid">
+        <h2>Target Grid</h2>
             <div class="shot">
               <p id="message">Bombs away</p>
               <input class="letter" placeholder="Enter A-K">
@@ -71,6 +71,7 @@
 
     <section class="board" id="playerBoard">
 
+        <div class="label">1</div>
         <div id="A1"><div class="dot"></div></div>
         <div id="B1"><div class="dot"></div></div>
         <div id="C1"><div class="dot"></div></div>
@@ -83,6 +84,7 @@
         <div id="J1"><div class="dot"></div></div>
         <div id="K1"><div class="dot"></div></div>
 
+        <div class="label">2</div>
         <div id="A2"><div class="dot"></div></div>
         <div id="B2"><div class="dot"></div></div>
         <div id="C2"><div class="dot"></div></div>
@@ -95,6 +97,7 @@
         <div id="J2"><div class="dot"></div></div>
         <div id="K2"><div class="dot"></div></div>
 
+        <div class="label">3</div>
         <div id="A3"><div class="dot"></div></div>
         <div id="B3"><div class="dot"></div></div>
         <div id="C3"><div class="dot"></div></div>
@@ -107,6 +110,7 @@
         <div id="J3"><div class="dot"></div></div>
         <div id="K3"><div class="dot"></div></div>
 
+        <div class="label">4</div>
         <div id="A4"><div class="dot"></div></div>
         <div id="B4"><div class="dot"></div></div>
         <div id="C4"><div class="dot"></div></div>
@@ -119,6 +123,7 @@
         <div id="J4"><div class="dot"></div></div>
         <div id="K4"><div class="dot"></div></div>
 
+        <div class="label">5</div>
         <div id="A5"><div class="dot"></div></div>
         <div id="B5"><div class="dot"></div></div>
         <div id="C5"><div class="dot"></div></div>
@@ -131,6 +136,7 @@
         <div id="J5"><div class="dot"></div></div>
         <div id="K5"><div class="dot"></div></div>
 
+        <div class="label">6</div>
         <div id="A6"><div class="dot"></div></div>
         <div id="B6"><div class="dot"></div></div>
         <div id="C6"><div class="dot"></div></div>
@@ -143,6 +149,7 @@
         <div id="J6"><div class="dot"></div></div>
         <div id="K6"><div class="dot"></div></div>
 
+        <div class="label">7</div>
         <div id="A7"><div class="dot"></div></div>
         <div id="B7"><div class="dot"></div></div>
         <div id="C7"><div class="dot"></div></div>
@@ -155,6 +162,7 @@
         <div id="J7"><div class="dot"></div></div>
         <div id="K7"><div class="dot"></div></div>
 
+        <div class="label">8</div>
         <div id="A8"><div class="dot"></div></div>
         <div id="B8"><div class="dot"></div></div>
         <div id="C8"><div class="dot"></div></div>
@@ -167,6 +175,7 @@
         <div id="J8"><div class="dot"></div></div>
         <div id="K8"><div class="dot"></div></div>
 
+        <div class="label">9</div>
         <div id="A9"><div class="dot"></div></div>
         <div id="B9"><div class="dot"></div></div>
         <div id="C9"><div class="dot"></div></div>
@@ -178,11 +187,25 @@
         <div id="I9"><div class="dot"></div></div>
         <div id="J9"><div class="dot"></div></div>
         <div id="K9"><div class="dot"></div></div>
+
+        <div class="label"></div>
+        <div class="label">A</div>
+        <div class="label">B</div>
+        <div class="label">C</div>
+        <div class="label">D</div>
+        <div class="label">E</div>
+        <div class="label">F</div>
+        <div class="label">G</div>
+        <div class="label">H</div>
+        <div class="label">I</div>
+        <div class="label">J</div>
+        <div class="label">K</div>
     
       </section>
 
       <section class="board" id="playerAttempts">
 
+        <div class="label">1</div>
         <div id="A1"><div class="dot"></div></div>
         <div id="B1"><div class="dot"></div></div>
         <div id="C1"><div class="dot"></div></div>
@@ -195,6 +218,7 @@
         <div id="J1"><div class="dot"></div></div>
         <div id="K1"><div class="dot"></div></div>
 
+        <div class="label">2</div>
         <div id="A2"><div class="dot"></div></div>
         <div id="B2"><div class="dot"></div></div>
         <div id="C2"><div class="dot"></div></div>
@@ -207,6 +231,7 @@
         <div id="J2"><div class="dot"></div></div>
         <div id="K2"><div class="dot"></div></div>
 
+        <div class="label">3</div>
         <div id="A3"><div class="dot"></div></div>
         <div id="B3"><div class="dot"></div></div>
         <div id="C3"><div class="dot"></div></div>
@@ -219,6 +244,7 @@
         <div id="J3"><div class="dot"></div></div>
         <div id="K3"><div class="dot"></div></div>
 
+        <div class="label">4</div>
         <div id="A4"><div class="dot"></div></div>
         <div id="B4"><div class="dot"></div></div>
         <div id="C4"><div class="dot"></div></div>
@@ -231,6 +257,7 @@
         <div id="J4"><div class="dot"></div></div>
         <div id="K4"><div class="dot"></div></div>
 
+        <div class="label">5</div>
         <div id="A5"><div class="dot"></div></div>
         <div id="B5"><div class="dot"></div></div>
         <div id="C5"><div class="dot"></div></div>
@@ -243,6 +270,7 @@
         <div id="J5"><div class="dot"></div></div>
         <div id="K5"><div class="dot"></div></div>
 
+        <div class="label">6</div>
         <div id="A6"><div class="dot"></div></div>
         <div id="B6"><div class="dot"></div></div>
         <div id="C6"><div class="dot"></div></div>
@@ -255,6 +283,7 @@
         <div id="J6"><div class="dot"></div></div>
         <div id="K6"><div class="dot"></div></div>
 
+        <div class="label">7</div>
         <div id="A7"><div class="dot"></div></div>
         <div id="B7"><div class="dot"></div></div>
         <div id="C7"><div class="dot"></div></div>
@@ -267,6 +296,7 @@
         <div id="J7"><div class="dot"></div></div>
         <div id="K7"><div class="dot"></div></div>
 
+        <div class="label">8</div>
         <div id="A8"><div class="dot"></div></div>
         <div id="B8"><div class="dot"></div></div>
         <div id="C8"><div class="dot"></div></div>
@@ -279,6 +309,7 @@
         <div id="J8"><div class="dot"></div></div>
         <div id="K8"><div class="dot"></div></div>
 
+        <div class="label">9</div>
         <div id="A9"><div class="dot"></div></div>
         <div id="B9"><div class="dot"></div></div>
         <div id="C9"><div class="dot"></div></div>
@@ -290,6 +321,19 @@
         <div id="I9"><div class="dot"></div></div>
         <div id="J9"><div class="dot"></div></div>
         <div id="K9"><div class="dot"></div></div>
+
+        <div class="label"></div>
+        <div class="label">A</div>
+        <div class="label">B</div>
+        <div class="label">C</div>
+        <div class="label">D</div>
+        <div class="label">E</div>
+        <div class="label">F</div>
+        <div class="label">G</div>
+        <div class="label">H</div>
+        <div class="label">I</div>
+        <div class="label">J</div>
+        <div class="label">K</div>
 
     </section>
 

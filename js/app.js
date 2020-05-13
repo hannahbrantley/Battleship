@@ -363,27 +363,27 @@ function checkTheWinner(val, person){
     }
     else if (val === 9){
         if (person.hitFive.length >= 5){
-            alert(`${person.name} sunk a battleship`);
+            alert(`${person.name} sunk a Carrier`);
             if (turn === -1){guessArray = [];}
         }
     } else if (val === 7){
         if (person.hitFour.length >= 4){
-            alert(`${person.name} sunk a battleship`);
+            alert(`${person.name} sunk a Battleship`);
             if (turn === -1){guessArray = [];}
         }
     } else if (val === 4){
         if (person.hitFirstThree.length >= 3){
-            alert(`${person.name} sunk a battleship`);
+            alert(`${person.name} sunk a Cruiser`);
             if (turn === -1){guessArray = [];}
         }
     } else if (val === "32"){
         if (person.hitSecondThree.length >= 3){
-            alert(`${person.name} sunk a battleship`);
+            alert(`${person.name} sunk a Submarine`);
             if (turn === -1){guessArray = [];}
         }
     } else if (val === 2){
         if (person.hitTwo.length >= 2){
-            alert(`${person.name} sunk a battleship`);
+            alert(`${person.name} sunk a Destroyer`);
             if (turn === -1){guessArray = [];}
         }
     } else {
@@ -439,19 +439,18 @@ function renderPlayerAttempts() {
 function compShot(){
 
     if (opponent.hits >= 1 && opponent.hits - opponent.sunkShipPegs.length > 0 && guessArray.length > 0){ //need to figure out how to get this to stop going after we sunk a ship; 
-        console.log(`Before smart shot guess array: ${guessArray}`);
+        
         $a = guessArray[0][0];
         $b = guessArray[0][1];
         guessArray.shift(); // guess array is "optimizing" and then shifting so it slices off the wrong one;
         takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
-        console.log(`After smart shot: ${guessArray}`);
         turn *= -1;
         render();
+
     } else {
         $a = Math.floor(Math.random() * 9); 
         $b = Math.floor(Math.random() * 11);
         takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
-        //console.log(`After random: ${guessArray}`);
         turn *= -1;
         render(); 
     }
@@ -571,11 +570,8 @@ function getTarget() {
 function optimizeCompAI() {
     cleanUp(opponent, opponent.compAttempts);
     if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0) { //need to figure out how to get this to stop going after we sunk a ship;
-    getGuessArray(getTarget()); // this adds the exact same array of already guessed stuff before each shot -
+    getGuessArray(getTarget());
     }
-   // if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0 ) { 
-      //   getGuessArray(getTarget()[0]); // this adds the exact same array of already guessed stuff before each shot - 
-    //};
 }
 
 
