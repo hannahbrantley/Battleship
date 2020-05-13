@@ -60,6 +60,7 @@ $('#randomize').click(function(evt){
     autoSetBoard(player.playerBoard);
     renderPlayerBoard();
     $('#randomize').hide();
+    $('#shot-input-letter').focus();
 })
 
 $('.direction').keypress(function(event) { 
@@ -88,17 +89,20 @@ $('#set-board').on('click', 'button', function(evt) {
             shipPlaced = true;
         } else if (avail === false) {
         alert(`Hmmm... it looks like there's a ship there already!`);
-        $(this).closest('div').find('input').attr("val", "");
+        $(this).closest('div').find('input').val('');
+        $(this).closest('div').find('.letter').focus();
         }
 
         if (shipPlaced === true) {
         renderPlayerBoard();
         $(this).closest('div').hide();
         $(this).closest('div').next().show();
+        $(this).closest('div').next().find('.letter').focus();
         }
     } else if (valid === false){
         alert('Please submit a valid input');
-        $(this).closest('div').find('input').attr("val", "");
+        $(this).closest('div').find('input').val('');
+        $(this).closest('div').find('.letter').focus();
     }
 })
 
@@ -124,7 +128,12 @@ $('#shot').click(function(evt) {
     }
     $('#shot-input-letter').val('');
     $('#shot-input-number').val('');
+    $('#shot-input-letter').focus();
     render();
+})
+
+$('input').keypress(function(event){
+    $(this).next('input').focus();
 })
 
 
