@@ -5,11 +5,25 @@
   body {
     color: rgb(0, 0, 128);
     font-family: 'Quantico', sans-serif;
-    background-color: rgb(229, 229, 229);
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 2fr 4fr;
     gap: 5px;
+    margin: 20px;
+  }
+
+  body::after {
+      content: "";
+      background-image: url("https://i.imgur.com/8QaXhUc.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0.3;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: -1;   
   }
 
   h1 {
