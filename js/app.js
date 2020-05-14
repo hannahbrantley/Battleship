@@ -46,6 +46,7 @@ let allPiecesSet;
 let msgEl = document.getElementById('main-title');
 let guessEl = document.getElementById('guess');
 let playerGuessEl = document.getElementById('message');
+let sunkShipsEl = document.getElementById('sunk-ships');
 
 /*----- event listeners -----*/
 $('#last').click(function(evt){
@@ -90,7 +91,7 @@ $('.setpiece').on('click', function(evt) {
             setPiece(player.playerBoard, piece, nums);
             shipPlaced = true;
         } else if (avail === false) {
-        alert(`Hmmm... it looks like there's a ship there already!`);
+        $(this).closest('div').append(`<p id="warning">Hmmm... it looks like there's a ship there already!</p>`);
         $(this).closest('div').find('input').val('');
         $(this).closest('div').find('.letter').focus();
         }
@@ -102,7 +103,7 @@ $('.setpiece').on('click', function(evt) {
         $(this).closest('div').next().find('.letter').focus();
         }
     } else if (valid === false){
-        alert('Please submit a valid input');
+        $(this).closest('div').append(`<p id="warning">Please submit a valid input</p>`);
         $(this).closest('div').find('input').val('');
         $(this).closest('div').find('.letter').focus();
     }
@@ -390,29 +391,54 @@ function checkTheWinner(val, person){
         if (person.hitFive.length >= 5){
             alert(`${person.name} sunk a Carrier`);
             if (turn === -1){guessArray = [];}
+            if (turn === 1){
+                let sunkShip = document.createElement("img");
+                sunkShip.src = "https://i.imgur.com/bHRgbHf.png";
+                sunkShipsEl.appendChild(sunkShip);
+            }
         }
     } else if (val === 7){
         if (person.hitFour.length >= 4){
             alert(`${person.name} sunk a Battleship`);
             if (turn === -1){guessArray = [];}
+            if (turn === 1){
+                let sunkShip = document.createElement("img");
+                sunkShip.src = "https://i.imgur.com/mLBmRrz.png?1";
+                sunkShipsEl.appendChild(sunkShip);
+            }
         }
     } else if (val === 4){
         if (person.hitFirstThree.length >= 3){
             alert(`${person.name} sunk a Cruiser`);
             if (turn === -1){guessArray = [];}
+            if (turn === 1){
+                let sunkShip = document.createElement("img");
+                sunkShip.src = "https://i.imgur.com/ffXJSQV.png?1";
+                sunkShipsEl.appendChild(sunkShip);
+            }
         }
     } else if (val === "32"){
         if (person.hitSecondThree.length >= 3){
             alert(`${person.name} sunk a Submarine`);
             if (turn === -1){guessArray = [];}
+            if (turn === 1){
+                let sunkShip = document.createElement("img");
+                sunkShip.src = "https://i.imgur.com/ffXJSQV.png?1";
+                sunkShipsEl.appendChild(sunkShip);
+            }
         }
     } else if (val === 2){
         if (person.hitTwo.length >= 2){
             alert(`${person.name} sunk a Destroyer`);
             if (turn === -1){guessArray = [];}
+            if (turn === 1){
+                let sunkShip = document.createElement("img");
+                sunkShip.src = "https://i.imgur.com/GxIhmve.png?1";
+                sunkShipsEl.appendChild(sunkShip);
         }
     } else {
     } 
+}
 }
 
 function renderPlayerBoard() {

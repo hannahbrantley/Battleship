@@ -3,8 +3,9 @@
   }
 
   body {
-    color: red;
+    color: rgb(0, 0, 128);
     font-family: 'Quantico', sans-serif;
+    background-color: rgb(229, 229, 229);
   }
 
   main {
@@ -75,9 +76,29 @@
   }
 
   #set-board {
-    display:grid;
+    display: grid;
     grid-template-rows: 3fr 1fr;
   }
+
+  #target-grid {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  #target-grid > div > img {
+    max-height: 20px;
+    width: auto;
+  }
+
+  #set-board > div > p > img {
+    max-height: 30px;
+    width: auto;
+  }
+
+  p {
+    text-align: center;
+  }
+
 
   #opponent-stats, #player-stats {
     display: flex;
@@ -89,6 +110,12 @@
    border: 2px solid gray;
    width: 100px;
    text-align: center;
+ }
+ 
+ #warning {
+   font-size: 10px;
+   font-style: italic;
+   color: red;
  }
 
 
