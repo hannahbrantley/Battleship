@@ -387,6 +387,9 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
 }
 
 function checkTheWinner(val, person){
+    renderPlayerAttempts();
+    renderPlayerBoard();
+
     if (val === 9){
         if (person.hitFive.length >= 5){
             if (turn === -1){
