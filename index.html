@@ -10,395 +10,418 @@
     <title>Battleship</title>
 </head>
 <body>
-    <h1 id="main-title">Battleship</h1>
+    <h1 id="main-title"><img src="https://i.imgur.com/A46zxx7.jpg" alt="Battleship"></h1>
 
-    <main>
-        <h2>Ocean Grid</h2>
-        <h2>Target Grid</h2>
+
+        <section id="opponent-stats">  
+            <section id="opponent-header">
+                <p>Ocean Grid </p> <span id="opponent-important-messages"></span>  
+            </section>
+
+            <section id="opponent-score">
+                <div id="opponent-shots">
+                Opponent Shots:
+                </div>
+                <div id="opponent-hits">
+                    Oponent Hits:
+                </div>
+                <div id="opponent-misses">
+                    Opponent Misses:
+                </div>
+            </section>
+        </section>
+
+        <section id="player-stats">
+            <section id="player-header">
+                <p>Target Grid </p> <span id="player-important-messages"></span> 
+            </section>
+
+            <section id="player-score">
+                <div id="player-shots">
+                    Player shots:
+                </div>
+                <div id="player-hits">
+                    Player hits:
+                </div>
+                <div id="player-misses">
+                Player misses: 
+                </div>
+            </section>
+        </section>
+    
 
     <section id="left-side">
 
-    <section class="board-container">
-    <section class="board" id="playerBoard">
+        <section class="board-container">
+            
+            <section class="board" id="playerBoard">
 
-        <div class="label">1</div>
-        <div id="A1"><div class="dot"></div></div>
-        <div id="B1"><div class="dot"></div></div>
-        <div id="C1"><div class="dot"></div></div>
-        <div id="D1"><div class="dot"></div></div>
-        <div id="E1"><div class="dot"></div></div>
-        <div id="F1"><div class="dot"></div></div>
-        <div id="G1"><div class="dot"></div></div>
-        <div id="H1"><div class="dot"></div></div>
-        <div id="I1"><div class="dot"></div></div>
-        <div id="J1"><div class="dot"></div></div>
-        <div id="K1"><div class="dot"></div></div>
+                <div class="label">1</div>
+                <div id="A1"><div class="dot"></div></div>
+                <div id="B1"><div class="dot"></div></div>
+                <div id="C1"><div class="dot"></div></div>
+                <div id="D1"><div class="dot"></div></div>
+                <div id="E1"><div class="dot"></div></div>
+                <div id="F1"><div class="dot"></div></div>
+                <div id="G1"><div class="dot"></div></div>
+                <div id="H1"><div class="dot"></div></div>
+                <div id="I1"><div class="dot"></div></div>
+                <div id="J1"><div class="dot"></div></div>
+                <div id="K1"><div class="dot"></div></div>
 
-        <div class="label">2</div>
-        <div id="A2"><div class="dot"></div></div>
-        <div id="B2"><div class="dot"></div></div>
-        <div id="C2"><div class="dot"></div></div>
-        <div id="D2"><div class="dot"></div></div>
-        <div id="E2"><div class="dot"></div></div>
-        <div id="F2"><div class="dot"></div></div>
-        <div id="G2"><div class="dot"></div></div>
-        <div id="H2"><div class="dot"></div></div>
-        <div id="I2"><div class="dot"></div></div>
-        <div id="J2"><div class="dot"></div></div>
-        <div id="K2"><div class="dot"></div></div>
+                <div class="label">2</div>
+                <div id="A2"><div class="dot"></div></div>
+                <div id="B2"><div class="dot"></div></div>
+                <div id="C2"><div class="dot"></div></div>
+                <div id="D2"><div class="dot"></div></div>
+                <div id="E2"><div class="dot"></div></div>
+                <div id="F2"><div class="dot"></div></div>
+                <div id="G2"><div class="dot"></div></div>
+                <div id="H2"><div class="dot"></div></div>
+                <div id="I2"><div class="dot"></div></div>
+                <div id="J2"><div class="dot"></div></div>
+                <div id="K2"><div class="dot"></div></div>
 
-        <div class="label">3</div>
-        <div id="A3"><div class="dot"></div></div>
-        <div id="B3"><div class="dot"></div></div>
-        <div id="C3"><div class="dot"></div></div>
-        <div id="D3"><div class="dot"></div></div>
-        <div id="E3"><div class="dot"></div></div>
-        <div id="F3"><div class="dot"></div></div>
-        <div id="G3"><div class="dot"></div></div>
-        <div id="H3"><div class="dot"></div></div>
-        <div id="I3"><div class="dot"></div></div>
-        <div id="J3"><div class="dot"></div></div>
-        <div id="K3"><div class="dot"></div></div>
+                <div class="label">3</div>
+                <div id="A3"><div class="dot"></div></div>
+                <div id="B3"><div class="dot"></div></div>
+                <div id="C3"><div class="dot"></div></div>
+                <div id="D3"><div class="dot"></div></div>
+                <div id="E3"><div class="dot"></div></div>
+                <div id="F3"><div class="dot"></div></div>
+                <div id="G3"><div class="dot"></div></div>
+                <div id="H3"><div class="dot"></div></div>
+                <div id="I3"><div class="dot"></div></div>
+                <div id="J3"><div class="dot"></div></div>
+                <div id="K3"><div class="dot"></div></div>
 
-        <div class="label">4</div>
-        <div id="A4"><div class="dot"></div></div>
-        <div id="B4"><div class="dot"></div></div>
-        <div id="C4"><div class="dot"></div></div>
-        <div id="D4"><div class="dot"></div></div>
-        <div id="E4"><div class="dot"></div></div>
-        <div id="F4"><div class="dot"></div></div>
-        <div id="G4"><div class="dot"></div></div>
-        <div id="H4"><div class="dot"></div></div>
-        <div id="I4"><div class="dot"></div></div>
-        <div id="J4"><div class="dot"></div></div>
-        <div id="K4"><div class="dot"></div></div>
+                <div class="label">4</div>
+                <div id="A4"><div class="dot"></div></div>
+                <div id="B4"><div class="dot"></div></div>
+                <div id="C4"><div class="dot"></div></div>
+                <div id="D4"><div class="dot"></div></div>
+                <div id="E4"><div class="dot"></div></div>
+                <div id="F4"><div class="dot"></div></div>
+                <div id="G4"><div class="dot"></div></div>
+                <div id="H4"><div class="dot"></div></div>
+                <div id="I4"><div class="dot"></div></div>
+                <div id="J4"><div class="dot"></div></div>
+                <div id="K4"><div class="dot"></div></div>
 
-        <div class="label">5</div>
-        <div id="A5"><div class="dot"></div></div>
-        <div id="B5"><div class="dot"></div></div>
-        <div id="C5"><div class="dot"></div></div>
-        <div id="D5"><div class="dot"></div></div>
-        <div id="E5"><div class="dot"></div></div>
-        <div id="F5"><div class="dot"></div></div>
-        <div id="G5"><div class="dot"></div></div>
-        <div id="H5"><div class="dot"></div></div>
-        <div id="I5"><div class="dot"></div></div>
-        <div id="J5"><div class="dot"></div></div>
-        <div id="K5"><div class="dot"></div></div>
+                <div class="label">5</div>
+                <div id="A5"><div class="dot"></div></div>
+                <div id="B5"><div class="dot"></div></div>
+                <div id="C5"><div class="dot"></div></div>
+                <div id="D5"><div class="dot"></div></div>
+                <div id="E5"><div class="dot"></div></div>
+                <div id="F5"><div class="dot"></div></div>
+                <div id="G5"><div class="dot"></div></div>
+                <div id="H5"><div class="dot"></div></div>
+                <div id="I5"><div class="dot"></div></div>
+                <div id="J5"><div class="dot"></div></div>
+                <div id="K5"><div class="dot"></div></div>
 
-        <div class="label">6</div>
-        <div id="A6"><div class="dot"></div></div>
-        <div id="B6"><div class="dot"></div></div>
-        <div id="C6"><div class="dot"></div></div>
-        <div id="D6"><div class="dot"></div></div>
-        <div id="E6"><div class="dot"></div></div>
-        <div id="F6"><div class="dot"></div></div>
-        <div id="G6"><div class="dot"></div></div>
-        <div id="H6"><div class="dot"></div></div>
-        <div id="I6"><div class="dot"></div></div>
-        <div id="J6"><div class="dot"></div></div>
-        <div id="K6"><div class="dot"></div></div>
+                <div class="label">6</div>
+                <div id="A6"><div class="dot"></div></div>
+                <div id="B6"><div class="dot"></div></div>
+                <div id="C6"><div class="dot"></div></div>
+                <div id="D6"><div class="dot"></div></div>
+                <div id="E6"><div class="dot"></div></div>
+                <div id="F6"><div class="dot"></div></div>
+                <div id="G6"><div class="dot"></div></div>
+                <div id="H6"><div class="dot"></div></div>
+                <div id="I6"><div class="dot"></div></div>
+                <div id="J6"><div class="dot"></div></div>
+                <div id="K6"><div class="dot"></div></div>
 
-        <div class="label">7</div>
-        <div id="A7"><div class="dot"></div></div>
-        <div id="B7"><div class="dot"></div></div>
-        <div id="C7"><div class="dot"></div></div>
-        <div id="D7"><div class="dot"></div></div>
-        <div id="E7"><div class="dot"></div></div>
-        <div id="F7"><div class="dot"></div></div>
-        <div id="G7"><div class="dot"></div></div>
-        <div id="H7"><div class="dot"></div></div>
-        <div id="I7"><div class="dot"></div></div>
-        <div id="J7"><div class="dot"></div></div>
-        <div id="K7"><div class="dot"></div></div>
+                <div class="label">7</div>
+                <div id="A7"><div class="dot"></div></div>
+                <div id="B7"><div class="dot"></div></div>
+                <div id="C7"><div class="dot"></div></div>
+                <div id="D7"><div class="dot"></div></div>
+                <div id="E7"><div class="dot"></div></div>
+                <div id="F7"><div class="dot"></div></div>
+                <div id="G7"><div class="dot"></div></div>
+                <div id="H7"><div class="dot"></div></div>
+                <div id="I7"><div class="dot"></div></div>
+                <div id="J7"><div class="dot"></div></div>
+                <div id="K7"><div class="dot"></div></div>
 
-        <div class="label">8</div>
-        <div id="A8"><div class="dot"></div></div>
-        <div id="B8"><div class="dot"></div></div>
-        <div id="C8"><div class="dot"></div></div>
-        <div id="D8"><div class="dot"></div></div>
-        <div id="E8"><div class="dot"></div></div>
-        <div id="F8"><div class="dot"></div></div>
-        <div id="G8"><div class="dot"></div></div>
-        <div id="H8"><div class="dot"></div></div>
-        <div id="I8"><div class="dot"></div></div>
-        <div id="J8"><div class="dot"></div></div>
-        <div id="K8"><div class="dot"></div></div>
+                <div class="label">8</div>
+                <div id="A8"><div class="dot"></div></div>
+                <div id="B8"><div class="dot"></div></div>
+                <div id="C8"><div class="dot"></div></div>
+                <div id="D8"><div class="dot"></div></div>
+                <div id="E8"><div class="dot"></div></div>
+                <div id="F8"><div class="dot"></div></div>
+                <div id="G8"><div class="dot"></div></div>
+                <div id="H8"><div class="dot"></div></div>
+                <div id="I8"><div class="dot"></div></div>
+                <div id="J8"><div class="dot"></div></div>
+                <div id="K8"><div class="dot"></div></div>
 
-        <div class="label">9</div>
-        <div id="A9"><div class="dot"></div></div>
-        <div id="B9"><div class="dot"></div></div>
-        <div id="C9"><div class="dot"></div></div>
-        <div id="D9"><div class="dot"></div></div>
-        <div id="E9"><div class="dot"></div></div>
-        <div id="F9"><div class="dot"></div></div>
-        <div id="G9"><div class="dot"></div></div>
-        <div id="H9"><div class="dot"></div></div>
-        <div id="I9"><div class="dot"></div></div>
-        <div id="J9"><div class="dot"></div></div>
-        <div id="K9"><div class="dot"></div></div>
+                <div class="label">9</div>
+                <div id="A9"><div class="dot"></div></div>
+                <div id="B9"><div class="dot"></div></div>
+                <div id="C9"><div class="dot"></div></div>
+                <div id="D9"><div class="dot"></div></div>
+                <div id="E9"><div class="dot"></div></div>
+                <div id="F9"><div class="dot"></div></div>
+                <div id="G9"><div class="dot"></div></div>
+                <div id="H9"><div class="dot"></div></div>
+                <div id="I9"><div class="dot"></div></div>
+                <div id="J9"><div class="dot"></div></div>
+                <div id="K9"><div class="dot"></div></div>
 
-        <div class="label"></div>
-        <div class="label">A</div>
-        <div class="label">B</div>
-        <div class="label">C</div>
-        <div class="label">D</div>
-        <div class="label">E</div>
-        <div class="label">F</div>
-        <div class="label">G</div>
-        <div class="label">H</div>
-        <div class="label">I</div>
-        <div class="label">J</div>
-        <div class="label">K</div>
+                <div class="label"></div>
+                <div class="label">A</div>
+                <div class="label">B</div>
+                <div class="label">C</div>
+                <div class="label">D</div>
+                <div class="label">E</div>
+                <div class="label">F</div>
+                <div class="label">G</div>
+                <div class="label">H</div>
+                <div class="label">I</div>
+                <div class="label">J</div>
+                <div class="label">K</div>
 
-    </section>
-    </section>
+             </section>
+    
+        </section>
+     
+        
+            <section id="testing">   
+            <section id="set-board">
 
-        <section id="set-board">
-            <div class="5">
+                <div class="5">
                 <p>
-                    CARRIER
+                CARRIER
                 </br>
-                    <img src="https://i.imgur.com/bHRgbHf.png" alt="carrier ship, 5 pegs">
+                <img src="https://i.imgur.com/bHRgbHf.png" alt="carrier ship, 5 pegs">
                 </p>
                 <input class="letter" placeholder="Enter A-K">
                 <input class="number" placeholder="Enter 1-9"> 
                 <input class="direction" placeholder="Enter 1 or 2">
-            </br>
-                <button id="1" class="setpiece">Place ship!</button>
-            </div>
-    
-            <div class="4">
-                <p>BATTLESHIP
                 </br>
-                    <img src="https://i.imgur.com/mLBmRrz.png?1" alt="battleship, 4 pegs">
+                <button id="1" class="setpiece">Place ship!</button>
+                </div>
+        
+                <div class="4">
+                <p>
+                BATTLESHIP
+                </br>
+                <img src="https://i.imgur.com/mLBmRrz.png?1" alt="battleship, 4 pegs">
                 </p>
                 <input class="letter" placeholder="Enter A-K">
                 <input class="number" placeholder="Enter 1-9"> 
                 <input class="direction" placeholder="Enter 1 or 2">
                 <button id="2" class="setpiece">Place ship!</button>
-            </div>
-    
-            <div class="3">
-                <p>CRUISER
+                </div>
+        
+                <div class="3">
+                <p>
+                CRUISER
                 </br>
-                    <img src="https://i.imgur.com/ffXJSQV.png?1" alt="cruiser, 3 pegs">
+                <img src="https://i.imgur.com/ffXJSQV.png?1" alt="cruiser, 3 pegs">
                 </p>
                 <input class="letter" placeholder="Enter A-K">
                 <input class="number" placeholder="Enter 1-9"> 
                 <input class="direction" placeholder="Enter 1 or 2">
                 <button class="setpiece">Place ship!</button>
-            </div>
-    
-            <div class="3">
-                <p>SUBMARINE
+                </div>
+        
+                <div class="3">
+                <p>
+                SUBMARINE
                 </br>
-                    <img src="https://i.imgur.com/ffXJSQV.png?1" alt="submarine, 3 pegs">
+                <img src="https://i.imgur.com/ffXJSQV.png?1" alt="submarine, 3 pegs">
                 </p>
                 <input class="letter" placeholder="Enter A-K">
                 <input class="number" placeholder="Enter 1-9"> 
                 <input class="direction" placeholder="Enter 1 or 2">
                 <button class="setpiece">Place ship!</button>
-            </div>
-    
-            <div class="2">
-                <p>DESTROYER
+                </div>
+        
+                <div class="2">
+                <p>
+                DESTROYER
                 </br>
-                    <img src="https://i.imgur.com/GxIhmve.png?1" alt="destroyer, 2 pegs">
+                <img src="https://i.imgur.com/GxIhmve.png?1" alt="destroyer, 2 pegs">
                 </p> 
                 <input class="letter" placeholder="Enter A-K">
                 <input class="number" placeholder="Enter 1-9"> 
                 <input class="direction" placeholder="Enter 1 or 2">
                 <button class="setpiece" id="last">Place ship!</button>
-            </div>
-
-            <section class="section2">
-                <button id="randomize">Surprise me!</button>
+                </div>
             </section>
-    
-        </section>
+
+                <section class="section2">
+                <button id="randomize">Surprise me!</button>
+                </section>
+
+            </section>
             
-      </section>
+    </section>
 
-      <section id="right-side">
+    <section id="right-side">
 
-    <section class="board-container">
+        <section class="board-container">
 
-      <section class="board" id="playerAttempts">
+            <section class="board" id="playerAttempts">
 
-        <div class="label">1</div>
-        <div id="A1"><div class="dot"></div></div>
-        <div id="B1"><div class="dot"></div></div>
-        <div id="C1"><div class="dot"></div></div>
-        <div id="D1"><div class="dot"></div></div>
-        <div id="E1"><div class="dot"></div></div>
-        <div id="F1"><div class="dot"></div></div>
-        <div id="G1"><div class="dot"></div></div>
-        <div id="H1"><div class="dot"></div></div>
-        <div id="I1"><div class="dot"></div></div>
-        <div id="J1"><div class="dot"></div></div>
-        <div id="K1"><div class="dot"></div></div>
+                <div class="label">1</div>
+                <div id="A1"><div class="dot"></div></div>
+                <div id="B1"><div class="dot"></div></div>
+                <div id="C1"><div class="dot"></div></div>
+                <div id="D1"><div class="dot"></div></div>
+                <div id="E1"><div class="dot"></div></div>
+                <div id="F1"><div class="dot"></div></div>
+                <div id="G1"><div class="dot"></div></div>
+                <div id="H1"><div class="dot"></div></div>
+                <div id="I1"><div class="dot"></div></div>
+                <div id="J1"><div class="dot"></div></div>
+                <div id="K1"><div class="dot"></div></div>
 
-        <div class="label">2</div>
-        <div id="A2"><div class="dot"></div></div>
-        <div id="B2"><div class="dot"></div></div>
-        <div id="C2"><div class="dot"></div></div>
-        <div id="D2"><div class="dot"></div></div>
-        <div id="E2"><div class="dot"></div></div>
-        <div id="F2"><div class="dot"></div></div>
-        <div id="G2"><div class="dot"></div></div>
-        <div id="H2"><div class="dot"></div></div>
-        <div id="I2"><div class="dot"></div></div>
-        <div id="J2"><div class="dot"></div></div>
-        <div id="K2"><div class="dot"></div></div>
+                <div class="label">2</div>
+                <div id="A2"><div class="dot"></div></div>
+                <div id="B2"><div class="dot"></div></div>
+                <div id="C2"><div class="dot"></div></div>
+                <div id="D2"><div class="dot"></div></div>
+                <div id="E2"><div class="dot"></div></div>
+                <div id="F2"><div class="dot"></div></div>
+                <div id="G2"><div class="dot"></div></div>
+                <div id="H2"><div class="dot"></div></div>
+                <div id="I2"><div class="dot"></div></div>
+                <div id="J2"><div class="dot"></div></div>
+                <div id="K2"><div class="dot"></div></div>
 
-        <div class="label">3</div>
-        <div id="A3"><div class="dot"></div></div>
-        <div id="B3"><div class="dot"></div></div>
-        <div id="C3"><div class="dot"></div></div>
-        <div id="D3"><div class="dot"></div></div>
-        <div id="E3"><div class="dot"></div></div>
-        <div id="F3"><div class="dot"></div></div>
-        <div id="G3"><div class="dot"></div></div>
-        <div id="H3"><div class="dot"></div></div>
-        <div id="I3"><div class="dot"></div></div>
-        <div id="J3"><div class="dot"></div></div>
-        <div id="K3"><div class="dot"></div></div>
+                <div class="label">3</div>
+                <div id="A3"><div class="dot"></div></div>
+                <div id="B3"><div class="dot"></div></div>
+                <div id="C3"><div class="dot"></div></div>
+                <div id="D3"><div class="dot"></div></div>
+                <div id="E3"><div class="dot"></div></div>
+                <div id="F3"><div class="dot"></div></div>
+                <div id="G3"><div class="dot"></div></div>
+                <div id="H3"><div class="dot"></div></div>
+                <div id="I3"><div class="dot"></div></div>
+                <div id="J3"><div class="dot"></div></div>
+                <div id="K3"><div class="dot"></div></div>
 
-        <div class="label">4</div>
-        <div id="A4"><div class="dot"></div></div>
-        <div id="B4"><div class="dot"></div></div>
-        <div id="C4"><div class="dot"></div></div>
-        <div id="D4"><div class="dot"></div></div>
-        <div id="E4"><div class="dot"></div></div>
-        <div id="F4"><div class="dot"></div></div>
-        <div id="G4"><div class="dot"></div></div>
-        <div id="H4"><div class="dot"></div></div>
-        <div id="I4"><div class="dot"></div></div>
-        <div id="J4"><div class="dot"></div></div>
-        <div id="K4"><div class="dot"></div></div>
+                <div class="label">4</div>
+                <div id="A4"><div class="dot"></div></div>
+                <div id="B4"><div class="dot"></div></div>
+                <div id="C4"><div class="dot"></div></div>
+                <div id="D4"><div class="dot"></div></div>
+                <div id="E4"><div class="dot"></div></div>
+                <div id="F4"><div class="dot"></div></div>
+                <div id="G4"><div class="dot"></div></div>
+                <div id="H4"><div class="dot"></div></div>
+                <div id="I4"><div class="dot"></div></div>
+                <div id="J4"><div class="dot"></div></div>
+                <div id="K4"><div class="dot"></div></div>
 
-        <div class="label">5</div>
-        <div id="A5"><div class="dot"></div></div>
-        <div id="B5"><div class="dot"></div></div>
-        <div id="C5"><div class="dot"></div></div>
-        <div id="D5"><div class="dot"></div></div>
-        <div id="E5"><div class="dot"></div></div>
-        <div id="F5"><div class="dot"></div></div>
-        <div id="G5"><div class="dot"></div></div>
-        <div id="H5"><div class="dot"></div></div>
-        <div id="I5"><div class="dot"></div></div>
-        <div id="J5"><div class="dot"></div></div>
-        <div id="K5"><div class="dot"></div></div>
+                <div class="label">5</div>
+                <div id="A5"><div class="dot"></div></div>
+                <div id="B5"><div class="dot"></div></div>
+                <div id="C5"><div class="dot"></div></div>
+                <div id="D5"><div class="dot"></div></div>
+                <div id="E5"><div class="dot"></div></div>
+                <div id="F5"><div class="dot"></div></div>
+                <div id="G5"><div class="dot"></div></div>
+                <div id="H5"><div class="dot"></div></div>
+                <div id="I5"><div class="dot"></div></div>
+                <div id="J5"><div class="dot"></div></div>
+                <div id="K5"><div class="dot"></div></div>
 
-        <div class="label">6</div>
-        <div id="A6"><div class="dot"></div></div>
-        <div id="B6"><div class="dot"></div></div>
-        <div id="C6"><div class="dot"></div></div>
-        <div id="D6"><div class="dot"></div></div>
-        <div id="E6"><div class="dot"></div></div>
-        <div id="F6"><div class="dot"></div></div>
-        <div id="G6"><div class="dot"></div></div>
-        <div id="H6"><div class="dot"></div></div>
-        <div id="I6"><div class="dot"></div></div>
-        <div id="J6"><div class="dot"></div></div>
-        <div id="K6"><div class="dot"></div></div>
+                <div class="label">6</div>
+                <div id="A6"><div class="dot"></div></div>
+                <div id="B6"><div class="dot"></div></div>
+                <div id="C6"><div class="dot"></div></div>
+                <div id="D6"><div class="dot"></div></div>
+                <div id="E6"><div class="dot"></div></div>
+                <div id="F6"><div class="dot"></div></div>
+                <div id="G6"><div class="dot"></div></div>
+                <div id="H6"><div class="dot"></div></div>
+                <div id="I6"><div class="dot"></div></div>
+                <div id="J6"><div class="dot"></div></div>
+                <div id="K6"><div class="dot"></div></div>
 
-        <div class="label">7</div>
-        <div id="A7"><div class="dot"></div></div>
-        <div id="B7"><div class="dot"></div></div>
-        <div id="C7"><div class="dot"></div></div>
-        <div id="D7"><div class="dot"></div></div>
-        <div id="E7"><div class="dot"></div></div>
-        <div id="F7"><div class="dot"></div></div>
-        <div id="G7"><div class="dot"></div></div>
-        <div id="H7"><div class="dot"></div></div>
-        <div id="I7"><div class="dot"></div></div>
-        <div id="J7"><div class="dot"></div></div>
-        <div id="K7"><div class="dot"></div></div>
+                <div class="label">7</div>
+                <div id="A7"><div class="dot"></div></div>
+                <div id="B7"><div class="dot"></div></div>
+                <div id="C7"><div class="dot"></div></div>
+                <div id="D7"><div class="dot"></div></div>
+                <div id="E7"><div class="dot"></div></div>
+                <div id="F7"><div class="dot"></div></div>
+                <div id="G7"><div class="dot"></div></div>
+                <div id="H7"><div class="dot"></div></div>
+                <div id="I7"><div class="dot"></div></div>
+                <div id="J7"><div class="dot"></div></div>
+                <div id="K7"><div class="dot"></div></div>
 
-        <div class="label">8</div>
-        <div id="A8"><div class="dot"></div></div>
-        <div id="B8"><div class="dot"></div></div>
-        <div id="C8"><div class="dot"></div></div>
-        <div id="D8"><div class="dot"></div></div>
-        <div id="E8"><div class="dot"></div></div>
-        <div id="F8"><div class="dot"></div></div>
-        <div id="G8"><div class="dot"></div></div>
-        <div id="H8"><div class="dot"></div></div>
-        <div id="I8"><div class="dot"></div></div>
-        <div id="J8"><div class="dot"></div></div>
-        <div id="K8"><div class="dot"></div></div>
+                <div class="label">8</div>
+                <div id="A8"><div class="dot"></div></div>
+                <div id="B8"><div class="dot"></div></div>
+                <div id="C8"><div class="dot"></div></div>
+                <div id="D8"><div class="dot"></div></div>
+                <div id="E8"><div class="dot"></div></div>
+                <div id="F8"><div class="dot"></div></div>
+                <div id="G8"><div class="dot"></div></div>
+                <div id="H8"><div class="dot"></div></div>
+                <div id="I8"><div class="dot"></div></div>
+                <div id="J8"><div class="dot"></div></div>
+                <div id="K8"><div class="dot"></div></div>
 
-        <div class="label">9</div>
-        <div id="A9"><div class="dot"></div></div>
-        <div id="B9"><div class="dot"></div></div>
-        <div id="C9"><div class="dot"></div></div>
-        <div id="D9"><div class="dot"></div></div>
-        <div id="E9"><div class="dot"></div></div>
-        <div id="F9"><div class="dot"></div></div>
-        <div id="G9"><div class="dot"></div></div>
-        <div id="H9"><div class="dot"></div></div>
-        <div id="I9"><div class="dot"></div></div>
-        <div id="J9"><div class="dot"></div></div>
-        <div id="K9"><div class="dot"></div></div>
+                <div class="label">9</div>
+                <div id="A9"><div class="dot"></div></div>
+                <div id="B9"><div class="dot"></div></div>
+                <div id="C9"><div class="dot"></div></div>
+                <div id="D9"><div class="dot"></div></div>
+                <div id="E9"><div class="dot"></div></div>
+                <div id="F9"><div class="dot"></div></div>
+                <div id="G9"><div class="dot"></div></div>
+                <div id="H9"><div class="dot"></div></div>
+                <div id="I9"><div class="dot"></div></div>
+                <div id="J9"><div class="dot"></div></div>
+                <div id="K9"><div class="dot"></div></div>
 
-        <div class="label"></div>
-        <div class="label">A</div>
-        <div class="label">B</div>
-        <div class="label">C</div>
-        <div class="label">D</div>
-        <div class="label">E</div>
-        <div class="label">F</div>
-        <div class="label">G</div>
-        <div class="label">H</div>
-        <div class="label">I</div>
-        <div class="label">J</div>
-        <div class="label">K</div>
+                <div class="label"></div>
+                <div class="label">A</div>
+                <div class="label">B</div>
+                <div class="label">C</div>
+                <div class="label">D</div>
+                <div class="label">E</div>
+                <div class="label">F</div>
+                <div class="label">G</div>
+                <div class="label">H</div>
+                <div class="label">I</div>
+                <div class="label">J</div>
+                <div class="label">K</div>
+
+            </section>
 
         </section>
-    </section>
 
-        <section id="target-grid">
-            <div class="shot">
-              <p id="message">Bombs away</p>
-              <input id="shot-input-letter" class="letter" placeholder="Enter A-K">
-              <input id="shot-input-number" class="number" placeholder="Enter 1-9"> 
-              <button id="shot">Take your shot</button>
-            </div>
-            <div id="sunk-ships">
+        <section id="testing2">
+        
+            <section id="target-grid">
+                <div class="shot">
+                <p id="message">Bombs away</p>
+                <input id="shot-input-letter" class="letter" placeholder="Enter A-K">
+                <input id="shot-input-number" class="number" placeholder="Enter 1-9"> 
+                <button id="shot">Take your shot</button>
+                </div>
+            </section>
+
+            <section id="sunk-ships">
                 <p>Sunk Ships</p>
-            </div>
-    </section>
+            </section>
+
+        </section>
 
     </section>
-
-    <section id="opponent-stats">
-
-        <div id="opponent-shots">
-            Opponent Shots:
-        </div>
-        <div id="opponent-hits">
-            Oponent Hits:
-        </div>
-        <div id="opponent-misses">
-            Opponent Misses:
-        </div>
-    </section>
-    <section id="player-stats">
-        <div id="player-shots">
-            Player shots:
-        </div>
-        <div id="player-hits">
-            Player hits:
-        </div>
-        <div id="player-misses">
-           Player misses: 
-        </div>
-    </section>
-    
-
-    </main>
 
 </body>
 </html>

@@ -47,6 +47,8 @@ let msgEl = document.getElementById('main-title');
 let guessEl = document.getElementById('guess');
 let playerGuessEl = document.getElementById('message');
 let sunkShipsEl = document.getElementById('sunk-ships');
+let opponentMessageEl = document.getElementById('opponent-important-messages');
+let playerMessageEl = document.getElementById('player-important-messages');
 
 /*----- event listeners -----*/
 $('#last').click(function(evt){
@@ -72,7 +74,6 @@ $('.direction').keypress(function(event) {
 }); 
 
 $('.setpiece').on('click', function(evt) {
-    console.log('hello');
     $('#randomize').hide();
     let shipPlaced = false;
 
@@ -124,10 +125,12 @@ $('#shot').click(function(evt) {
 
     let valid = validateInput($a, $b, 1);
     if (valid === true){
+        $('#warning').remove();
+        $('#message').html(`<p id="message">Bombs away</p>`);
         takeShot($a, $b, player.playerAttempts, opponent.compBoard, player);
         turn *= -1;
     } else if (valid === false){
-        alert('Please submit a valid input');
+        $('#message').html(`<p style="color:red;">Please submit a valid input</p>`);
     }
     $('#shot-input-letter').val('');
     $('#shot-input-number').val('');
@@ -374,7 +377,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
 
     } else {
         if (turn === 1) {
-        alert('already guessed there'), 
+        $('#message').html(`<p style="color:red;">You've already taken that shot!.</p>`);
         turn *= -1; 
     } else if (turn === -1) {
         compShot();
@@ -384,14 +387,14 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
 }
 
 function checkTheWinner(val, person){
-    if (person.hitFive.length === 5 && person.hitFour.length === 4 && person.hitFirstThree.length === 3 && person.hitSecondThree.length === 3 && person.hitTwo.length === 2){
-        alert(`${person.name} wins!! ${person.name} sunk all battleships!`);
-    }
-    else if (val === 9){
+    if (val === 9){
         if (person.hitFive.length >= 5){
-            alert(`${person.name} sunk a Carrier`);
-            if (turn === -1){guessArray = [];}
+            if (turn === -1){
+                guessArray = [];
+                $(`<p id="temporary">The enemy sunk your Carrier!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+            }
             if (turn === 1){
+                $(`<p id="temporary">You sunk a Carrier!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 let sunkShip = document.createElement("img");
                 sunkShip.src = "https://i.imgur.com/bHRgbHf.png";
                 sunkShipsEl.appendChild(sunkShip);
@@ -399,9 +402,12 @@ function checkTheWinner(val, person){
         }
     } else if (val === 7){
         if (person.hitFour.length >= 4){
-            alert(`${person.name} sunk a Battleship`);
-            if (turn === -1){guessArray = [];}
+            if (turn === -1){
+                guessArray = [];
+                $(`<p id="temporary">The enemy sunk your Battleship!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+            }
             if (turn === 1){
+                $(`<p id="temporary">You sunk a Battleship!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 let sunkShip = document.createElement("img");
                 sunkShip.src = "https://i.imgur.com/mLBmRrz.png?1";
                 sunkShipsEl.appendChild(sunkShip);
@@ -409,9 +415,12 @@ function checkTheWinner(val, person){
         }
     } else if (val === 4){
         if (person.hitFirstThree.length >= 3){
-            alert(`${person.name} sunk a Cruiser`);
-            if (turn === -1){guessArray = [];}
+            if (turn === -1){
+                guessArray = [];
+                $(`<p id="temporary">The enemy sunk your Cruiser!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+            }
             if (turn === 1){
+                $(`<p id="temporary">You sunk a Cruiser!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 let sunkShip = document.createElement("img");
                 sunkShip.src = "https://i.imgur.com/ffXJSQV.png?1";
                 sunkShipsEl.appendChild(sunkShip);
@@ -419,9 +428,12 @@ function checkTheWinner(val, person){
         }
     } else if (val === "32"){
         if (person.hitSecondThree.length >= 3){
-            alert(`${person.name} sunk a Submarine`);
-            if (turn === -1){guessArray = [];}
+            if (turn === -1){
+                guessArray = [];
+                $(`<p id="temporary">The enemy sunk your Submarine!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+            }
             if (turn === 1){
+                $(`<p id="temporary">You sunk a Submarine!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 let sunkShip = document.createElement("img");
                 sunkShip.src = "https://i.imgur.com/ffXJSQV.png?1";
                 sunkShipsEl.appendChild(sunkShip);
@@ -429,16 +441,21 @@ function checkTheWinner(val, person){
         }
     } else if (val === 2){
         if (person.hitTwo.length >= 2){
-            alert(`${person.name} sunk a Destroyer`);
-            if (turn === -1){guessArray = [];}
+            if (turn === -1){
+                guessArray = [];
+                $(`<p id="temporary">The enemy sunk your Destroyer!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+            }
             if (turn === 1){
+                $(`<p id="temporary">You sunk a Destroyer!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 let sunkShip = document.createElement("img");
                 sunkShip.src = "https://i.imgur.com/GxIhmve.png?1";
                 sunkShipsEl.appendChild(sunkShip);
         }
-    } else {
     } 
-}
+    }
+    if (person.hitFive.length === 5 && person.hitFour.length === 4 && person.hitFirstThree.length === 3 && person.hitSecondThree.length === 3 && person.hitTwo.length === 2){
+        $('#main-title').text(`${person.name} wins!! ${person.name} sunk all battleships!`);
+    }
 }
 
 function renderPlayerBoard() {
@@ -563,12 +580,10 @@ function getTarget() {
     opponent.compAttempts.forEach(function(row, idx){ 
         for(i = 0; i < row.length; i++) {
             if (row[i] > 0) {
-              console.log([idx, i]);
               targetArray.push([idx, i]);
             }
         }
       })
-        console.log(`target array: ${targetArray}`)
         return (targetArray);
     }
 
@@ -576,21 +591,18 @@ function getTarget() {
   function getGuessArray(targetArray){
 
     if (targetArray.length > 1 && targetArray[0][0] === targetArray[1][0]) {
-        console.log('its a row!');
         targetArray.forEach(function(pair){
             let $a = pair[0];
             let $b = pair[1];
             guessArray.unshift([$a, ($b + 1)], [$a, ($b - 1)]); // row 
           })
     } else if (targetArray.length > 1 && targetArray[0][1] === targetArray[1][1]) {
-        console.log('its a column!');
         targetArray.forEach(function(pair){
             let $a = pair[0];
             let $b = pair[1];
             guessArray.unshift([($a + 1), $b], [($a - 1), $b]); // column 
           })
     } else {
-        console.log('we dont know');
       targetArray.forEach(function(pair){
       let $a = pair[0];
       let $b = pair[1];
@@ -620,7 +632,6 @@ function optimizeCompAI() {
 
 
 function render() {
-
     renderPlayerAttempts();
     renderPlayerBoard();
 
