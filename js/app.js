@@ -67,11 +67,12 @@ $('#randomize').click(function(evt){
     $('#shot-input-letter').focus();
 })
 
-$('.direction').keypress(function(event) { 
+$('.direction').on('keyup touchend', (function(event) { 
     if (event.keyCode === 13) { 
         $(this).siblings('.setpiece').click();
      } 
-}); 
+})
+); 
 
 $('.setpiece').on('click', function(evt) {
     $('#randomize').hide();
@@ -110,13 +111,14 @@ $('.setpiece').on('click', function(evt) {
     }
 })
 
-$('#shot-input-number').keypress(function(event) { 
+$('#shot-input-number').on('keyup touchend', (function(event) { 
     if (allPiecesSet === true) {
     if (event.keyCode === 13) { 
         $("#shot").click(); 
      } 
     }
-}); 
+  }) 
+);
 
 $('#shot').click(function(evt) {
 
