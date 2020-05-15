@@ -111,7 +111,7 @@
     align-items: center;
   }
 
-  #set-board > div, #target-grid > div, .section2 {
+  #set-board > div, #target-grid > div, .surprise-me {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -119,12 +119,12 @@
     margin: 15px;
   }
 
-  #testing {
+  #right-side-of-left {
     display: grid;
     grid-template-rows: 3fr 1fr;
   }
 
-  #testing2 {
+  #left-side-of-right {
     display: grid;
     grid-template-rows: 1fr 1fr;
   }
@@ -146,6 +146,7 @@
   #set-board > div > p > img {
     max-height: 30px;
     width: auto;
+    margin: 10px;
   }
 
   p {
@@ -163,6 +164,7 @@
    border: 2px solid gray;
    width: 100px;
    text-align: center;
+   margin: 5px;
  }
  
  #warning {

@@ -448,8 +448,8 @@ function checkTheWinner(val, person){
     } 
     }
     if (person.hitFive.length === 5 && person.hitFour.length === 4 && person.hitFirstThree.length === 3 && person.hitSecondThree.length === 3 && person.hitTwo.length === 2){
-        if (person === player) {$('#main-title > img').attr('src', 'https://i.imgur.com/6bbElny.png')};
-        if (person === opponent) {$('#main-title > img').attr('src', 'https://i.imgur.com/f8TavA5.png')};
+        if (person === player) {$('#main-title > img').attr({src: 'https://i.imgur.com/6bbElny.png', alt: 'you win'})};
+        if (person === opponent) {$('#main-title > img').attr({src: 'https://i.imgur.com/f8TavA5.png', alt: 'you lose'})};
     }
 }
 
@@ -461,13 +461,13 @@ function renderPlayerBoard() {
         row.forEach(function(cell){
             cellId+= 1;
          if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
-            $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
-            $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
+            $(`#player-board > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
+            $(`#player-board > #${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
         } else if (cell >= 1){
             $(`#${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
-            $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'rgba(0, 0, 0, 0.5)');
+            $(`#player-board > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'rgba(0, 0, 0, 0.5)');
         } else if (cell === -1){
-            $(`#playerBoard > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
+            $(`#player-board > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
         } 
     })
   })
@@ -482,9 +482,9 @@ function renderPlayerAttempts() {
             cellId+= 1;
 
         if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
-            $(`#playerAttempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
+            $(`#player-attempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
         } if (cell === -1){
-            $(`#playerAttempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
+            $(`#player-attempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
         } 
     })
   })
@@ -658,15 +658,15 @@ $('#reset').click(function(evt){
     init();
     render();
     $(`.dot`).css('background-color', 'transparent');
-    $(`#playerBoard > div:not(.label)`).css('background-color', 'transparent');
-    $(`#playerAttempts > div:not(.label)`).css('background-color', 'transparent');
+    $(`#player-board > div:not(.label)`).css('background-color', 'transparent');
+    $(`#player-attempts > div:not(.label)`).css('background-color', 'transparent');
     $("#set-board > div").show();
     $("#set-board > div:not(:first)").hide();
     $("#sunk-ships").empty();
     $('#warning').remove();
     $("#sunk-ships").append('<p>Sunk Ships</p>');
     $('#message').html(`<p id="message">Bombs away</p>`);
-    $('#main-title > img').attr('src', 'https://i.imgur.com/A46zxx7.jpg');
+    $('#main-title > img').attr({src: 'https://i.imgur.com/A46zxx7.jpg', alt: 'battleship'});
     $('#randomize').show();
 })
 
@@ -682,5 +682,5 @@ $('#reset').click(function(evt){
 
 
 
+
 init();
-console.log(opponent.compBoard);
