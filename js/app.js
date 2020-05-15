@@ -105,7 +105,7 @@ $('.setpiece').on('click', function(evt) {
         $(this).closest('div').next().find('.letter').focus();
         }
     } else if (valid === false){
-        $(this).closest('div').append(`<p id="warning">Please submit a valid input</p>`);
+        $(`<p id="warning">Please submit a valid input</p>`).appendTo($(this).closest('div')).delay(2000).fadeOut();
         $(this).closest('div').find('input').val('');
         $(this).closest('div').find('.letter').focus();
     }
@@ -662,8 +662,10 @@ $('#reset').click(function(evt){
     $(`#playerAttempts > div:not(.label)`).css('background-color', 'transparent');
     $("#set-board > div").show();
     $("#set-board > div:not(:first)").hide();
-    $("#sunk-ships").empty()
+    $("#sunk-ships").empty();
+    $('#warning').remove();
     $("#sunk-ships").append('<p>Sunk Ships</p>');
+    $('#message').html(`<p id="message">Bombs away</p>`);
     $('#main-title > img').attr('src', 'https://i.imgur.com/A46zxx7.jpg');
     $('#randomize').show();
 })
