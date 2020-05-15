@@ -378,7 +378,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
 
     } else {
         if (turn === 1) {
-        $('#message').html(`<p style="color:red;">You've already taken that shot!.</p>`);
+        $('#message').html(`<p style="color:red;">You've already taken that shot!</p>`);
         turn *= -1; 
     } else if (turn === -1) {
         compShot();
@@ -662,6 +662,9 @@ $('#reset').click(function(evt){
     $(`#playerAttempts > div:not(.label)`).css('background-color', 'transparent');
     $("#set-board > div").show();
     $("#set-board > div:not(:first)").hide();
+    $("#sunk-ships").empty()
+    $("#sunk-ships").append('<p>Sunk Ships</p>');
+    $('#main-title > img').attr('src', 'https://i.imgur.com/A46zxx7.jpg');
     $('#randomize').show();
 })
 
