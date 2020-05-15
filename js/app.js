@@ -183,7 +183,7 @@ function init() {
         hitTwo: []
     };
     opponent = {
-        name: 'COMPuter',
+        name: 'Computer',
         shots: 0,
         hits: 0,
         misses: 0,
@@ -398,9 +398,7 @@ function checkTheWinner(val, person){
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Carrier!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
-                let sunkShip = document.createElement("img");
-                sunkShip.src = "https://i.imgur.com/bHRgbHf.png";
-                sunkShipsEl.appendChild(sunkShip);
+                $(`<img src="https://i.imgur.com/bHRgbHf.png" alt="Sunk Carrier">`).appendTo(sunkShipsEl);
             }
         }
     } else if (val === 7){
@@ -411,9 +409,7 @@ function checkTheWinner(val, person){
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Battleship!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
-                let sunkShip = document.createElement("img");
-                sunkShip.src = "https://i.imgur.com/mLBmRrz.png?1";
-                sunkShipsEl.appendChild(sunkShip);
+                $(`<img src="https://i.imgur.com/mLBmRrz.png?1" alt="Sunk Battleship">`).appendTo(sunkShipsEl);
             }
         }
     } else if (val === 4){
@@ -424,9 +420,7 @@ function checkTheWinner(val, person){
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Cruiser!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
-                let sunkShip = document.createElement("img");
-                sunkShip.src = "https://i.imgur.com/ffXJSQV.png?1";
-                sunkShipsEl.appendChild(sunkShip);
+                $(`<img src="https://i.imgur.com/ffXJSQV.png?1" alt="Sunk Cruiser">`).appendTo(sunkShipsEl);
             }
         }
     } else if (val === "32"){
@@ -437,9 +431,7 @@ function checkTheWinner(val, person){
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Submarine!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
-                let sunkShip = document.createElement("img");
-                sunkShip.src = "https://i.imgur.com/ffXJSQV.png?1";
-                sunkShipsEl.appendChild(sunkShip);
+                $(`<img src="https://i.imgur.com/ffXJSQV.png?1" alt="Sunk Submarine">`).appendTo(sunkShipsEl);
             }
         }
     } else if (val === 2){
@@ -450,9 +442,7 @@ function checkTheWinner(val, person){
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Destroyer!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
-                let sunkShip = document.createElement("img");
-                sunkShip.src = "https://i.imgur.com/GxIhmve.png?1";
-                sunkShipsEl.appendChild(sunkShip);
+                $(`<img src="https://i.imgur.com/GxIhmve.png?1" alt="Sunk Destroyer">`).appendTo(sunkShipsEl);
         }
     } 
     }
