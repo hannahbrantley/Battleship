@@ -87,7 +87,7 @@ $('.setpiece').on('click', function(evt) {
             setPiece(player.playerBoard, piece, nums);
             shipPlaced = true;
         } else if (avail === false) {
-        $(this).closest('div').append(`<p id="warning">Hmmm... it looks like there's a ship there already!</p>`);
+        $(`<p id="warning">Hmmm... it looks like there's a ship there already!</p>`).appendTo($(this).closest('div')).delay(2000).fadeOut();
         $(this).closest('div').find('input').val('');
         $(this).closest('div').find('.letter').focus();
         }
@@ -563,7 +563,6 @@ function compShot(){
     }
 };
 
-
 function cleanUp(person, board) {
     if (person.hitFive.length === 5){
         board.forEach(function(row){
@@ -667,7 +666,7 @@ function getGuessArray(targetArray){
 
 
 function optimizeCompAI() {
-    cleanUp(opponent, opponent.compAttempts);
+    cleanUp(opponent, opponent.compAttempts);   
     if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0) { 
     getGuessArray(getTarget());
     }
