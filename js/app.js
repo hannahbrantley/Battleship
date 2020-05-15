@@ -225,7 +225,7 @@ function init() {
     $("#set-board > div:not(:first)").hide();
     $("#shot").prop('disabled', true);
 
-    autoSetBoard(opponent.compBoard); 
+    autoSetBoard(opponent.compBoard);
 }
 
 
