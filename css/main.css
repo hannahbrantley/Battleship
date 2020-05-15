@@ -7,7 +7,7 @@
     font-family: 'Quantico', sans-serif;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 2fr 4fr;
+    grid-template-rows: 1fr 1fr 2fr 1fr;
     gap: 5px;
     margin: 20px;
   }
@@ -29,6 +29,27 @@
     box-shadow: 0 0 30px #333;
   }
 
+  table {
+    width: 400px;
+    color: white;
+    background-color: rgba(156, 154, 154, 0.5);
+  }
+
+  td {
+    background-color: rgba(156, 154, 154, 0.5);
+  }
+
+  th {
+    background-color: white;
+    color:rgb(53, 53, 102);
+    height: 1px;
+    font-size: 1px;
+  }
+  
+  table, th, td {
+    border: 1px solid gray;
+  }
+
   #opponent-stats, #player-stats {
     display: grid;
     grid-template-rows: 1fr 2fr;
@@ -37,7 +58,8 @@
   #player-header, #opponent-header {
     display: flex;
     flex-direction: row;
-    font-size: 25px;
+    font-size: 20px;
+    margin: 0;
   }
 
   #player-important-messages, #opponent-important-messages {
@@ -59,7 +81,6 @@
     border: 10px solid gray;
     background-image: url("https://i.imgur.com/ecW5DUl.jpg");
     background-size: contain;
-    /* width: 70vmin; */
     justify-content: center;
     align-items: center;
   }
@@ -74,7 +95,6 @@
   .board div {
     border: 1px solid grey;
     display: grid;
-    /* background-color: transparent; // rgb(223, 223, 223); */
   }
 
   .dot {
@@ -130,10 +150,8 @@
 
   p {
     text-align: center;
+    margin: 5px;
   }
-
-
-
 
   #opponent-stats, #player-stats {
     display: flex;
@@ -153,14 +171,10 @@
    color: red;
  }
 
+ footer {
+   grid-column: span 2;
+   justify-content: space-around;
+   align-items: space-around;
+ }
 
-/* 
-  #playerBoard {
-      justify-content: flex-start;
-      flex: 1 1 auto;
-  }
 
-  #playerAttempts {
-      justify-content:
-      flex: 1 1 auto;
-  } */

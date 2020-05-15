@@ -12,41 +12,61 @@
 <body>
     <h1 id="main-title"><img src="https://i.imgur.com/A46zxx7.jpg" alt="Battleship"></h1>
 
-
-        <section id="opponent-stats">  
+        <section id="opponent-stats"> 
+            <table>
+            <tr>
+            <th>
             <section id="opponent-header">
                 <p>Ocean Grid </p> <span id="opponent-important-messages"></span>  
             </section>
-
+            </th>
+            </tr>
+            <tr>
+            <td>
             <section id="opponent-score">
                 <div id="opponent-shots">
                 Opponent Shots:
                 </div>
                 <div id="opponent-hits">
-                    Oponent Hits:
+                Oponent Hits:
                 </div>
                 <div id="opponent-misses">
-                    Opponent Misses:
+                Opponent Misses:
                 </div>
             </section>
+            </td>
+            </tr>
+            </table>
         </section>
+       
 
-        <section id="player-stats">
+
+
+        <section id="player-stats"> 
+            <table>
+            <tr>
+            <th>
             <section id="player-header">
-                <p>Target Grid </p> <span id="player-important-messages"></span> 
+                <p>Target Grid</p> <span id="player-important-messages"></span>  
             </section>
-
+            </th>
+            </tr>
+            <tr>
+            <td>
             <section id="player-score">
                 <div id="player-shots">
-                    Player shots:
+                Player Shots:
                 </div>
                 <div id="player-hits">
-                    Player hits:
+                Player Hits:
                 </div>
                 <div id="player-misses">
-                Player misses: 
+                Player Misses:
                 </div>
             </section>
+            </td>
+            </tr>
+            </table>
         </section>
     
 
@@ -422,6 +442,8 @@
         </section>
 
     </section>
-
+<footer>
+<button id="reset">Reset Game</button>
+</footer>
 </body>
 </html>

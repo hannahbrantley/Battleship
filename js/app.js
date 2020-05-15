@@ -143,7 +143,6 @@ $('input').keypress(function(event){
 })
 
 
-
 /*----- functions -----*/
 
 
@@ -447,7 +446,8 @@ function checkTheWinner(val, person){
     } 
     }
     if (person.hitFive.length === 5 && person.hitFour.length === 4 && person.hitFirstThree.length === 3 && person.hitSecondThree.length === 3 && person.hitTwo.length === 2){
-        $('#main-title').text(`${person.name} wins!! ${person.name} sunk all battleships!`);
+        if (person === player) {$('#main-title > img').attr('src', 'https://i.imgur.com/6bbElny.png')};
+        if (person === opponent) {$('#main-title > img').attr('src', 'https://i.imgur.com/f8TavA5.png')};
     }
 }
 
@@ -652,8 +652,16 @@ function render() {
     } 
 }
 
-
-
+$('#reset').click(function(evt){
+    init();
+    render();
+    $(`.dot`).css('background-color', 'transparent');
+    $(`#playerBoard > div:not(.label)`).css('background-color', 'transparent');
+    $(`#playerAttempts > div:not(.label)`).css('background-color', 'transparent');
+    $("#set-board > div").show();
+    $("#set-board > div:not(:first)").hide();
+    $('#randomize').show();
+})
 
 
 
