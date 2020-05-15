@@ -3,7 +3,8 @@ const playerLookup = {
     '1': 'Player 1',
     '-1': 'Opponent',
     'null': 'transparent' 
-  };
+};
+
 const pieces = [5, 4, 3, 3, 2];
 const compPieces = [2, 3, [2 + 1], 4, 5];
 const numOfRows = 9;
@@ -37,18 +38,13 @@ let opponent = {
 
 let turn;
 let winner;
-
 let allPiecesSet;
-
 
 /*----- cached element references -----*/
 
-let msgEl = document.getElementById('main-title');
-let guessEl = document.getElementById('guess');
-let playerGuessEl = document.getElementById('message');
-let sunkShipsEl = document.getElementById('sunk-ships');
-let opponentMessageEl = document.getElementById('opponent-important-messages');
-let playerMessageEl = document.getElementById('player-important-messages');
+let sunkShipsEl = $('#sunk-ships');
+let opponentMessageEl = $('#opponent-important-messages');
+let playerMessageEl = $('#player-important-messages');
 
 /*----- event listeners -----*/
 $('#last').click(function(evt){
@@ -70,8 +66,8 @@ $('#randomize').click(function(evt){
 $('.direction').on('keyup touchend', (function(event) { 
     if (event.keyCode === 13) { 
         $(this).siblings('.setpiece').click();
-     } 
-})
+    } 
+  })
 ); 
 
 $('.setpiece').on('click', function(evt) {
@@ -144,10 +140,24 @@ $('input').keypress(function(event){
     $(this).next('input').focus();
 })
 
+$('#reset').click(function(evt){
+    init();
+    render();
+    $(`.dot`).css('background-color', 'transparent');
+    $(`#player-board > div:not(.label)`).css('background-color', 'transparent');
+    $(`#player-attempts > div:not(.label)`).css('background-color', 'transparent');
+    $("#set-board > div").show();
+    $("#set-board > div:not(:first)").hide();
+    $("#sunk-ships").empty();
+    $('#warning').remove();
+    $("#sunk-ships").append('<p>Sunk Ships</p>');
+    $('#message').html(`<p id="message">Bombs away</p>`);
+    $('#main-title > img').attr({src: 'https://i.imgur.com/A46zxx7.jpg', alt: 'battleship'});
+    $('#randomize').show();
+})
+
 
 /*----- functions -----*/
-
-
 
 function init() {
     player = {
@@ -295,11 +305,13 @@ function attemptPlaceShip(board, piece){
         attemptPlaceShip(board, piece);
     } 
 }
+
 function autoSetBoard(board){
     compPieces.forEach(function(piece) {
         attemptPlaceShip(board, piece);
     });
 }
+
 function validateInput($a, $b, $c){
     if ($a >= 0 && $a <= 8 && 
         $b >= 0 && $b <= 10 && 
@@ -307,10 +319,10 @@ function validateInput($a, $b, $c){
         Number.isInteger($a) === true && 
         Number.isInteger($b) === true && 
         Number.isInteger($c) === true) {
-            return true;
-        } else {
-            return false;
-        }
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function takeShot($a, $b, attemptBoard, targetBoard, person){
@@ -378,12 +390,12 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
 
     } else {
         if (turn === 1) {
-        $('#message').html(`<p style="color:red;">You've already taken that shot!</p>`);
-        turn *= -1; 
-    } else if (turn === -1) {
-        compShot();
-        turn *= -1; 
-      }
+            $('#message').html(`<p style="color:red;">You've already taken that shot!</p>`);
+            turn *= -1; 
+        } else if (turn === -1) {
+            compShot();
+            turn *= -1; 
+        }
     }
 }
 
@@ -444,9 +456,10 @@ function checkTheWinner(val, person){
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Destroyer!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 $(`<img src="https://i.imgur.com/GxIhmve.png?1" alt="Sunk Destroyer">`).appendTo(sunkShipsEl);
-        }
-    } 
+            }
+        } 
     }
+    
     if (person.hitFive.length === 5 && person.hitFour.length === 4 && person.hitFirstThree.length === 3 && person.hitSecondThree.length === 3 && person.hitTwo.length === 2){
         if (person === player) {$('#main-title > img').attr({src: 'https://i.imgur.com/6bbElny.png', alt: 'you win'})};
         if (person === opponent) {$('#main-title > img').attr({src: 'https://i.imgur.com/f8TavA5.png', alt: 'you lose'})};
@@ -459,18 +472,18 @@ function renderPlayerBoard() {
         let cellId = -1;
         rowId+= 1;
         row.forEach(function(cell){
-            cellId+= 1;
-         if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
+          cellId+= 1;
+          if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
             $(`#player-board > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
             $(`#player-board > #${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
-        } else if (cell >= 1){
+          } else if (cell >= 1){
             $(`#${xCoordinates[cellId]}${yCoordinates[rowId]}`).css('background-color', 'gray');
             $(`#player-board > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'rgba(0, 0, 0, 0.5)');
-        } else if (cell === -1){
+          } else if (cell === -1){
             $(`#player-board > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
-        } 
+          } 
+        })
     })
-  })
 }
 
 function renderPlayerAttempts() {
@@ -479,28 +492,25 @@ function renderPlayerAttempts() {
         let cellId = -1;
         rowId+= 1;
         row.forEach(function(cell){
-            cellId+= 1;
-
-        if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
+          cellId+= 1;
+          if (cell === 10 || cell === 8 || cell === 5 || cell === "321" || cell === 3){
             $(`#player-attempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'red');
-        } if (cell === -1){
+          } if (cell === -1){
             $(`#player-attempts > #${xCoordinates[cellId]}${yCoordinates[rowId]} > div`).css('background-color', 'white');
-        } 
+          } 
+        })
     })
-  })
 }
 
 function compShot(){
-
-    if (opponent.hits >= 1 && opponent.hits - opponent.sunkShipPegs.length > 0 && guessArray.length > 0){ //need to figure out how to get this to stop going after we sunk a ship; 
+    if (opponent.hits >= 1 && opponent.hits - opponent.sunkShipPegs.length > 0 && guessArray.length > 0){ 
         
         $a = guessArray[0][0];
         $b = guessArray[0][1];
-        guessArray.shift(); // guess array is "optimizing" and then shifting so it slices off the wrong one;
+        guessArray.shift();
         takeShot($a, $b, opponent.compAttempts, player.playerBoard, opponent);
         turn *= -1;
         render();
-
     } else {
         $a = Math.floor(Math.random() * 9); 
         $b = Math.floor(Math.random() * 11);
@@ -571,60 +581,54 @@ function cleanUp(person, board) {
 function getTarget() {
     const isHit = (element) => parseInt(element) > 1;
     let targetArray = [];
-    
     opponent.compAttempts.forEach(function(row, idx){ 
         for(i = 0; i < row.length; i++) {
             if (row[i] > 0) {
               targetArray.push([idx, i]);
             }
         }
-      })
-        return (targetArray);
-    }
+    })
+    return (targetArray);
+}
 
 
-  function getGuessArray(targetArray){
-
+function getGuessArray(targetArray){
     if (targetArray.length > 1 && targetArray[0][0] === targetArray[1][0]) {
         targetArray.forEach(function(pair){
             let $a = pair[0];
             let $b = pair[1];
-            guessArray.unshift([$a, ($b + 1)], [$a, ($b - 1)]); // row 
-          })
+            guessArray.unshift([$a, ($b + 1)], [$a, ($b - 1)]); 
+        })
     } else if (targetArray.length > 1 && targetArray[0][1] === targetArray[1][1]) {
         targetArray.forEach(function(pair){
             let $a = pair[0];
             let $b = pair[1];
-            guessArray.unshift([($a + 1), $b], [($a - 1), $b]); // column 
-          })
+            guessArray.unshift([($a + 1), $b], [($a - 1), $b]); 
+        })
     } else {
-      targetArray.forEach(function(pair){
-      let $a = pair[0];
-      let $b = pair[1];
-      guessArray.unshift([($a + 1), $b], [$a, ($b + 1)], [$a, ($b - 1)], [($a - 1), $b]); // standard
-    })
-
+        targetArray.forEach(function(pair){
+            let $a = pair[0];
+            let $b = pair[1];
+            guessArray.unshift([($a + 1), $b], [$a, ($b + 1)], [$a, ($b - 1)], [($a - 1), $b]); 
+        })
     }
 
     guessArray.forEach(function(set, i){
         let valid = validateInput(set[0], set[1], 1);
-            if (valid === false) {
-                guessArray.splice(i, 1);
-                }
-            })
-        return guessArray;
-    }
+        if (valid === false) {
+            guessArray.splice(i, 1);
+        }
+    })
+    return guessArray;
+}
 
 
 function optimizeCompAI() {
     cleanUp(opponent, opponent.compAttempts);
-    if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0) { //need to figure out how to get this to stop going after we sunk a ship;
+    if (opponent.hits > 0 && opponent.hits - opponent.sunkShipPegs.length > 0) { 
     getGuessArray(getTarget());
     }
 }
-
-
-
 
 function render() {
     renderPlayerAttempts();
@@ -638,49 +642,14 @@ function render() {
     $('#player-hits').text(`Player's Hits: ${player.hits}`);
     $('#player-misses').text(`Player's Misses: ${player.misses}`);
 
-
-    if (allPiecesSet === true){
-    }   
-
     if (turn === -1) {
         $("#guess").show();
         $("#message").hide();
-
         compShot();
-
     } else if (turn === 1) {
         $("#guess").hide();
         $("#message").show();
     } 
 }
-
-$('#reset').click(function(evt){
-    init();
-    render();
-    $(`.dot`).css('background-color', 'transparent');
-    $(`#player-board > div:not(.label)`).css('background-color', 'transparent');
-    $(`#player-attempts > div:not(.label)`).css('background-color', 'transparent');
-    $("#set-board > div").show();
-    $("#set-board > div:not(:first)").hide();
-    $("#sunk-ships").empty();
-    $('#warning').remove();
-    $("#sunk-ships").append('<p>Sunk Ships</p>');
-    $('#message').html(`<p id="message">Bombs away</p>`);
-    $('#main-title > img').attr({src: 'https://i.imgur.com/A46zxx7.jpg', alt: 'battleship'});
-    $('#randomize').show();
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 init();

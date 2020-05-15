@@ -2,183 +2,183 @@
     box-sizing: border-box;
   }
 
-  body {
-    color: rgb(0, 0, 128);
-    font-family: 'Quantico', sans-serif;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 2fr 1fr;
-    gap: 5px;
-    margin: 20px;
-  }
+body {
+  color: rgb(0, 0, 128);
+  font-family: 'Quantico', sans-serif;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 2fr 1fr;
+  gap: 5px;
+  margin: 20px;
+}
 
-  html {
-    background: url("https://i.imgur.com/8FGnm7Z.jpg") no-repeat center center fixed; 
-  }
+html {
+  background: url("https://i.imgur.com/8FGnm7Z.jpg") no-repeat center center fixed; 
+}
 
-  h1 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-column: span 2;
-  }
+h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: span 2;
+}
 
-  h1 > img {
-    max-height: 100px;
-    margin: 0;
-    box-shadow: 0 0 30px #333;
-  }
+h1 > img {
+  max-height: 100px;
+  margin: 0;
+  box-shadow: 0 0 30px #333;
+}
 
-  table {
-    width: 400px;
-    color: white;
-    background-color: rgba(156, 154, 154, 0.5);
-  }
+table {
+  width: 400px;
+  color: white;
+  background-color: rgba(156, 154, 154, 0.5);
+}
 
-  td {
-    background-color: rgba(156, 154, 154, 0.5);
-  }
+td {
+  background-color: rgba(156, 154, 154, 0.5);
+}
 
-  th {
-    background-color: white;
-    color:rgb(53, 53, 102);
-    height: 1px;
-    font-size: 1px;
-  }
-  
-  table, th, td {
-    border: 1px solid gray;
-  }
+th {
+  background-color: white;
+  color:rgb(53, 53, 102);
+  height: 1px;
+  font-size: 1px;
+}
 
-  #opponent-stats, #player-stats {
-    display: grid;
-    grid-template-rows: 1fr 2fr;
-  }
+table, th, td {
+  border: 1px solid gray;
+}
 
-  #player-header, #opponent-header {
-    display: flex;
-    flex-direction: row;
-    font-size: 20px;
-    margin: 0;
-  }
+#opponent-stats, #player-stats {
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+}
 
-  #player-important-messages, #opponent-important-messages {
-    color: red;
-    font-style: italic;
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    font-size: 15px;
-  }
+#player-header, #opponent-header {
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  margin: 0;
+}
 
-  #left-side, #right-side{
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    gap: 5px;
-  }
+#player-important-messages, #opponent-important-messages {
+  color: red;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  font-size: 15px;
+}
 
-  .board-container {
-    border: 10px solid gray;
-    background-image: url("https://i.imgur.com/ecW5DUl.jpg");
-    background-size: contain;
-    justify-content: center;
-    align-items: center;
-  }
+#left-side, #right-side{
+  display: grid;
+  grid-template-columns: 1fr 1fr ;
+  gap: 5px;
+}
 
-  .board {
-    display: grid;
-    grid-template-columns: repeat(12, 4vmin);
-    grid-template-rows: repeat(10, 4vmin);
-    margin: 15px;
-  }
-  
-  .board div {
-    border: 1px solid grey;
-    display: grid;
-  }
+.board-container {
+  border: 10px solid gray;
+  background-image: url("https://i.imgur.com/ecW5DUl.jpg");
+  background-size: contain;
+  justify-content: center;
+  align-items: center;
+}
 
-  .dot {
-    border: 1px solid black;
-    border-radius: 50%;
-    margin: 8px;
-  }
+.board {
+  display: grid;
+  grid-template-columns: repeat(12, 4vmin);
+  grid-template-rows: repeat(10, 4vmin);
+  margin: 15px;
+}
 
-  .board > .label {
-    color: white;
-    background-color: rgba(156, 154, 154, 0.5);
-    border: none;
-    justify-content: center;
-    align-items: center;
-  }
+.board div {
+  border: 1px solid grey;
+  display: grid;
+}
 
-  #set-board > div, #target-grid > div, .surprise-me {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 15px;
-  }
+.dot {
+  border: 1px solid black;
+  border-radius: 50%;
+  margin: 8px;
+}
 
-  #right-side-of-left {
-    display: grid;
-    grid-template-rows: 3fr 1fr;
-  }
+.board > .label {
+  color: white;
+  background-color: rgba(156, 154, 154, 0.5);
+  border: none;
+  justify-content: center;
+  align-items: center;
+}
 
-  #left-side-of-right {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-  }
+#set-board > div, #target-grid > div, .surprise-me {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
 
+#right-side-of-left {
+  display: grid;
+  grid-template-rows: 3fr 1fr;
+}
 
-  #sunk-ships {
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #sunk-ships > img {
-    max-height: 20px;
-    width: auto;
-    margin: 10px;
-  }
-
-  #set-board > div > p > img {
-    max-height: 30px;
-    width: auto;
-    margin: 10px;
-  }
-
-  p {
-    text-align: center;
-    margin: 5px;
-  }
-
-  #opponent-stats, #player-stats {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
- input, button {
-   border: 2px solid gray;
-   width: 100px;
-   text-align: center;
-   margin: 5px;
- }
- 
- #warning {
-   font-size: 10px;
-   font-style: italic;
-   color: red;
- }
-
- footer {
-   grid-column: span 2;
-   justify-content: space-around;
-   align-items: space-around;
- }
+#left-side-of-right {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
 
 
- 
+#sunk-ships {
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#sunk-ships > img {
+  max-height: 20px;
+  width: auto;
+  margin: 10px;
+}
+
+#set-board > div > p > img {
+  max-height: 30px;
+  width: auto;
+  margin: 10px;
+}
+
+p {
+  text-align: center;
+  margin: 5px;
+}
+
+#opponent-stats, #player-stats {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+input, button {
+  border: 2px solid gray;
+  width: 100px;
+  text-align: center;
+  margin: 5px;
+}
+
+#warning {
+  font-size: 10px;
+  font-style: italic;
+  color: red;
+}
+
+footer {
+  grid-column: span 2;
+  justify-content: space-around;
+  align-items: space-around;
+}
+
+
+
 
