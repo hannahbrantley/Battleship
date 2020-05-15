@@ -11,13 +11,13 @@ When every target on a ship has been hit, the ship will sink! Whoever sinks all 
 
 ## Screenshot
 
-![Battleship Screenshot](https://i.imgur.com/fJv3laI.png)
+![Battleship Screenshot](https://i.imgur.com/Gdlm08h.png)
 
 ## Technologies Used
 
 * HTML
 * CSS
-* JavaScript
+* JavaScript with jQuery
 
 ## Getting Started
 
