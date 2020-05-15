@@ -40,6 +40,11 @@ let turn;
 let winner;
 let allPiecesSet;
 
+let splashSound;
+let hitSound;
+let sinkSound;
+let enemySink;
+
 /*----- cached element references -----*/
 
 let sunkShipsEl = $('#sunk-ships');
@@ -62,13 +67,6 @@ $('#randomize').click(function(evt){
     $('#randomize').hide();
     $('#shot-input-letter').focus();
 })
-
-$('.direction').on('keyup touchend', (function(event) { 
-    if (event.keyCode === 13) { 
-        $(this).siblings('.setpiece').click();
-    } 
-  })
-); 
 
 $('.setpiece').on('click', function(evt) {
     $('#randomize').hide();
@@ -107,15 +105,6 @@ $('.setpiece').on('click', function(evt) {
     }
 })
 
-$('#shot-input-number').on('keyup touchend', (function(event) { 
-    if (allPiecesSet === true) {
-    if (event.keyCode === 13) { 
-        $("#shot").click(); 
-     } 
-    }
-  }) 
-);
-
 $('#shot').click(function(evt) {
 
     let $a = yCoordinates.indexOf($(this).closest('div').find('input[class="number"]').val());
@@ -136,10 +125,6 @@ $('#shot').click(function(evt) {
     render();
 })
 
-$('input').keypress(function(event){
-    $(this).next('input').focus();
-})
-
 $('#reset').click(function(evt){
     init();
     render();
@@ -156,6 +141,32 @@ $('#reset').click(function(evt){
     $('#randomize').show();
 })
 
+$('#stop-audio').click(function(evt){
+    splashSound.setAttribute('src', 'assets/472955__mattix__absolute-silence-00-05-sec.wav');
+    hitSound.setAttribute('src', 'assets/472955__mattix__absolute-silence-00-05-sec.wav');
+    sinkSound.setAttribute('src', 'assets/472955__mattix__absolute-silence-00-05-sec.wav');
+    enemySink.setAttribute('src', 'assets/472955__mattix__absolute-silence-00-05-sec.wav');
+})
+
+$('input').keypress(function(event){
+    $(this).next('input').focus();
+})
+
+$('#shot-input-number').on('keyup touchend', (function(event) { 
+    if (allPiecesSet === true) {
+    if (event.keyCode === 13) { 
+        $("#shot").click(); 
+     } 
+    }
+  }) 
+);
+
+$('.direction').on('keyup touchend', (function(event) { 
+    if (event.keyCode === 13) { 
+        $(this).siblings('.setpiece').click();
+    } 
+  })
+); 
 
 /*----- functions -----*/
 
@@ -236,13 +247,18 @@ function init() {
     $("#shot").prop('disabled', true);
 
     autoSetBoard(opponent.compBoard);
+
+    splashSound = new Audio("assets/416710__inspectorj__splash-small-a.wav");
+    hitSound = new Audio("assets/155235__zangrutz__bomb-small.mp3");
+    sinkSound = new Audio("assets/397353__plasterbrain__tada-fanfare-g.flac");
+    enemySink = new Audio("assets/336998__tim-kahn__awww-01.wav");
 }
 
 
 function generateRand(){
-    let a = Math.floor(Math.random() * 9); // will return 0 - 8; this chooses which array on compBoard
-    let b = Math.floor(Math.random() * 11); // will return 0-10; this chooses which item on array[a] on compBoard
-    let c = Math.floor(Math.random() * 2) + 1; // will return either 1 (horizontal) or 2 (vertical)
+    let a = Math.floor(Math.random() * 9); 
+    let b = Math.floor(Math.random() * 11); 
+    let c = Math.floor(Math.random() * 2) + 1; 
     return [a, b, c];
 }
 
@@ -335,6 +351,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === 1) {hitSound.play()};
         if (turn === -1) {optimizeCompAI()};
 
     } else if (val === 7) {
@@ -346,6 +363,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === 1) {hitSound.play()};
         if (turn === -1) {optimizeCompAI()};
 
     } else if (val === 4) {
@@ -357,6 +375,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === 1) {hitSound.play()};
         if (turn === -1) {optimizeCompAI()};
 
     } else if (val === "32") {
@@ -368,6 +387,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === 1) {hitSound.play()};
         if (turn === -1) {optimizeCompAI()};
 
     } else if (val === 2) {
@@ -379,6 +399,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.hits += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === 1) {hitSound.play()};
         if (turn === -1) {optimizeCompAI()};
 
     } else if (val === null) {
@@ -387,6 +408,7 @@ function takeShot($a, $b, attemptBoard, targetBoard, person){
         person.shots += 1;
         person.misses += 1;
         attemptBoard[$a][$b] = targetBoard[$a][$b];
+        if (turn === 1) {splashSound.play()};
 
     } else {
         if (turn === 1) {
@@ -408,10 +430,13 @@ function checkTheWinner(val, person){
             if (turn === -1){
                 guessArray = [];
                 $(`<p id="temporary">The enemy sunk your Carrier!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+                enemySink.play();
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Carrier!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 $(`<img src="https://i.imgur.com/bHRgbHf.png" alt="Sunk Carrier">`).appendTo(sunkShipsEl);
+                $('#sunk-ships > img').effect( "shake", {times:3}, 200);
+                sinkSound.play();
             }
         }
     } else if (val === 7){
@@ -419,10 +444,13 @@ function checkTheWinner(val, person){
             if (turn === -1){
                 guessArray = [];
                 $(`<p id="temporary">The enemy sunk your Battleship!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+                enemySink.play();
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Battleship!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 $(`<img src="https://i.imgur.com/mLBmRrz.png?1" alt="Sunk Battleship">`).appendTo(sunkShipsEl);
+                $('#sunk-ships > img').effect( "shake", {times:3}, 200);
+                sinkSound.play();
             }
         }
     } else if (val === 4){
@@ -430,10 +458,13 @@ function checkTheWinner(val, person){
             if (turn === -1){
                 guessArray = [];
                 $(`<p id="temporary">The enemy sunk your Cruiser!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+                enemySink.play();
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Cruiser!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 $(`<img src="https://i.imgur.com/ffXJSQV.png?1" alt="Sunk Cruiser">`).appendTo(sunkShipsEl);
+                $('#sunk-ships > img').effect( "shake", {times:3}, 200);
+                sinkSound.play();
             }
         }
     } else if (val === "32"){
@@ -441,10 +472,13 @@ function checkTheWinner(val, person){
             if (turn === -1){
                 guessArray = [];
                 $(`<p id="temporary">The enemy sunk your Submarine!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+                enemySink.play();
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Submarine!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 $(`<img src="https://i.imgur.com/ffXJSQV.png?1" alt="Sunk Submarine">`).appendTo(sunkShipsEl);
+                $('#sunk-ships > img').effect( "shake", {times:3}, 200);
+                sinkSound.play();
             }
         }
     } else if (val === 2){
@@ -452,17 +486,26 @@ function checkTheWinner(val, person){
             if (turn === -1){
                 guessArray = [];
                 $(`<p id="temporary">The enemy sunk your Destroyer!</p>`).appendTo(opponentMessageEl).delay(2000).fadeOut();
+                enemySink.play();
             }
             if (turn === 1){
                 $(`<p id="temporary">You sunk a Destroyer!</p>`).appendTo(playerMessageEl).delay(2000).fadeOut();
                 $(`<img src="https://i.imgur.com/GxIhmve.png?1" alt="Sunk Destroyer">`).appendTo(sunkShipsEl);
+                $('#sunk-ships > img').effect( "shake", {times:3}, 200);
+                sinkSound.play();
             }
         } 
     }
     
     if (person.hitFive.length === 5 && person.hitFour.length === 4 && person.hitFirstThree.length === 3 && person.hitSecondThree.length === 3 && person.hitTwo.length === 2){
-        if (person === player) {$('#main-title > img').attr({src: 'https://i.imgur.com/6bbElny.png', alt: 'you win'})};
-        if (person === opponent) {$('#main-title > img').attr({src: 'https://i.imgur.com/f8TavA5.png', alt: 'you lose'})};
+        if (person === player) {
+            $('#main-title > img').attr({src: 'https://i.imgur.com/6bbElny.png', alt: 'you win'});
+            sinkSound.play();
+        };
+        if (person === opponent) {
+            $('#main-title > img').attr({src: 'https://i.imgur.com/f8TavA5.png', alt: 'you lose'});
+            enemySink.play();
+        };
     }
 }
 
